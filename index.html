@@ -3,228 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY GAME | PROTOCOL 2026</title>
+    <title>MY GAME | LIQUID GEN</title>
     
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #080808;
             --primary: #bc13fe;
             --accent: #00ff9d;
-            --text: #ffffff;
-            --glass: rgba(255, 255, 255, 0.05);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --bg: #050505;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; cursor: crosshair; }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
         body {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg);
-            color: var(--text);
+            color: #fff;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
-            background-size: 40px 40px;
         }
 
-        /* Кастомный курсор-фонарик */
-        .cursor-glow {
-            position: fixed; width: 400px; height: 400px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none; opacity: 0.15;
-            z-index: 9999; transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s;
+        /* Интерактивный фон (Градиентные пятна) */
+        .blob-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; filter: blur(80px); overflow: hidden;
+        }
+        .blob {
+            position: absolute; width: 500px; height: 500px;
+            border-radius: 50%; opacity: 0.2;
+            animation: move 20s infinite alternate;
+        }
+        .blob-1 { background: var(--primary); top: -10%; left: -10%; }
+        .blob-2 { background: #4752C4; bottom: -10%; right: -10%; animation-delay: -5s; }
+        @keyframes move { 
+            from { transform: scale(1) translate(0, 0); } 
+            to { transform: scale(1.2) translate(20%, 20%); } 
         }
 
-        /* Навигация */
+        /* Навигация (Floating Island) */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 30px 50px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; mix-blend-mode: difference;
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(20px); border: 1px solid var(--border);
+            padding: 12px 35px; border-radius: 100px;
+            display: flex; gap: 30px;
         }
-        nav a { color: #fff; text-decoration: none; font-family: 'Syncopate'; font-size: 12px; letter-spacing: 3px; }
+        nav a {
+            color: rgba(255,255,255,0.5); text-decoration: none; 
+            font-size: 13px; font-weight: 500; transition: 0.3s;
+        }
+        nav a:hover { color: #fff; }
 
-        /* Главный экран */
+        /* Hero */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
             align-items: center; justify-content: center; text-align: center;
         }
         .hero h1 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: clamp(40px, 15vw, 180px); line-height: 0.9;
-            font-weight: 700; text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, var(--primary), #fff);
-            background-size: 200%; -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; animation: shine 5s linear infinite;
+            font-size: clamp(60px, 15vw, 180px); font-weight: 200;
+            letter-spacing: -8px; line-height: 0.8; margin-bottom: 30px;
+            background: linear-gradient(180deg, #fff, rgba(255,255,255,0.2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        @keyframes shine { to { background-position: 200%; } }
 
-        /* Кнопка с онлайном */
-        .download-zone { margin-top: 50px; position: relative; }
-        .dl-btn {
-            padding: 25px 60px; background: #fff; color: #000;
-            text-decoration: none; font-weight: 800; font-size: 18px;
-            border-radius: 0; transition: 0.3s; display: inline-block;
+        .main-btn {
+            background: #fff; color: #000; padding: 20px 50px;
+            border-radius: 100px; font-weight: 800; text-decoration: none;
+            transition: 0.5s; font-size: 14px; letter-spacing: 1px;
+            box-shadow: 0 10px 40px rgba(255,255,255,0.1);
         }
-        .dl-btn:hover { background: var(--primary); color: #fff; transform: skewX(-10deg); }
+        .main-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--primary); }
+
+        /* Контент (Glass Panels) */
+        .content { max-width: 1200px; margin: 0 auto; padding: 0 20px 100px; }
         
-        .online-badge {
-            position: absolute; top: -20px; right: -20px;
-            background: var(--accent); color: #000; padding: 5px 12px;
-            font-size: 10px; font-weight: 900; font-family: 'Syncopate';
+        .panel {
+            background: var(--glass); backdrop-filter: blur(30px);
+            border: 1px solid var(--border); border-radius: 40px;
+            padding: 50px; margin-bottom: 30px; transition: 0.4s;
+        }
+        .panel:hover { border-color: rgba(255,255,255,0.2); }
+
+        /* Виджет Команды */
+        .team-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .member {
+            display: flex; align-items: center; gap: 20px;
+            background: rgba(255,255,255,0.02); padding: 25px; border-radius: 30px;
+        }
+        .avatar {
+            width: 70px; height: 70px; border-radius: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 12px; color: #000;
         }
 
-        /* Bento Сетка */
-        .grid-container {
-            max-width: 1400px; margin: 0 auto; padding: 100px 50px;
-            display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px;
+        /* Видео (Ambilight эффект) */
+        .video-card { position: relative; padding: 0; overflow: hidden; }
+        video { width: 100%; border-radius: 40px; display: block; }
+
+        /* Индикатор онлайна */
+        .status-pill {
+            position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(0,0,0,0.5); padding: 8px 20px; border-radius: 50px;
+            border: 1px solid var(--border); font-size: 11px; font-weight: 700;
         }
-        .grid-box {
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
-            padding: 40px; position: relative; transition: 0.5s;
-        }
-        .grid-box:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); }
-
-        .big { grid-column: span 8; }
-        .small { grid-column: span 4; }
-        .tall { grid-row: span 2; }
-
-        /* Команда */
-        .dev-card { display: flex; flex-direction: column; justify-content: center; }
-        .dev-card h3 { font-family: 'Syncopate'; font-size: 28px; margin-bottom: 5px; }
-        .dev-card .role { color: var(--accent); font-weight: 800; font-size: 12px; letter-spacing: 2px; }
-
-        /* Видео */
-        .video-box { padding: 0; overflow: hidden; background: #000; }
-        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
-        .video-box:hover video { opacity: 1; }
+        .pulse { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: p 1.5s infinite; }
+        @keyframes p { 0% { box-shadow: 0 0 0 0 rgba(0,255,157,0.7); } 100% { box-shadow: 0 0 0 10px transparent; } }
 
         /* Плеер */
-        .music-toggle {
-            position: fixed; bottom: 40px; left: 50px;
-            display: flex; align-items: center; gap: 15px;
+        .island-audio {
+            position: fixed; bottom: 40px; right: 40px;
+            background: #fff; color: #000; padding: 15px;
+            border-radius: 25px; cursor: pointer; display: flex; gap: 10px;
         }
-        .visualizer { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
-        .bar { width: 3px; background: var(--primary); height: 5px; transition: 0.2s; }
 
-        @media (max-width: 1000px) {
-            .grid-container { grid-template-columns: 1fr; }
-            .big, .small, .tall { grid-column: span 1; }
+        @media (max-width: 768px) {
+            .team-section { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 80px; letter-spacing: -4px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cursor-glow" id="cursor"></div>
-
-    <nav>
-        <a href="#">SYSTEM.RUN</a>
-        <div style="display: flex; gap: 40px;">
-            <a href="#media">MEDIA</a>
-            <a href="https://discord.gg">DISCORD</a>
-        </div>
-    </nav>
-
-    <div class="music-toggle" onclick="toggleAudio()" style="cursor: pointer;">
-        <div class="visualizer" id="viz">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
-        <span style="font-size: 10px; font-family: 'Syncopate';">AUDIO ENGINE</span>
-        <audio id="bg-audio" loop src="https://www.soundhelix.com"></audio>
+    <div class="blob-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
     </div>
 
-    <section class="hero">
-        <h1>MY GAME</h1>
-        <div class="download-zone">
-            <div class="online-badge">LIVE: <span id="count">2,481</span></div>
-            <a href="game.zip" class="dl-btn">INITIALIZE DOWNLOAD</a>
-        </div>
-    </section>
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#about">О проекте</a>
+        <a href="#team">Команда</a>
+        <a href="https://discord.gg" style="color: var(--accent);">Discord</a>
+    </nav>
 
-    <div class="grid-container">
+    <header class="hero">
+        <div class="status-pill">
+            <div class="pulse"></div>
+            LIVE SERVER: <span id="oc">2,500</span> PLAYERS
+        </div>
+        <h1>MY GAME</h1>
+        <a href="game.zip" class="main-btn">ПОЛУЧИТЬ ДОСТУП</a>
+    </header>
+
+    <main class="content">
         
         <!-- Трейлер -->
-        <div class="grid-box big tall video-box">
+        <div class="panel video-card">
             <video controls poster="screen1.png">
                 <source src="trailer.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- Разработчик 1 -->
-        <div class="grid-box small dev-card">
-            <div class="role">LEAD DEVELOPER</div>
-            <h3>SHKAF1K</h3>
-            <p style="margin-top: 15px; opacity: 0.5;">Mastermind behind systems and architecture.</p>
-        </div>
-
-        <!-- Разработчик 2 -->
-        <div class="grid-box small dev-card" style="border-right: 4px solid var(--accent);">
-            <div class="role">GAME DESIGNER</div>
-            <h3>DEFLIDER</h3>
-            <p style="margin-top: 15px; opacity: 0.5;">Creator of worlds and mechanics.</p>
-        </div>
-
         <!-- Описание -->
-        <div class="grid-box small">
-            <h4 style="font-family: 'Syncopate'; margin-bottom: 20px;">MISSION</h4>
-            <p style="font-weight: 200; line-height: 1.8;">Переосмысление жанра через призму минимализма и абсолютного контроля над атмосферой.</p>
+        <div class="panel" id="about">
+            <h2 style="font-size: 40px; margin-bottom: 20px; font-weight: 400;">Новый стандарт <br><span style="color: var(--primary);">атмосферы.</span></h2>
+            <p style="opacity: 0.6; font-size: 18px; max-width: 700px;">Мы создаем не просто игру, а пространство, которое реагирует на каждое ваше действие. Погрузитесь в мир, созданный SHKAF1K и DEFLIDER.</p>
         </div>
 
-        <!-- Требования -->
-        <div class="grid-box big">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-family: 'Syncopate'; font-size: 20px;">SPECS.EXE</div>
-                <div style="display: flex; gap: 40px; text-align: right;">
-                    <div><small>GPU</small><br><b>RTX 3060</b></div>
-                    <div><small>RAM</small><br><b>16GB</b></div>
-                    <div><small>DISK</small><br><b>2GB</b></div>
+        <!-- Команда -->
+        <div class="panel" id="team">
+            <h2 style="margin-bottom: 30px;">Разработчики</h2>
+            <div class="team-section">
+                <div class="member">
+                    <div class="avatar">SHK</div>
+                    <div>
+                        <div style="font-weight: 800;">SHKAF1K</div>
+                        <div style="font-size: 12px; opacity: 0.5;">Lead Architect</div>
+                    </div>
+                </div>
+                <div class="member">
+                    <div class="avatar" style="background: var(--accent);">DEF</div>
+                    <div>
+                        <div style="font-weight: 800;">DEFLIDER</div>
+                        <div style="font-size: 12px; opacity: 0.5;">Game Systems</div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Системные требования -->
+        <div class="panel">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px;">
+                <div><div style="opacity: 0.4; font-size: 12px;">GPU</div><div style="font-size: 24px; font-weight: 800;">RTX 3060</div></div>
+                <div><div style="opacity: 0.4; font-size: 12px;">RAM</div><div style="font-size: 24px; font-weight: 800;">16 GB</div></div>
+                <div><div style="opacity: 0.4; font-size: 12px;">DISK</div><div style="font-size: 24px; font-weight: 800;">2 GB</div></div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="island-audio" onclick="toggleM()">
+        <span id="m-icon">🔇</span>
+        <audio id="ma" loop src="https://www.soundhelix.com"></audio>
     </div>
 
-    <footer style="padding: 100px; text-align: center; font-size: 10px; font-family: 'Syncopate'; opacity: 0.3;">
-        &copy; 2026 MY GAME STUDIO // ALL RIGHTS RESERVED
-    </footer>
-
     <script>
-        // Курсор-фонарик
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+        // Музыка
+        const a = document.getElementById('ma');
+        function toggleM() {
+            if(a.paused) { a.play(); document.getElementById('m-icon').innerText = "🔊"; }
+            else { a.pause(); document.getElementById('m-icon').innerText = "🔇"; }
+        }
 
         // Счетчик онлайна
-        let baseOnline = 2480;
+        let c = 2500;
         setInterval(() => {
-            document.getElementById('count').innerText = (baseOnline + Math.floor(Math.random() * 20)).toLocaleString();
-        }, 2000);
+            document.getElementById('oc').innerText = (c + Math.floor(Math.random()*30)).toLocaleString();
+        }, 3000);
 
-        // Плеер и Визуализатор
-        const audio = document.getElementById('bg-audio');
-        const bars = document.querySelectorAll('.bar');
-        let isPlaying = false;
-
-        function toggleAudio() {
-            if (audio.paused) {
-                audio.play();
-                isPlaying = true;
-                animateViz();
-            } else {
-                audio.pause();
-                isPlaying = false;
-            }
-        }
-
-        function animateViz() {
-            if (!isPlaying) return;
-            bars.forEach(bar => {
-                const height = Math.random() * 20 + 5;
-                bar.style.height = height + 'px';
+        // Мягкое появление
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if(e.isIntersecting) {
+                    e.target.style.opacity = "1";
+                    e.target.style.transform = "translateY(0)";
+                }
             });
-            setTimeout(animateViz, 150);
-        }
+        });
+
+        document.querySelectorAll('.panel').forEach(p => {
+            p.style.opacity = "0";
+            p.style.transform = "translateY(30px)";
+            p.style.transition = "all 1s ease";
+            obs.observe(p);
+        });
     </script>
 </body>
 </html>
