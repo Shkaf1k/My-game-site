@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY GAME | NEXT GEN</title>
+    <title>MY GAME | BEYOND REALITY</title>
     
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #030303;
+            --bg: #000;
             --primary: #bc13fe;
-            --primary-glow: rgba(188, 19, 254, 0.4);
             --accent: #00ff9d;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
@@ -24,222 +23,224 @@
             background-color: var(--bg);
             color: #fff;
             overflow-x: hidden;
-            line-height: 1.5;
         }
 
-        /* Анимированный Mesh-фон */
-        .bg-mesh {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; filter: blur(100px); opacity: 0.5;
+        /* Анимированные световые пятна (Aura) */
+        .aura {
+            position: fixed; width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            filter: blur(120px); opacity: 0.15; z-index: -1;
+            animation: drift 25s infinite alternate;
         }
-        .mesh-ball {
-            position: absolute; width: 40vw; height: 40vw;
-            background: var(--primary); border-radius: 50%;
-            animation: move 20s infinite alternate;
-        }
-        @keyframes move { 
-            from { transform: translate(-10%, -10%); } 
-            to { transform: translate(60%, 40%); background: #4752C4; } 
+        @keyframes drift {
+            from { transform: translate(-20%, -20%); }
+            to { transform: translate(50%, 30%); background: #4752C4; }
         }
 
-        /* Навигация "Остров" */
+        /* Навигация будущего */
         nav {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; background: rgba(10, 10, 10, 0.6);
-            backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            padding: 10px 30px; border-radius: 100px;
-            display: flex; gap: 25px;
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(25px); border: 1px solid var(--border);
+            padding: 12px 40px; border-radius: 100px;
+            display: flex; gap: 30px;
         }
-        nav a {
-            color: rgba(255,255,255,0.6); text-decoration: none; 
-            font-size: 13px; font-weight: 500; transition: 0.3s;
-        }
-        nav a:hover { color: #fff; }
+        nav a { color: #888; text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: #fff; text-shadow: 0 0 10px #fff; }
 
-        /* Hero Секция */
-        .hero {
-            height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center;
-        }
+        /* Hero */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(60px, 15vw, 160px); font-weight: 700;
-            letter-spacing: -4px; line-height: 0.9; margin-bottom: 20px;
-            background: linear-gradient(180deg, #fff, rgba(255,255,255,0.3));
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(50px, 12vw, 140px); font-weight: 900;
+            line-height: 0.85; letter-spacing: -5px; margin-bottom: 30px;
+            background: linear-gradient(180deg, #fff 40%, rgba(188, 19, 254, 0.5));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .hero-tag {
-            background: var(--glass); padding: 5px 15px; border-radius: 50px;
-            border: 1px solid var(--glass-border); font-size: 12px;
-            letter-spacing: 2px; color: var(--accent); margin-bottom: 20px;
-        }
 
-        .cta-btn {
-            background: #fff; color: #000; padding: 18px 45px;
-            border-radius: 100px; font-weight: 800; text-decoration: none;
-            transition: 0.4s; box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        .cta-box {
+            display: flex; gap: 20px; align-items: center;
         }
-        .cta-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--primary-glow); }
+        .main-btn {
+            background: #fff; color: #000; padding: 20px 45px;
+            border-radius: 20px; font-weight: 800; text-decoration: none;
+            transition: 0.4s; font-size: 14px;
+        }
+        .main-btn:hover { transform: scale(1.05) rotate(-1deg); box-shadow: 0 0 40px var(--primary); }
 
-        /* Bento Grid Layout */
-        .bento-container {
+        /* Bento Grid 2026 */
+        .bento-grid {
             max-width: 1200px; margin: 0 auto; padding: 100px 20px;
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            grid-auto-rows: 300px; gap: 20px;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 240px; gap: 24px;
         }
         .bento-item {
-            background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 32px; padding: 30px; position: relative;
-            overflow: hidden; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 40px; padding: 35px; overflow: hidden;
+            backdrop-filter: blur(10px); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
-        .bento-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
+        .bento-item:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-10px); }
 
-        /* Специфические блоки сетки */
-        .bento-big { grid-column: span 2; grid-row: span 2; }
-        .bento-long { grid-column: span 2; }
+        .span-2 { grid-column: span 2; }
+        .row-2 { grid-row: span 2; }
 
-        .bento-item h3 { font-family: 'Space Grotesk'; font-size: 24px; margin-bottom: 15px; }
-        .bento-item p { color: rgba(255,255,255,0.6); font-size: 15px; }
-
-        /* Видеоплеер */
-        video {
-            width: 100%; height: 100%; object-fit: cover;
-            border-radius: 20px;
+        /* Виджет Онлайна */
+        .online-status {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(0, 255, 157, 0.1); padding: 8px 16px;
+            border-radius: 50px; border: 1px solid rgba(0, 255, 157, 0.2);
+            width: fit-content;
         }
+        .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* Плеер (Music) */
-        .music-island {
-            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+        /* Команда */
+        .dev-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 800; margin-bottom: 10px; }
+        .dev-name { font-family: 'Unbounded'; font-size: 20px; }
+
+        /* Слайдер скриншотов */
+        .slider { display: flex; width: 300%; animation: slide 15s infinite; }
+        .slider img { width: 33.33%; height: 100%; object-fit: cover; }
+        @keyframes slide { 0% { transform: translateX(0); } 30% { transform: translateX(0); } 33% { transform: translateX(-33.33%); } 63% { transform: translateX(-33.33%); } 66% { transform: translateX(-66.66%); } 96% { transform: translateX(-66.66%); } 100% { transform: translateX(0); } }
+
+        /* Плеер-Остров */
+        .island-player {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
-            padding: 12px 20px; border-radius: 100px; border: 1px solid var(--glass-border);
-            display: flex; align-items: center; gap: 12px; cursor: pointer;
-        }
-        .play-indicator { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
-        .play-indicator.off { background: #ff4d4d; }
-
-        /* Discord Card */
-        .discord-bento {
-            background: linear-gradient(135deg, #5865F2, #bc13fe);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .discord-bento a {
-            background: #fff; color: #000; padding: 10px 25px;
-            border-radius: 50px; text-decoration: none; font-weight: 700; margin-top: 15px;
+            padding: 15px 30px; border-radius: 100px; border: 1px solid var(--border);
+            z-index: 1000; cursor: pointer; display: flex; align-items: center; gap: 15px;
         }
 
-        footer { text-align: center; padding: 80px; opacity: 0.3; font-size: 12px; }
+        footer { text-align: center; padding: 100px; opacity: 0.2; font-size: 10px; letter-spacing: 2px; }
 
-        @media (max-width: 768px) {
-            .bento-container { grid-template-columns: 1fr; grid-auto-rows: auto; }
-            .bento-big, .bento-long { grid-column: span 1; grid-row: span 1; }
-            .hero h1 { font-size: 80px; }
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+            .span-2, .row-2 { grid-column: span 1; grid-row: span 1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-mesh">
-        <div class="mesh-ball"></div>
-    </div>
+    <div class="aura"></div>
 
     <nav>
-        <a href="#">Главная</a>
-        <a href="#info">О проекте</a>
-        <a href="#community">Сообщество</a>
+        <a href="#">HOME</a>
+        <a href="#about">INFO</a>
+        <a href="#media">MEDIA</a>
+        <a href="https://discord.gg">COMMUNITY</a>
     </nav>
 
-    <div class="music-island" onclick="toggleAudio()">
-        <div id="m-status" class="play-indicator off"></div>
-        <span style="font-size: 11px; font-weight: 700; letter-spacing: 1px;">AUDIO</span>
-        <audio id="site-audio" loop src="https://www.soundhelix.com"></audio>
+    <div class="island-player" onclick="toggleAudio()">
+        <div id="p-dot" style="width: 10px; height: 10px; background: #ff4d4d; border-radius: 50%;"></div>
+        <span style="font-size: 12px; font-weight: 800; letter-spacing: 1px;">SYSTEM AUDIO</span>
+        <audio id="bg-audio" loop src="https://www.soundhelix.com"></audio>
     </div>
 
-    <header class="hero">
-        <div class="hero-tag">VERSION 1.2.0 ALPHA</div>
+    <section class="hero">
+        <div class="online-status">
+            <div class="dot"></div>
+            <span style="font-size: 11px; font-weight: 800; color: var(--accent);">PLAYERS ONLINE: <span id="online-count">1,402</span></span>
+        </div>
         <h1>MY GAME</h1>
-        <a href="game.zip" class="cta-btn">СКАЧАТЬ СЕЙЧАС</a>
+        <div class="cta-box">
+            <a href="game.zip" class="main-btn">DOWNLOAD ALPHA</a>
+        </div>
     </header>
 
-    <div class="bento-container" id="info">
+    <div class="bento-grid">
         
-        <!-- Большой блок с видео -->
-        <div class="bento-item bento-big">
-            <video controls poster="screen1.png">
+        <!-- Блок Трейлера -->
+        <div class="bento-item span-2 row-2" style="padding: 0;">
+            <video controls poster="screen1.png" style="width: 100%; height: 100%; object-fit: cover;">
                 <source src="trailer.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- Описание -->
-        <div class="bento-item">
-            <h3>О проекте</h3>
-            <p>Новое поколение инди-хорроров. Глубокая атмосфера и уникальные механики выживания.</p>
+        <!-- О проекте -->
+        <div class="bento-item span-2" id="about">
+            <div class="dev-tag">Project Vision</div>
+            <h3 style="font-family: 'Unbounded'; font-size: 24px; margin-bottom: 10px;">Следующий шаг в инди</h3>
+            <p style="opacity: 0.6;">Погрузитесь в атмосферу, созданную с использованием передовых технологий освещения и звука.</p>
         </div>
 
-        <!-- Сообщество Discord -->
-        <div class="bento-item discord-bento" id="community">
-            <h3 style="margin: 0;">DISCORD</h3>
-            <p style="color: #fff; opacity: 1;">3,400 участников</p>
-            <a href="https://discord.gg/KZY6S9fvnt">ВСТУПИТЬ</a>
-        </div>
-
-        <!-- Разработчик -->
-        <div class="bento-item">
-            <div style="font-size: 10px; color: var(--accent); margin-bottom: 5px;">DEVELOPER</div>
-            <h3>SHKAF1K</h3>
-            <p>Lead Creator & Visionary</p>
-        </div>
-
-        <!-- Системные требования -->
-        <div class="bento-item bento-long">
-            <h3>Характеристики</h3>
-            <div style="display: flex; gap: 30px; margin-top: 20px;">
-                <div><small>GPU</small><br><b>GTX 1060</b></div>
-                <div><small>RAM</small><br><b>8 GB</b></div>
-                <div><small>DISK</small><br><b>2 GB</b></div>
+        <!-- Скриншот Слайдер -->
+        <div class="bento-item" id="media" style="padding: 0;">
+            <div class="slider">
+                <img src="screen1.png" alt="1">
+                <img src="screen2.png" alt="2">
+                <img src="screen3.png" alt="3">
             </div>
         </div>
 
-        <!-- Dev Log -->
+        <!-- Разработчик 1 -->
         <div class="bento-item">
-            <h3>Dev Log</h3>
-            <p>v1.2: Обновлен дизайн до Bento Style. Исправлен рендер частиц.</p>
+            <div class="dev-tag">Developer</div>
+            <div class="dev-name">SHKAF1K</div>
+            <p style="font-size: 12px; opacity: 0.5; margin-top: 10px;">Core Systems & Art</p>
+        </div>
+
+        <!-- Разработчик 2 -->
+        <div class="bento-item">
+            <div class="dev-tag">Developer</div>
+            <div class="dev-name" style="color: var(--accent);">DEFLIDER</div>
+            <p style="font-size: 12px; opacity: 0.5; margin-top: 10px;">Gameplay & Backend</p>
+        </div>
+
+        <!-- Дискорд -->
+        <div class="bento-item span-2" style="background: linear-gradient(135deg, #5865F2, #bc13fe); border: none; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <h3 style="font-family: 'Unbounded'; text-align: center;">COMMUNITY</h3>
+            <a href="https://discord.gg" style="margin-top: 20px; background: #fff; color: #000; padding: 12px 30px; border-radius: 12px; text-decoration: none; font-weight: 800;">JOIN DISCORD</a>
+        </div>
+
+        <!-- Системки -->
+        <div class="bento-item span-2">
+            <div class="dev-tag">Hardware</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <div><small style="opacity: 0.5;">GPU</small><div style="font-weight: 800;">RTX 3060</div></div>
+                <div><small style="opacity: 0.5;">RAM</small><div style="font-weight: 800;">16 GB</div></div>
+                <div><small style="opacity: 0.5;">OS</small><div style="font-weight: 800;">Win 11</div></div>
+            </div>
         </div>
 
     </div>
 
     <footer>
-        &copy; 2026 MY GAME STUDIO. ALL RIGHTS RESERVED.
+        &copy; 2026 MY GAME STUDIO. POWERED BY CREATIVITY.
     </footer>
 
     <script>
-        const audio = document.getElementById('site-audio');
-        const status = document.getElementById('m-status');
+        // Логика онлайна
+        function updateOnline() {
+            const count = document.getElementById('online-count');
+            let base = 1400;
+            setInterval(() => {
+                let random = Math.floor(Math.random() * 50);
+                count.innerText = (base + random).toLocaleString();
+            }, 3000);
+        }
+        updateOnline();
 
+        // Аудио
+        const audio = document.getElementById('bg-audio');
+        const dot = document.getElementById('p-dot');
         function toggleAudio() {
             if (audio.paused) {
                 audio.play();
-                status.classList.remove('off');
+                dot.style.background = "#00ff9d";
             } else {
                 audio.pause();
-                status.classList.add('off');
+                dot.style.background = "#ff4d4d";
             }
         }
 
-        // Эффект появления при скролле
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = "1";
-                    entry.target.style.transform = "translateY(0)";
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.bento-item').forEach(item => {
-            item.style.opacity = "0";
-            item.style.transform = "translateY(40px)";
-            item.style.transition = "all 0.8s cubic-bezier(0.2, 1, 0.3, 1)";
-            observer.observe(item);
+        // Появление при скролле
+        const observer = new IntersectionObserver((e) => {
+            e.forEach(i => { if(i.isIntersecting) i.target.style.opacity = 1; });
+        });
+        document.querySelectorAll('.bento-item').forEach(b => {
+            b.style.opacity = 0; b.style.transition = "opacity 1s ease";
+            observer.observe(b);
         });
     </script>
 </body>
