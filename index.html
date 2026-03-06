@@ -5,19 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MY GAME | OFFICIAL SITE 2026</title>
     
-    <!-- Шрифты: Orbitron для заголовков, Inter для текста -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #bc13fe; /* Неоновый фиолетовый */
-            --accent: #00ff9d;  /* Неоновый зеленый */
+            --primary: #bc13fe; 
+            --accent: #00ff9d;  
             --bg: #050505;
             --card-bg: rgba(20, 20, 25, 0.85);
             --border: rgba(188, 19, 254, 0.3);
         }
 
-        /* Базовые настройки */
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
         
         body {
@@ -28,14 +26,12 @@
             overflow-x: hidden;
         }
 
-        /* Живой фон с частицами */
         #particles-js {
             position: fixed; width: 100%; height: 100%;
             top: 0; left: 0; z-index: -1;
             background: radial-gradient(circle at 50% 50%, #1a0525, #050505);
         }
 
-        /* Навигация */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: rgba(0, 0, 0, 0.9);
@@ -50,27 +46,41 @@
         }
         nav a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
 
-        /* Герой-секция (Главная) */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
             align-items: center; justify-content: center; text-align: center;
             padding: 20px;
         }
+
+        /* Glitch Effect */
         .hero h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: clamp(45px, 12vw, 130px);
             text-transform: uppercase; margin-bottom: 5px;
-            background: linear-gradient(to bottom, #fff 40%, var(--primary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 25px rgba(188, 19, 254, 0.6));
+            color: white;
+            position: relative;
+            cursor: default;
         }
+        
+        .hero h1:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); color: var(--accent); }
+            40% { transform: translate(-3px, -3px); color: var(--primary); }
+            60% { transform: translate(3px, 3px); border-right: 2px solid var(--accent); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
         .hero p {
             font-size: 1rem; color: var(--accent);
             letter-spacing: 6px; text-transform: uppercase; font-weight: 800;
             margin-bottom: 30px;
         }
 
-        /* Кнопка Скачать */
         .btn-download {
             text-decoration: none; padding: 22px 60px; 
             background: var(--primary); color: #fff; 
@@ -84,7 +94,6 @@
             background: #fff; color: #000;
         }
 
-        /* Контентные блоки */
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
         
         h2 { 
@@ -103,7 +112,6 @@
             backdrop-filter: blur(8px);
         }
 
-        /* Галерея */
         .gallery {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px; margin-bottom: 80px;
@@ -116,7 +124,6 @@
         .gallery-item:hover { border-color: var(--accent); transform: scale(1.02); }
         .gallery-item:hover img { opacity: 1; }
 
-        /* Видео */
         .video-wrapper {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
             border-radius: 15px; border: 2px solid var(--border);
@@ -124,7 +131,6 @@
         }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* Dev Log */
         .dev-log { list-style: none; margin-top: 25px; }
         .dev-item {
             background: rgba(255, 255, 255, 0.03); padding: 15px;
@@ -133,7 +139,6 @@
         }
         .dev-item span { color: var(--accent); font-weight: bold; margin-right: 10px; font-family: 'Orbitron'; }
 
-        /* Требования */
         .specs-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 25px;
@@ -141,7 +146,6 @@
         .spec-box { border-left: 3px solid var(--accent); padding-left: 15px; }
         .spec-box b { display: block; font-size: 11px; color: var(--accent); text-transform: uppercase; }
 
-        /* Плеер */
         .player-control {
             position: fixed; bottom: 25px; left: 25px; z-index: 2000;
             background: rgba(0,0,0,0.9); border: 1px solid var(--primary);
@@ -152,7 +156,6 @@
         .indicator { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
         .indicator.off { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
 
-        /* Кнопка Наверх */
         .to-top {
             position: fixed; bottom: 25px; right: 25px;
             width: 50px; height: 50px; background: var(--primary);
@@ -160,17 +163,15 @@
             cursor: pointer; opacity: 0; transition: 0.4s; z-index: 1000;
             box-shadow: 0 0 20px var(--primary); color: white; text-decoration: none; font-weight: bold;
         }
-        .to-top.visible { opacity: 1; transform: translateY(0); }
+        .to-top.visible { opacity: 1; }
 
         footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.5); font-size: 13px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <!-- Частицы на фоне -->
     <div id="particles-js"></div>
 
-    <!-- Навигация -->
     <nav>
         <a href="#">ГЛАВНАЯ</a>
         <a href="#about">ОБ ИГРЕ</a>
@@ -178,26 +179,22 @@
         <a href="#specs">ТРЕБОВАНИЯ</a>
     </nav>
 
-    <!-- Музыкальный плеер -->
     <div class="player-control" onclick="toggleMusic()">
         <div id="status-light" class="indicator off"></div>
         <span id="status-text" style="font-size: 11px; font-weight: 900; font-family: 'Orbitron';">AUDIO OFF</span>
         <audio id="bg-audio" loop src="https://www.soundhelix.com"></audio>
     </div>
 
-    <!-- Кнопка наверх -->
     <a href="#" id="backToTop" class="to-top">▲</a>
 
-    <!-- Главная секция -->
     <header class="hero">
         <p>THE FUTURE OF INDIE GAMING</p>
-        <h1>MY GAME</h1>
+        <h1 data-text="MY GAME">MY GAME</h1>
         <a href="game.zip" class="btn-download">СКАЧАТЬ ALPHA 1.0</a>
     </header>
 
     <div class="container">
         
-        <!-- Описание и DevLog -->
         <section id="about" class="card">
             <h2>О ПРОЕКТЕ</h2>
             <p>Добро пожаловать в мир, где технологии встречаются с хаосом. Это уникальное инди-приключение, созданное с нуля. Исследуй, выживай и находи ответы в самой атмосферной игре этого года.</p>
@@ -205,23 +202,21 @@
             <div style="margin-top: 40px;">
                 <h3 style="font-family: 'Orbitron'; color: var(--primary); font-size: 18px;">ПОСЛЕДНИЕ ОБНОВЛЕНИЯ</h3>
                 <ul class="dev-log">
-                    <li class="dev-item"><span>v1.0.5</span> Добавлен фиолетовый неон и частицы</li>
-                    <li class="dev-item"><span>v1.0.2</span> Полная переработка интерфейса сайта</li>
+                    <li class="dev-item"><span>v1.0.6</span> Добавлен эффект Glitch и трейлер</li>
+                    <li class="dev-item"><span>v1.0.5</span> Фиолетовый неон и частицы на фоне</li>
                     <li class="dev-item"><span>v1.0.0</span> Запуск закрытого альфа-теста</li>
                 </ul>
             </div>
         </section>
 
-        <!-- Трейлер -->
         <section>
             <h2>ТРЕЙЛЕР</h2>
             <div class="video-wrapper">
-                <!-- Вставь здесь ID своего видео вместо dQw4w9WgXcQ -->
-                <iframe src="https://www.youtube.com/watch?v=OqPxaKs8xrk" allowfullscreen></iframe>
+                <!-- Твое видео OqPxaKs8xrk -->
+                <iframe src="https://www.youtube.com" allowfullscreen></iframe>
             </div>
         </section>
 
-        <!-- Галерея -->
         <section id="media">
             <h2>ГАЛЕРЕЯ</h2>
             <div class="gallery">
@@ -231,7 +226,6 @@
             </div>
         </section>
 
-        <!-- Требования -->
         <section id="specs" class="card">
             <h2>СИСТЕМНЫЕ ТРЕБОВАНИЯ</h2>
             <div class="specs-grid">
@@ -246,14 +240,10 @@
 
     <footer>
         <p>&copy; 2026 MY GAME STUDIO | ALL RIGHTS RESERVED</p>
-        <p style="margin-top: 10px; font-size: 10px; color: var(--primary);">MADE BY INDIE DEVELOPER</p>
     </footer>
 
-    <!-- Подключение библиотеки частиц -->
     <script src="https://cdn.jsdelivr.net"></script>
-    
     <script>
-        // Инициализация частиц
         particlesJS("particles-js", {
             "particles": {
                 "number": { "value": 70 },
@@ -263,13 +253,9 @@
                 "size": { "value": 2 },
                 "line_linked": { "enable": true, "distance": 150, "color": "#bc13fe", "opacity": 0.2, "width": 1 },
                 "move": { "enable": true, "speed": 1.5 }
-            },
-            "interactivity": {
-                "events": { "onhover": { "enable": true, "mode": "grab" } }
             }
         });
 
-        // Логика музыки (исправлено)
         const audio = document.getElementById('bg-audio');
         const light = document.getElementById('status-light');
         const text = document.getElementById('status-text');
@@ -286,14 +272,10 @@
             }
         }
 
-        // Кнопка "Наверх"
         const btnTop = document.getElementById("backToTop");
         window.onscroll = function() {
-            if (window.pageYOffset > 500) {
-                btnTop.classList.add("visible");
-            } else {
-                btnTop.classList.remove("visible");
-            }
+            if (window.pageYOffset > 500) { btnTop.classList.add("visible"); } 
+            else { btnTop.classList.remove("visible"); }
         };
     </script>
 </body>
