@@ -25,9 +25,10 @@
             background-color: var(--bg);
             color: var(--text-main);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* --- Анимированный фон (Звезды) --- */
+        /* --- Звездный фон --- */
         #hero-canvas {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -35,7 +36,7 @@
             pointer-events: none;
         }
 
-        /* Кнопка Поддержки */
+        /* --- Кнопка Поддержки --- */
         .support-btn {
             position: fixed; bottom: 30px; right: 30px; z-index: 2000;
             background: var(--support-glow); color: white; text-decoration: none;
@@ -49,6 +50,7 @@
             50% { transform: scale(1.05); }
         }
 
+        /* --- Навигация --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: rgba(10, 10, 11, 0.8); backdrop-filter: blur(12px);
@@ -56,72 +58,88 @@
             display: flex; justify-content: space-between; padding: 20px 10%; align-items: center;
         }
         .logo { font-family: 'Montserrat'; font-weight: 900; letter-spacing: 2px; font-size: 20px; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; margin-left: 30px; font-size: 13px; font-weight: 600; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; margin-left: 30px; font-size: 13px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; }
 
+        /* --- Главный экран --- */
         .hero {
             height: 100vh; position: relative; overflow: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
             padding: 0 20px;
         }
         .hero-content { position: relative; z-index: 1; }
-
         .hero h1 {
             font-family: 'Montserrat'; font-size: clamp(40px, 8vw, 100px);
             font-weight: 900; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 20px;
         }
 
+        /* Кнопки */
+        .btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+        
         .btn-main {
-            background: var(--primary); color: #fff; padding: 18px 50px;
+            background: var(--primary); color: #fff; padding: 18px 45px;
             text-decoration: none; border-radius: 8px; font-weight: 700;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            display: inline-block;
         }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); }
 
-        /* --- Секция Особенностей (Features) --- */
-        .features-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px; margin-top: 50px;
+        .btn-outline {
+            padding: 18px 45px; border: 2px solid #fff; color: #fff;
+            text-decoration: none; border-radius: 8px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
-        .feature-card {
-            background: var(--card-bg); padding: 30px; border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
-        }
-        .feature-card:hover { transform: translateY(-10px); border-color: var(--primary); }
-        .feature-card h3 { font-family: 'Montserrat'; font-size: 18px; margin-bottom: 10px; color: var(--primary); }
-        .feature-card p { font-size: 14px; color: var(--text-dim); }
+        .btn-outline:hover { background: #fff; color: #000; transform: translateY(-3px); }
 
-        /* Секции */
+        .social-group { margin-top: 30px; display: flex; gap: 15px; justify-content: center; }
+        
+        .btn-social {
+            color: #fff; text-decoration: none; font-size: 12px; font-weight: 600;
+            display: flex; align-items: center; gap: 8px; padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05); border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s;
+        }
+        .btn-social:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary); }
+
+        /* --- Секции --- */
         .section { padding: 100px 10%; position: relative; }
         .section-title { font-family: 'Montserrat'; font-size: 32px; margin-bottom: 50px; text-align: center; }
 
-        /* Слайдер */
-        .slider-container { position: relative; width: 100%; max-width: 1000px; margin: 0 auto; overflow: hidden; border-radius: 12px; }
-        .slides { display: flex; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* Галерея */
+        .slider-container { position: relative; width: 100%; max-width: 1000px; margin: 0 auto; overflow: hidden; border-radius: 15px; }
+        .slides { display: flex; transition: 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
         .slide { min-width: 100%; aspect-ratio: 16/9; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
         
         .slide-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.1); border: none; color: white;
+            background: rgba(0, 0, 0, 0.5); border: none; color: white;
             width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
-            backdrop-filter: blur(5px); z-index: 10;
+            backdrop-filter: blur(5px); z-index: 10; transition: 0.3s;
         }
+        .slide-btn:hover { background: var(--primary); }
         .prev { left: 20px; } .next { right: 20px; }
 
         /* Команда */
+        .team-container { display: flex; flex-direction: column; gap: 60px; }
         .team-group h3 { font-family: 'Montserrat'; font-size: 20px; margin-bottom: 30px; border-left: 4px solid var(--primary); padding-left: 15px; }
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .team-group.testers h3 { border-left-color: var(--tester-accent); }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .team-card { background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
         .role { font-size: 12px; font-weight: 700; text-transform: uppercase; }
         .role.dev { color: var(--primary); }
         .role.tester { color: var(--tester-accent); }
 
-        footer { text-align: center; padding: 60px; opacity: 0.3; }
+        footer { text-align: center; padding: 60px; opacity: 0.3; border-top: 1px solid rgba(255,255,255,0.05); }
 
-        /* Анимация появления */
+        /* Анимация */
         .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        @media (max-width: 768px) {
+            nav { padding: 15px 5%; }
+            .btn-group { flex-direction: column; width: 100%; }
+            .section { padding: 60px 5%; }
+        }
     </style>
 </head>
 <body>
@@ -135,7 +153,6 @@
     <nav>
         <div class="logo">MY GAME</div>
         <div class="nav-links">
-            <a href="#features">ОСОБЕННОСТИ</a>
             <a href="#gallery">ГАЛЕРЕЯ</a>
             <a href="#team">КОМАНДА</a>
             <a href="https://discord.gg">DISCORD</a>
@@ -148,27 +165,18 @@
             <p style="color: var(--text-dim); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
                 Погрузитесь в захватывающее приключение. Исследуйте миры, созданные с душой и вниманием к деталям.
             </p>
-            <a href="game.zip" class="btn-main">СКАЧАТЬ ВЕРСИЮ 1.0</a>
+            
+            <div class="btn-group">
+                <a href="game.zip" class="btn-main">СКАЧАТЬ ВЕРСИЮ 1.0</a>
+                <a href="#gallery" class="btn-outline">СМОТРЕТЬ ТРЕЙЛЕР</a>
+            </div>
+
+            <div class="social-group">
+                <a href="https://discord.gg" class="btn-social">💬 Discord Сообщество</a>
+                <a href="#team" class="btn-social">📋 Список изменений</a>
+            </div>
         </div>
     </header>
-
-    <section id="features" class="section reveal">
-        <h2 class="section-title">ПОЧЕМУ СТОИТ ИГРАТЬ?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3>🌌 Открытый мир</h3>
-                <p>Исследуйте бескрайние просторы заброшенных цивилизаций и находите артефакты прошлого.</p>
-            </div>
-            <div class="feature-card">
-                <h3>⚔️ Хардкорный геймплей</h3>
-                <p>Каждая ошибка может стать фатальной. Проверьте свои навыки выживания в суровых условиях.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🧪 Крафтинг и развитие</h3>
-                <p>Создавайте уникальное снаряжение и адаптируйте своего героя под свой стиль игры.</p>
-            </div>
-        </div>
-    </section>
 
     <section id="gallery" class="section reveal">
         <h2 class="section-title">МЕДИА-АРХИВ</h2>
@@ -185,23 +193,25 @@
 
     <section id="team" class="section reveal" style="background: #0d0d0f;">
         <h2 class="section-title">КОМАНДА ПРОЕКТА</h2>
-        <div class="team-group">
-            <h3>РАЗРАБОТКА</h3>
-            <div class="team-grid">
-                <div class="team-card">
-                    <h4>SHKAF1K</h4>
-                    <div class="role dev">Lead Developer</div>
-                    <p style="margin-top: 15px; color: var(--text-dim); font-size: 14px;">Архитектура кода и визуальный стиль проекта.</p>
+        <div class="team-container">
+            <div class="team-group">
+                <h3>РАЗРАБОТКА</h3>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h4>SHKAF1K</h4>
+                        <div class="role dev">Lead Developer</div>
+                        <p style="margin-top: 15px; color: var(--text-dim); font-size: 14px;">Архитектура кода, визуальный стиль и механики проекта.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="team-group" style="margin-top: 50px;">
-            <h3 style="border-left-color: var(--tester-accent);">БЕТА-ТЕСТИРОВАНИЕ</h3>
-            <div class="team-grid">
-                <div class="team-card">
-                    <h4>DEFLIDER</h4>
-                    <div class="role tester">Elite Beta Tester</div>
-                    <p style="margin-top: 15px; color: var(--text-dim); font-size: 14px;">Поиск багов и проверка игрового баланса.</p>
+            <div class="team-group testers" style="margin-top: 40px;">
+                <h3>БЕТА-ТЕСТИРОВАНИЕ</h3>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h4>DEFLIDER</h4>
+                        <div class="role tester">Elite Beta Tester</div>
+                        <p style="margin-top: 15px; color: var(--text-dim); font-size: 14px;">Контроль качества, поиск ошибок и баланс сложности.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -219,7 +229,7 @@
             track.style.transform = `translateX(-${currentIdx * 100}%)`;
         }
 
-        // Анимация звезд на фоне
+        // Звезды
         const canvas = document.getElementById('hero-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -229,12 +239,7 @@
             canvas.height = window.innerHeight;
             stars = [];
             for (let i = 0; i < 150; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2,
-                    speed: Math.random() * 0.5
-                });
+                stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2, speed: Math.random() * 0.5 });
             }
         }
 
@@ -242,28 +247,20 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#ffffff';
             stars.forEach(star => {
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-                star.y += star.speed;
-                if (star.y > canvas.height) star.y = 0;
+                ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2); ctx.fill();
+                star.y += star.speed; if (star.y > canvas.height) star.y = 0;
             });
             requestAnimationFrame(drawStars);
         }
 
         window.addEventListener('resize', initStars);
-        initStars();
-        drawStars();
+        initStars(); drawStars();
 
-        // Появление блоков при скролле
+        // Появление при скролле
         function reveal() {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(r => {
-                const windowHeight = window.innerHeight;
-                const revealTop = r.getBoundingClientRect().top;
-                if (revealTop < windowHeight - 150) {
-                    r.classList.add('active');
-                }
+                if (r.getBoundingClientRect().top < window.innerHeight - 150) r.classList.add('active');
             });
         }
         window.addEventListener('scroll', reveal);
