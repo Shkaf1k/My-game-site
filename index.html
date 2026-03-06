@@ -52,27 +52,14 @@
             padding: 20px;
         }
 
-        /* Glitch Effect */
+        /* Обычный заголовок без глитча */
         .hero h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: clamp(45px, 12vw, 130px);
             text-transform: uppercase; margin-bottom: 5px;
-            color: white;
-            position: relative;
-            cursor: default;
-        }
-        
-        .hero h1:hover {
-            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); color: var(--accent); }
-            40% { transform: translate(-3px, -3px); color: var(--primary); }
-            60% { transform: translate(3px, 3px); border-right: 2px solid var(--accent); }
-            80% { transform: translate(3px, -3px); }
-            100% { transform: translate(0); }
+            background: linear-gradient(to bottom, #fff 40%, var(--primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(188, 19, 254, 0.4));
         }
 
         .hero p {
@@ -189,7 +176,7 @@
 
     <header class="hero">
         <p>THE FUTURE OF INDIE GAMING</p>
-        <h1 data-text="MY GAME">MY GAME</h1>
+        <h1>MY GAME</h1>
         <a href="game.zip" class="btn-download">СКАЧАТЬ ALPHA 1.0</a>
     </header>
 
@@ -202,7 +189,7 @@
             <div style="margin-top: 40px;">
                 <h3 style="font-family: 'Orbitron'; color: var(--primary); font-size: 18px;">ПОСЛЕДНИЕ ОБНОВЛЕНИЯ</h3>
                 <ul class="dev-log">
-                    <li class="dev-item"><span>v1.0.6</span> Добавлен эффект Glitch и трейлер</li>
+                    <li class="dev-item"><span>v1.0.6</span> Удален эффект Glitch, исправлен трейлер</li>
                     <li class="dev-item"><span>v1.0.5</span> Фиолетовый неон и частицы на фоне</li>
                     <li class="dev-item"><span>v1.0.0</span> Запуск закрытого альфа-теста</li>
                 </ul>
@@ -212,8 +199,8 @@
         <section>
             <h2>ТРЕЙЛЕР</h2>
             <div class="video-wrapper">
-                <!-- Твое видео OqPxaKs8xrk -->
-                <iframe src="https://www.youtube.com" allowfullscreen></iframe>
+                <!-- Прямая ссылка для встраивания видео (OqPxaKs8xrk) -->
+                <iframe src="https://www.youtube.com" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 
