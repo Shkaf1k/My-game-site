@@ -13,6 +13,7 @@
             --primary: #bc13fe; 
             --accent: #00ff9d;  
             --bg: #050505;
+            --discord: #5865F2;
             --card-bg: rgba(20, 20, 25, 0.85);
             --border: rgba(188, 19, 254, 0.3);
         }
@@ -49,6 +50,7 @@
             letter-spacing: 2px; transition: 0.3s; font-weight: 900;
         }
         nav a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        nav a.nav-discord { color: var(--discord); border: 1px solid var(--discord); padding: 2px 10px; border-radius: 4px; }
 
         /* Герой-секция */
         .hero {
@@ -77,11 +79,7 @@
             border-radius: 4px; box-shadow: 0 0 35px var(--primary);
             transition: 0.4s; cursor: pointer; display: inline-block;
         }
-        .btn-download:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 0 55px var(--primary);
-            background: #fff; color: #000;
-        }
+        .btn-download:hover { transform: scale(1.05); background: #fff; color: #000; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
         
@@ -90,10 +88,7 @@
             font-size: 32px; margin-bottom: 40px; color: #fff;
             text-transform: uppercase; letter-spacing: 3px;
         }
-        h2::after {
-            content: ''; display: block; width: 60px; height: 3px; 
-            background: var(--primary); margin: 10px auto;
-        }
+        h2::after { content: ''; display: block; width: 60px; height: 3px; background: var(--primary); margin: 10px auto; }
 
         .card {
             background: var(--card-bg); border: 1px solid var(--border);
@@ -101,22 +96,35 @@
             backdrop-filter: blur(8px);
         }
 
-        /* Особенности игры */
-        .features-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px; margin-bottom: 80px;
+        /* Блок Дискорда */
+        .discord-card {
+            background: linear-gradient(45deg, #5865F2, #404EED);
+            border: none; padding: 50px; border-radius: 25px;
+            text-align: center; margin: 60px 0;
+            box-shadow: 0 10px 40px rgba(88, 101, 242, 0.4);
+            transition: 0.4s;
         }
-        .feature-item {
-            background: var(--card-bg); padding: 30px; border-radius: 15px;
-            border: 1px solid var(--border); text-align: center; transition: 0.3s;
+        .discord-card:hover { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(88, 101, 242, 0.6); }
+        .discord-btn-large {
+            display: inline-block; background: white; color: var(--discord);
+            padding: 18px 45px; border-radius: 50px; text-decoration: none;
+            font-family: 'Orbitron', sans-serif; font-weight: 900;
+            margin-top: 25px; transition: 0.3s;
         }
-        .feature-item:hover {
-            background: rgba(188, 19, 254, 0.1); transform: translateY(-10px);
-            border-color: var(--primary);
-        }
-        .feature-icon { font-size: 40px; margin-bottom: 15px; display: block; }
+        .discord-btn-large:hover { background: var(--accent); color: black; transform: scale(1.05); }
 
-        /* Локальное Видео */
+        /* Команда */
+        .team-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; }
+        .team-photo {
+            width: 130px; height: 130px; border-radius: 50%;
+            border: 2px solid var(--primary); margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(188, 19, 254, 0.1); color: var(--primary);
+            font-family: 'Orbitron'; font-size: 14px; font-weight: 900;
+            text-shadow: 0 0 10px var(--primary); box-shadow: 0 0 15px rgba(188, 19, 254, 0.2);
+        }
+
+        /* Видеоплеер */
         .video-container {
             width: 100%; border-radius: 15px; border: 2px solid var(--border);
             box-shadow: 0 0 30px rgba(188, 19, 254, 0.2); overflow: hidden;
@@ -125,68 +133,29 @@
         video { width: 100%; display: block; outline: none; }
 
         /* Галерея */
-        .gallery {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px; margin-bottom: 80px;
-        }
-        .gallery-item {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 12px; overflow: hidden; transition: 0.4s;
-        }
-        .gallery-item img { width: 100%; height: auto; display: block; opacity: 0.8; transition: 0.5s; }
-        .gallery-item:hover { border-color: var(--accent); transform: scale(1.02); }
-        .gallery-item:hover img { opacity: 1; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 80px; }
+        .gallery-item img { width: 100%; border-radius: 12px; border: 1px solid var(--border); opacity: 0.8; transition: 0.5s; }
+        .gallery-item:hover img { opacity: 1; transform: scale(1.02); border-color: var(--accent); }
 
-        /* Команда */
-        .team-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 80px; }
-        .team-member { text-align: center; }
-        .team-photo {
-            width: 130px; height: 130px; border-radius: 50%;
-            border: 2px solid var(--primary); margin-bottom: 10px;
-            object-fit: cover; filter: grayscale(100%); transition: 0.3s;
-        }
-        .team-member:hover .team-photo { filter: grayscale(0%); box-shadow: 0 0 25px var(--primary); }
-
-        /* Форма обратной связи */
-        .contact-form { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto; }
-        .contact-form input, .contact-form textarea {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            padding: 15px; border-radius: 8px; color: white; font-family: 'Inter', sans-serif;
-        }
-        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); }
-        .send-btn {
-            background: var(--accent); color: black; border: none; padding: 15px;
-            border-radius: 8px; font-weight: 900; font-family: 'Orbitron';
-            cursor: pointer; transition: 0.3s;
-        }
-        .send-btn:hover { background: white; transform: scale(1.02); box-shadow: 0 0 20px white; }
-
-        /* Системные требования */
-        .specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; }
-        .spec-box { border-left: 3px solid var(--accent); padding-left: 15px; }
-        .spec-box b { display: block; font-size: 11px; color: var(--accent); text-transform: uppercase; }
-
-        /* Музыкальный плеер */
+        /* Плеер */
         .player-control {
             position: fixed; bottom: 25px; left: 25px; z-index: 2000;
             background: rgba(0,0,0,0.9); border: 1px solid var(--primary);
             padding: 12px 20px; border-radius: 50px; cursor: pointer;
-            display: flex; align-items: center; gap: 12px; transition: 0.3s;
+            display: flex; align-items: center; gap: 12px;
         }
         .indicator { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
         .indicator.off { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
 
-        /* Кнопка наверх */
         .to-top {
             position: fixed; bottom: 25px; right: 25px;
             width: 50px; height: 50px; background: var(--primary);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; opacity: 0; transition: 0.4s; z-index: 1000;
-            box-shadow: 0 0 20px var(--primary); color: white; text-decoration: none; font-weight: bold;
+            cursor: pointer; opacity: 0; transition: 0.4s; z-index: 1000; color: white; text-decoration: none;
         }
         .to-top.visible { opacity: 1; }
 
-        footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.5); font-size: 13px; letter-spacing: 1px; }
+        footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.5); font-size: 13px; }
     </style>
 </head>
 <body>
@@ -196,8 +165,8 @@
     <nav>
         <a href="#">ГЛАВНАЯ</a>
         <a href="#about">ОБ ИГРЕ</a>
-        <a href="#features">ФИШКИ</a>
         <a href="#media">МЕДИА</a>
+        <a href="#community" class="nav-discord">DISCORD</a>
         <a href="#contact">СВЯЗЬ</a>
     </nav>
 
@@ -217,7 +186,6 @@
 
     <div class="container">
         
-        <!-- Секция Об Игре -->
         <section id="about" class="card">
             <h2>О ПРОЕКТЕ</h2>
             <p>Добро пожаловать в мир, где технологии встречаются с хаосом. Это уникальное инди-приключение, созданное с нуля. Исследуй, выживай и находи ответы в самой атмосферной игре этого года.</p>
@@ -225,49 +193,31 @@
             <div style="margin-top: 40px;">
                 <h3 style="font-family: 'Orbitron'; color: var(--primary); font-size: 18px; margin-bottom: 15px;">DEV LOG</h3>
                 <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary); font-size: 14px; margin-bottom: 10px;">
-                    <span style="color: var(--accent); font-weight: bold; font-family: 'Orbitron';">v1.0.8</span> Добавлена форма связи и блок особенностей
+                    <span style="color: var(--accent); font-weight: bold; font-family: 'Orbitron';">v1.1.0</span> Добавлена интеграция сообщества Discord
                 </div>
                 <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary); font-size: 14px;">
-                    <span style="color: var(--accent); font-weight: bold; font-family: 'Orbitron';">v1.0.7</span> Переход на локальный видеоплеер
+                    <span style="color: var(--accent); font-weight: bold; font-family: 'Orbitron';">v1.0.8</span> Финальный редизайн блока команды
                 </div>
             </div>
         </section>
 
-        <!-- Особенности -->
-        <section id="features">
-            <h2>ОСОБЕННОСТИ</h2>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <span class="feature-icon">🌌</span>
-                    <h3 style="font-family: 'Orbitron'; margin-bottom: 10px;">ОТКРЫТЫЙ МИР</h3>
-                    <p style="font-size: 14px; opacity: 0.8;">Исследуй бескрайние просторы заброшенных цивилизаций.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">⚔️</span>
-                    <h3 style="font-family: 'Orbitron'; margin-bottom: 10px;">ХАРДКОР</h3>
-                    <p style="font-size: 14px; opacity: 0.8;">Сложные боссы и система выживания, не прощающая ошибок.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🧪</span>
-                    <h3 style="font-family: 'Orbitron'; margin-bottom: 10px;">КРАФТИНГ</h3>
-                    <p style="font-size: 14px; opacity: 0.8;">Создавай уникальное снаряжение из найденных ресурсов.</p>
-                </div>
-            </div>
+        <!-- Секция Дискорд -->
+        <section id="community" class="discord-card">
+            <h2 style="border: none; margin-bottom: 10px;">НАШ DISCORD СЕРВЕР</h2>
+            <p style="color: white; opacity: 0.9;">Общайся с разработчиком, ищи напарников и узнавай новости первым!</p>
+            <!-- ЗАМЕНИ ССЫЛКУ НИЖЕ НА СВОЮ -->
+            <a href="https://discord.gg" target="_blank" class="discord-btn-large">ПРИСОЕДИНИТЬСЯ К ЧАТУ</a>
         </section>
 
-        <!-- Видеоплеер -->
         <section>
             <h2>ТРЕЙЛЕР</h2>
             <div class="video-container">
-                <!-- Замени trailer.mp4 на свой файл видео -->
-                <video controls poster="trailerscreen.png">
+                <video controls poster="screen1.png">
                     <source src="trailer.mp4" type="video/mp4">
-                    Ваш браузер не поддерживает видео.
                 </video>
             </div>
         </section>
 
-        <!-- Галерея -->
         <section id="media">
             <h2>ГАЛЕРЕЯ</h2>
             <div class="gallery">
@@ -281,37 +231,21 @@
         <section id="team">
             <h2>КОМАНДА</h2>
             <div class="team-grid">
-                <div class="team-member">
-                    <!-- Заменили фото на текстовый аватар с ником -->
-                    <div class="team-photo" style="display: flex; align-items: center; justify-content: center; background: rgba(188, 19, 254, 0.1); color: var(--primary); font-family: 'Orbitron'; font-size: 18px; font-weight: 900; filter: none; text-shadow: 0 0 10px var(--primary);">
-                        SHKAF1K
-                    </div>
-                    <h4 style="font-family: 'Orbitron'; margin-top: 10px;">DEVELOPER</h4>
+                <div class="team-member" style="text-align: center;">
+                    <div class="team-photo">SHKAF1K</div>
+                    <h4 style="font-family: 'Orbitron';">DEVELOPER</h4>
                     <p style="color: var(--accent); font-size: 12px; font-weight: bold;">Lead Coder & Designer</p>
                 </div>
             </div>
         </section>
 
-
-        <!-- Требования -->
-        <section id="specs" class="card">
-            <h2>ТРЕБОВАНИЯ</h2>
-            <div class="specs-grid">
-                <div class="spec-box"><b>ОС</b>Windows 10 / 11</div>
-                <div class="spec-box"><b>Процессор</b>Intel i5 / Ryzen 5</div>
-                <div class="spec-box"><b>Видеокарта</b>GTX 1060 (6GB)</div>
-                <div class="spec-box"><b>Память</b>8 GB RAM</div>
-            </div>
-        </section>
-
-        <!-- Связь -->
         <section id="contact">
-            <h2>СВЯЗЬ С НАМИ</h2>
-            <form class="contact-form" onsubmit="event.preventDefault(); alert('Сообщение отправлено!');">
-                <input type="text" placeholder="Ваше имя" required>
-                <input type="email" placeholder="Ваш E-mail" required>
-                <textarea rows="5" placeholder="Ваше сообщение или баг-репорт"></textarea>
-                <button type="submit" class="send-btn">ОТПРАВИТЬ СИГНАЛ</button>
+            <h2>СВЯЗЬ</h2>
+            <form class="contact-form" style="display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto;" onsubmit="event.preventDefault(); alert('Сообщение отправлено!');">
+                <input type="text" placeholder="Ваше имя" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 8px; color: white;">
+                <input type="email" placeholder="E-mail" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 8px; color: white;">
+                <textarea rows="5" placeholder="Сообщение" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 8px; color: white;"></textarea>
+                <button type="submit" style="background: var(--accent); color: black; border: none; padding: 15px; border-radius: 8px; font-weight: 900; font-family: 'Orbitron'; cursor: pointer;">ОТПРАВИТЬ</button>
             </form>
         </section>
 
@@ -321,7 +255,6 @@
         <p>&copy; 2026 MY GAME STUDIO | ALL RIGHTS RESERVED</p>
     </footer>
 
-    <!-- Скрипты -->
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
         particlesJS("particles-js", {
@@ -333,9 +266,6 @@
                 "size": { "value": 2 },
                 "line_linked": { "enable": true, "distance": 150, "color": "#bc13fe", "opacity": 0.2, "width": 1 },
                 "move": { "enable": true, "speed": 1.5 }
-            },
-            "interactivity": {
-                "events": { "onhover": { "enable": true, "mode": "grab" } }
             }
         });
 
@@ -344,15 +274,8 @@
         const text = document.getElementById('status-text');
 
         function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                light.classList.remove('off');
-                text.innerText = "AUDIO ON";
-            } else {
-                audio.pause();
-                light.classList.add('off');
-                text.innerText = "AUDIO OFF";
-            }
+            if (audio.paused) { audio.play(); light.classList.remove('off'); text.innerText = "AUDIO ON"; } 
+            else { audio.pause(); light.classList.add('off'); text.innerText = "AUDIO OFF"; }
         }
 
         const btnTop = document.getElementById("backToTop");
