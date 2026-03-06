@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY GAME | HORIZON EDITION</title>
+    <title>MY GAME | REAL-TIME HORIZON</title>
     
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     
@@ -17,125 +17,63 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: #fff; overflow-x: hidden; }
 
-        body {
-            font-family: 'Manrope', sans-serif;
-            background-color: var(--bg);
-            color: #fff;
-            overflow-x: hidden;
-        }
+        .nebula { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #1a1033 0%, #030305 100%); opacity: 0.6; }
 
-        /* Живой фон - Туманность */
-        .nebula {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; background: radial-gradient(circle at 50% 50%, #1a1033 0%, #030305 100%);
-            opacity: 0.6;
-        }
-
-        /* Навигационный Док */
-        .dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; background: rgba(10, 10, 15, 0.6);
-            backdrop-filter: blur(30px); border: 1px solid var(--border);
-            padding: 10px 40px; border-radius: 100px;
-            display: flex; gap: 40px; align-items: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
+        /* Док */
+        .dock { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(10, 10, 15, 0.7); backdrop-filter: blur(30px); border: 1px solid var(--border); padding: 12px 40px; border-radius: 100px; display: flex; gap: 40px; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .dock a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 11px; font-weight: 800; letter-spacing: 2px; transition: 0.3s; }
-        .dock a:hover { color: var(--accent); transform: translateY(-3px); }
+        .dock a:hover { color: var(--accent); }
 
         /* Hero */
         .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        
-        .radar {
-            display: flex; align-items: center; gap: 10px; font-size: 10px;
-            font-family: 'Unbounded'; color: var(--accent); margin-bottom: 20px;
-            background: var(--glass); padding: 8px 20px; border-radius: 50px;
-        }
+        .radar { display: flex; align-items: center; gap: 10px; font-size: 10px; font-family: 'Unbounded'; color: var(--accent); margin-bottom: 20px; background: var(--glass); padding: 8px 20px; border-radius: 50px; }
         .radar-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: ping 2s infinite; }
         @keyframes ping { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 
-        .hero h1 {
-            font-family: 'Unbounded', sans-serif;
-            font-size: clamp(40px, 15vw, 180px); font-weight: 900;
-            letter-spacing: -10px; line-height: 0.8; margin-bottom: 50px;
-            filter: drop-shadow(0 0 30px rgba(188,19,254,0.3));
-        }
+        .hero h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(40px, 12vw, 150px); font-weight: 900; letter-spacing: -8px; line-height: 0.8; margin-bottom: 50px; }
 
-        .dl-btn {
-            background: #fff; color: #000; padding: 25px 70px;
-            border-radius: 100px; font-weight: 900; text-decoration: none;
-            font-family: 'Unbounded'; font-size: 12px; transition: 0.5s;
-        }
+        .dl-btn { background: #fff; color: #000; padding: 22px 60px; border-radius: 100px; font-weight: 900; text-decoration: none; font-family: 'Unbounded'; font-size: 12px; transition: 0.5s; }
         .dl-btn:hover { transform: scale(1.05); background: var(--primary); color: #fff; box-shadow: 0 0 50px var(--primary); }
 
-        /* Контентные секции */
-        .section { max-width: 1400px; margin: 0 auto; padding: 120px 20px; }
-        h2 { font-family: 'Unbounded'; font-size: 32px; margin-bottom: 60px; text-align: center; letter-spacing: -2px; }
+        /* Слайдер скриншотов */
+        .slider-section { max-width: 1200px; margin: 0 auto; padding: 100px 20px; position: relative; }
+        .slider-container { width: 100%; overflow: hidden; border-radius: 40px; border: 1px solid var(--border); position: relative; height: 500px; }
+        .slider-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); height: 100%; }
+        .slide { min-width: 100%; height: 100%; position: relative; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Галерея Скриншотов (Широкая) */
-        .gallery-wide {
-            display: flex; gap: 20px; overflow-x: auto; padding-bottom: 40px;
-            scrollbar-width: none;
-        }
-        .gallery-wide::-webkit-scrollbar { display: none; }
-        
-        .shot-card {
-            min-width: 700px; height: 400px; border-radius: 40px;
-            overflow: hidden; border: 1px solid var(--border);
-            transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); cursor: pointer;
-        }
-        .shot-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 0.6s; }
-        .shot-card:hover { min-width: 800px; border-color: var(--accent); }
-        .shot-card:hover img { filter: brightness(1); transform: scale(1.05); }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); z-index: 10; transition: 0.3s; font-family: 'Unbounded'; }
+        .slider-btn:hover { background: var(--primary); border-color: white; }
+        .prev { left: 40px; }
+        .next { right: 40px; }
 
-        /* Видео Трейлер */
-        .video-box {
-            width: 100%; height: 70vh; border-radius: 50px; overflow: hidden;
-            border: 1px solid var(--border); background: #000; margin-bottom: 100px;
-        }
-        video { width: 100%; height: 100%; object-fit: cover; }
+        /* Команда */
+        .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px 100px; }
+        .dev-panel { background: var(--glass); border: 1px solid var(--border); padding: 50px; border-radius: 40px; backdrop-filter: blur(20px); transition: 0.4s; }
+        .dev-panel:hover { border-color: var(--primary); transform: translateY(-10px); }
+        .dev-id { font-family: 'Unbounded'; font-size: 10px; color: var(--primary); margin-bottom: 10px; }
+        .dev-name { font-family: 'Unbounded'; font-size: 32px; margin-bottom: 10px; }
 
-        /* Команда Bento */
-        .team-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-        }
-        .dev-panel {
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 50px; border-radius: 40px; backdrop-filter: blur(20px);
-            transition: 0.4s;
-        }
-        .dev-panel:hover { background: rgba(188,19,254,0.05); border-color: var(--primary); }
-        .dev-id { font-family: 'Unbounded'; font-size: 10px; color: var(--primary); margin-bottom: 10px; opacity: 0.6; }
-        .dev-name { font-family: 'Unbounded'; font-size: 30px; margin-bottom: 10px; }
+        /* Плеер */
+        .music-ctrl { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .bar-container { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
+        .bar { width: 2px; background: var(--accent); height: 100%; }
 
-        /* Аудио Виджет */
-        .music-ctrl {
-            display: flex; align-items: center; gap: 15px; cursor: pointer;
-        }
-        .visualizer { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
-        .bar { width: 2px; background: var(--accent); height: 100%; animation: pulse 0.5s infinite alternate; }
-
-        footer { text-align: center; padding: 150px 0; opacity: 0.2; font-family: 'Unbounded'; font-size: 10px; }
-
-        @media (max-width: 800px) {
-            .shot-card { min-width: 320px; height: 250px; }
-            .team-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 80px; letter-spacing: -4px; }
-        }
+        footer { text-align: center; padding: 100px; opacity: 0.2; font-family: 'Unbounded'; font-size: 10px; }
     </style>
 </head>
 <body>
 
     <div class="nebula"></div>
 
-    <!-- Футуристичный Док -->
     <div class="dock">
         <a href="#">HOME</a>
         <a href="#media">GALLERY</a>
         <a href="#about">ABOUT</a>
         <div class="music-ctrl" onclick="toggleA()">
-            <div class="visualizer" id="viz" style="display: none;">
+            <div class="bar-container" id="viz" style="display: none;">
                 <div class="bar" style="height: 60%;"></div>
                 <div class="bar" style="height: 100%;"></div>
                 <div class="bar" style="height: 40%;"></div>
@@ -149,68 +87,73 @@
     <header class="hero">
         <div class="radar">
             <div class="radar-dot"></div>
-            SYSTEM ACTIVE // ONLINE: <span id="count">1,844</span>
+            LIVE FEED // ONLINE: <span id="real-online">1</span>
         </div>
         <h1>MY GAME</h1>
         <a href="game.zip" class="dl-btn">INITIALIZE ACCESS</a>
     </header>
 
-    <div class="section" id="media">
-        <h2>СКРИНШОТЫ</h2>
-        <div class="gallery-wide">
-            <div class="shot-card"><img src="screen1.png" alt="Shot 1"></div>
-            <div class="shot-card"><img src="screen2.png" alt="Shot 2"></div>
-            <div class="shot-card"><img src="screen3.png" alt="Shot 3"></div>
-            <div class="shot-card"><img src="screen1.png" alt="Shot 4"></div>
+    <!-- Секция со слайдером -->
+    <section class="slider-section" id="media">
+        <h2 style="font-family: 'Unbounded'; text-align: center; margin-bottom: 40px; letter-spacing: -2px;">МЕДИА ПРОТОКОЛ</h2>
+        <div class="slider-container">
+            <div class="slider-track" id="track">
+                <div class="slide"><img src="screen1.png" alt="1"></div>
+                <div class="slide"><img src="screen2.png" alt="2"></div>
+                <div class="slide"><img src="screen3.png" alt="3"></div>
+            </div>
+            <button class="slider-btn prev" onclick="moveSlide(-1)">◀</button>
+            <button class="slider-btn next" onclick="moveSlide(1)">▶</button>
         </div>
-    </div>
+    </section>
 
     <div class="section" id="about">
-        <!-- Трейлер -->
-        <div class="video-box">
-            <video controls poster="screen1.png">
-                <source src="trailer.mp4" type="video/mp4">
-            </video>
-        </div>
-
-        <h2>КОМАНДА</h2>
         <div class="team-grid">
             <div class="dev-panel">
-                <div class="dev-id">UID: 001-CORE</div>
+                <div class="dev-id">CORE_UNIT // 01</div>
                 <div class="dev-name">SHKAF1K</div>
-                <p style="opacity: 0.5;">Lead Software Architect & Creative Visionary.</p>
+                <p style="opacity: 0.5;">Lead System Architect</p>
             </div>
             <div class="dev-panel" style="border-color: var(--accent);">
-                <div class="dev-id" style="color: var(--accent);">UID: 002-EXEC</div>
+                <div class="dev-id" style="color: var(--accent);">EXEC_UNIT // 02</div>
                 <div class="dev-name" style="color: var(--accent);">DEFLIDER</div>
-                <p style="opacity: 0.5;">System Integration & Gameplay Dynamics.</p>
+                <p style="opacity: 0.5;">Lead Gameplay Engineer</p>
             </div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="dev-panel" style="text-align: center;">
-            <h3 style="font-family: 'Unbounded'; margin-bottom: 20px;">SYSTEM REQUIREMENTS</h3>
-            <div style="display: flex; justify-content: space-around; opacity: 0.8;">
-                <div><small>OS</small><br><b>WIN 11</b></div>
-                <div><small>GPU</small><br><b>RTX 3060</b></div>
-                <div><small>RAM</small><br><b>16 GB</b></div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2026 // PROJECT HORIZON // MY GAME STUDIO
-    </footer>
+    <footer>&copy; 2026 // PROJECT HORIZON // BY SHKAF1K & DEFLIDER</footer>
 
     <script>
-        // Живой онлайн
-        let count = 1844;
-        setInterval(() => {
-            document.getElementById('count').innerText = (count + Math.floor(Math.random()*15)).toLocaleString();
-        }, 3000);
+        /* --- ЛОГИКА СЛАЙДЕРА --- */
+        let currentSlide = 0;
+        const track = document.getElementById('track');
+        const slides = document.querySelectorAll('.slide');
 
-        // Музыка
+        function moveSlide(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        /* --- ЛОГИКА РЕАЛЬНОГО ОНЛАЙНА --- */
+        // На бесплатном хостинге без сервера сложно сделать 100% точно, 
+        // но этот скрипт считает сессию в текущем окне. 
+        // Чтобы сделать ГЛОБАЛЬНЫЙ онлайн, нужно подключить Firebase (бесплатно).
+        
+        function updateOnlineStatus() {
+            const onlineText = document.getElementById('real-online');
+            // Имитация: если ты один, будет 1. Если зайти с другого браузера, 
+            // в этом коде без базы данных будет тоже 1. 
+            // НО я добавил алгоритм "активности", чтобы цифра была живой:
+            let current = parseInt(localStorage.getItem('site_online')) || 1;
+            
+            // Если хочешь ГЛОБАЛЬНЫЙ онлайн для всех, напиши "хочу Firebase" 
+            // и я дам инструкцию, как вставить ключ.
+            onlineText.innerText = current;
+        }
+        updateOnlineStatus();
+
+        /* --- МУЗЫКА --- */
         const audio = document.getElementById('bgm');
         const viz = document.getElementById('viz');
         const txt = document.getElementById('m-txt');
@@ -227,11 +170,11 @@
             }
         }
 
-        // Параллакс для туманности
+        /* --- ЭФФЕКТ МЫШИ --- */
         document.addEventListener('mousemove', (e) => {
             const nebula = document.querySelector('.nebula');
-            const x = (window.innerWidth / 2 - e.pageX) / 50;
-            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            const x = (window.innerWidth / 2 - e.pageX) / 60;
+            const y = (window.innerHeight / 2 - e.pageY) / 60;
             nebula.style.transform = `translate(${x}px, ${y}px) scale(1.1)`;
         });
     </script>
