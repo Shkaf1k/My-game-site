@@ -52,7 +52,6 @@
             padding: 20px;
         }
 
-        /* Обычный заголовок без глитча */
         .hero h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: clamp(45px, 12vw, 130px);
@@ -111,12 +110,21 @@
         .gallery-item:hover { border-color: var(--accent); transform: scale(1.02); }
         .gallery-item:hover img { opacity: 1; }
 
-        .video-wrapper {
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-            border-radius: 15px; border: 2px solid var(--border);
-            box-shadow: 0 0 30px rgba(188, 19, 254, 0.2); margin-bottom: 50px;
+        /* Стили для твоего видеоплеера */
+        .video-container {
+            width: 100%;
+            border-radius: 15px;
+            border: 2px solid var(--border);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.2);
+            overflow: hidden;
+            margin-bottom: 50px;
+            background: #000;
         }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        video {
+            width: 100%;
+            display: block;
+            outline: none;
+        }
 
         .dev-log { list-style: none; margin-top: 25px; }
         .dev-item {
@@ -189,7 +197,7 @@
             <div style="margin-top: 40px;">
                 <h3 style="font-family: 'Orbitron'; color: var(--primary); font-size: 18px;">ПОСЛЕДНИЕ ОБНОВЛЕНИЯ</h3>
                 <ul class="dev-log">
-                    <li class="dev-item"><span>v1.0.6</span> Удален эффект Glitch, исправлен трейлер</li>
+                    <li class="dev-item"><span>v1.0.7</span> Добавлен локальный видеоплеер</li>
                     <li class="dev-item"><span>v1.0.5</span> Фиолетовый неон и частицы на фоне</li>
                     <li class="dev-item"><span>v1.0.0</span> Запуск закрытого альфа-теста</li>
                 </ul>
@@ -198,9 +206,12 @@
 
         <section>
             <h2>ТРЕЙЛЕР</h2>
-            <div class="video-wrapper">
-                <!-- Прямая ссылка для встраивания видео (OqPxaKs8xrk) -->
-                <iframe src="https://www.youtube.com" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="video-container">
+                <!-- Замени trailer.mp4 на название своего видеофайла -->
+                <video controls poster="screen1.png">
+                    <source src="trailer.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
             </div>
         </section>
 
