@@ -3,245 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY GAME | BEYOND REALITY</title>
+    <title>MY GAME | PROTOCOL 2026</title>
     
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #000;
+            --bg: #080808;
             --primary: #bc13fe;
             --accent: #00ff9d;
-            --glass: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: crosshair; }
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Manrope', sans-serif;
             background-color: var(--bg);
-            color: #fff;
+            color: var(--text);
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
         }
 
-        /* Анимированные световые пятна (Aura) */
-        .aura {
-            position: fixed; width: 600px; height: 600px;
+        /* Кастомный курсор-фонарик */
+        .cursor-glow {
+            position: fixed; width: 400px; height: 400px;
             background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            filter: blur(120px); opacity: 0.15; z-index: -1;
-            animation: drift 25s infinite alternate;
-        }
-        @keyframes drift {
-            from { transform: translate(-20%, -20%); }
-            to { transform: translate(50%, 30%); background: #4752C4; }
+            border-radius: 50%; pointer-events: none; opacity: 0.15;
+            z-index: 9999; transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
         }
 
-        /* Навигация будущего */
+        /* Навигация */
         nav {
-            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; background: rgba(10, 10, 10, 0.5);
-            backdrop-filter: blur(25px); border: 1px solid var(--border);
-            padding: 12px 40px; border-radius: 100px;
-            display: flex; gap: 30px;
+            position: fixed; top: 0; width: 100%; padding: 30px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; mix-blend-mode: difference;
         }
-        nav a { color: #888; text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; }
-        nav a:hover { color: #fff; text-shadow: 0 0 10px #fff; }
+        nav a { color: #fff; text-decoration: none; font-family: 'Syncopate'; font-size: 12px; letter-spacing: 3px; }
 
-        /* Hero */
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        /* Главный экран */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+        }
         .hero h1 {
-            font-family: 'Unbounded', sans-serif;
-            font-size: clamp(50px, 12vw, 140px); font-weight: 900;
-            line-height: 0.85; letter-spacing: -5px; margin-bottom: 30px;
-            background: linear-gradient(180deg, #fff 40%, rgba(188, 19, 254, 0.5));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(40px, 15vw, 180px); line-height: 0.9;
+            font-weight: 700; text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--primary), #fff);
+            background-size: 200%; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; animation: shine 5s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200%; } }
+
+        /* Кнопка с онлайном */
+        .download-zone { margin-top: 50px; position: relative; }
+        .dl-btn {
+            padding: 25px 60px; background: #fff; color: #000;
+            text-decoration: none; font-weight: 800; font-size: 18px;
+            border-radius: 0; transition: 0.3s; display: inline-block;
+        }
+        .dl-btn:hover { background: var(--primary); color: #fff; transform: skewX(-10deg); }
+        
+        .online-badge {
+            position: absolute; top: -20px; right: -20px;
+            background: var(--accent); color: #000; padding: 5px 12px;
+            font-size: 10px; font-weight: 900; font-family: 'Syncopate';
         }
 
-        .cta-box {
-            display: flex; gap: 20px; align-items: center;
+        /* Bento Сетка */
+        .grid-container {
+            max-width: 1400px; margin: 0 auto; padding: 100px 50px;
+            display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px;
         }
-        .main-btn {
-            background: #fff; color: #000; padding: 20px 45px;
-            border-radius: 20px; font-weight: 800; text-decoration: none;
-            transition: 0.4s; font-size: 14px;
+        .grid-box {
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px; position: relative; transition: 0.5s;
         }
-        .main-btn:hover { transform: scale(1.05) rotate(-1deg); box-shadow: 0 0 40px var(--primary); }
+        .grid-box:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); }
 
-        /* Bento Grid 2026 */
-        .bento-grid {
-            max-width: 1200px; margin: 0 auto; padding: 100px 20px;
-            display: grid; grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 240px; gap: 24px;
-        }
-        .bento-item {
-            background: var(--glass); border: 1px solid var(--border);
-            border-radius: 40px; padding: 35px; overflow: hidden;
-            backdrop-filter: blur(10px); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-        .bento-item:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-10px); }
-
-        .span-2 { grid-column: span 2; }
-        .row-2 { grid-row: span 2; }
-
-        /* Виджет Онлайна */
-        .online-status {
-            display: flex; align-items: center; gap: 10px;
-            background: rgba(0, 255, 157, 0.1); padding: 8px 16px;
-            border-radius: 50px; border: 1px solid rgba(0, 255, 157, 0.2);
-            width: fit-content;
-        }
-        .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .big { grid-column: span 8; }
+        .small { grid-column: span 4; }
+        .tall { grid-row: span 2; }
 
         /* Команда */
-        .dev-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 800; margin-bottom: 10px; }
-        .dev-name { font-family: 'Unbounded'; font-size: 20px; }
+        .dev-card { display: flex; flex-direction: column; justify-content: center; }
+        .dev-card h3 { font-family: 'Syncopate'; font-size: 28px; margin-bottom: 5px; }
+        .dev-card .role { color: var(--accent); font-weight: 800; font-size: 12px; letter-spacing: 2px; }
 
-        /* Слайдер скриншотов */
-        .slider { display: flex; width: 300%; animation: slide 15s infinite; }
-        .slider img { width: 33.33%; height: 100%; object-fit: cover; }
-        @keyframes slide { 0% { transform: translateX(0); } 30% { transform: translateX(0); } 33% { transform: translateX(-33.33%); } 63% { transform: translateX(-33.33%); } 66% { transform: translateX(-66.66%); } 96% { transform: translateX(-66.66%); } 100% { transform: translateX(0); } }
+        /* Видео */
+        .video-box { padding: 0; overflow: hidden; background: #000; }
+        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
+        .video-box:hover video { opacity: 1; }
 
-        /* Плеер-Остров */
-        .island-player {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
-            padding: 15px 30px; border-radius: 100px; border: 1px solid var(--border);
-            z-index: 1000; cursor: pointer; display: flex; align-items: center; gap: 15px;
+        /* Плеер */
+        .music-toggle {
+            position: fixed; bottom: 40px; left: 50px;
+            display: flex; align-items: center; gap: 15px;
         }
+        .visualizer { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
+        .bar { width: 3px; background: var(--primary); height: 5px; transition: 0.2s; }
 
-        footer { text-align: center; padding: 100px; opacity: 0.2; font-size: 10px; letter-spacing: 2px; }
-
-        @media (max-width: 900px) {
-            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-            .span-2, .row-2 { grid-column: span 1; grid-row: span 1; }
+        @media (max-width: 1000px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .big, .small, .tall { grid-column: span 1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="aura"></div>
+    <div class="cursor-glow" id="cursor"></div>
 
     <nav>
-        <a href="#">HOME</a>
-        <a href="#about">INFO</a>
-        <a href="#media">MEDIA</a>
-        <a href="https://discord.gg">COMMUNITY</a>
+        <a href="#">SYSTEM.RUN</a>
+        <div style="display: flex; gap: 40px;">
+            <a href="#media">MEDIA</a>
+            <a href="https://discord.gg">DISCORD</a>
+        </div>
     </nav>
 
-    <div class="island-player" onclick="toggleAudio()">
-        <div id="p-dot" style="width: 10px; height: 10px; background: #ff4d4d; border-radius: 50%;"></div>
-        <span style="font-size: 12px; font-weight: 800; letter-spacing: 1px;">SYSTEM AUDIO</span>
+    <div class="music-toggle" onclick="toggleAudio()" style="cursor: pointer;">
+        <div class="visualizer" id="viz">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <span style="font-size: 10px; font-family: 'Syncopate';">AUDIO ENGINE</span>
         <audio id="bg-audio" loop src="https://www.soundhelix.com"></audio>
     </div>
 
     <section class="hero">
-        <div class="online-status">
-            <div class="dot"></div>
-            <span style="font-size: 11px; font-weight: 800; color: var(--accent);">PLAYERS ONLINE: <span id="online-count">1,402</span></span>
-        </div>
         <h1>MY GAME</h1>
-        <div class="cta-box">
-            <a href="game.zip" class="main-btn">DOWNLOAD ALPHA</a>
+        <div class="download-zone">
+            <div class="online-badge">LIVE: <span id="count">2,481</span></div>
+            <a href="game.zip" class="dl-btn">INITIALIZE DOWNLOAD</a>
         </div>
-    </header>
+    </section>
 
-    <div class="bento-grid">
+    <div class="grid-container">
         
-        <!-- Блок Трейлера -->
-        <div class="bento-item span-2 row-2" style="padding: 0;">
-            <video controls poster="screen1.png" style="width: 100%; height: 100%; object-fit: cover;">
+        <!-- Трейлер -->
+        <div class="grid-box big tall video-box">
+            <video controls poster="screen1.png">
                 <source src="trailer.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- О проекте -->
-        <div class="bento-item span-2" id="about">
-            <div class="dev-tag">Project Vision</div>
-            <h3 style="font-family: 'Unbounded'; font-size: 24px; margin-bottom: 10px;">Следующий шаг в инди</h3>
-            <p style="opacity: 0.6;">Погрузитесь в атмосферу, созданную с использованием передовых технологий освещения и звука.</p>
-        </div>
-
-        <!-- Скриншот Слайдер -->
-        <div class="bento-item" id="media" style="padding: 0;">
-            <div class="slider">
-                <img src="screen1.png" alt="1">
-                <img src="screen2.png" alt="2">
-                <img src="screen3.png" alt="3">
-            </div>
-        </div>
-
         <!-- Разработчик 1 -->
-        <div class="bento-item">
-            <div class="dev-tag">Developer</div>
-            <div class="dev-name">SHKAF1K</div>
-            <p style="font-size: 12px; opacity: 0.5; margin-top: 10px;">Core Systems & Art</p>
+        <div class="grid-box small dev-card">
+            <div class="role">LEAD DEVELOPER</div>
+            <h3>SHKAF1K</h3>
+            <p style="margin-top: 15px; opacity: 0.5;">Mastermind behind systems and architecture.</p>
         </div>
 
         <!-- Разработчик 2 -->
-        <div class="bento-item">
-            <div class="dev-tag">Developer</div>
-            <div class="dev-name" style="color: var(--accent);">DEFLIDER</div>
-            <p style="font-size: 12px; opacity: 0.5; margin-top: 10px;">Gameplay & Backend</p>
+        <div class="grid-box small dev-card" style="border-right: 4px solid var(--accent);">
+            <div class="role">GAME DESIGNER</div>
+            <h3>DEFLIDER</h3>
+            <p style="margin-top: 15px; opacity: 0.5;">Creator of worlds and mechanics.</p>
         </div>
 
-        <!-- Дискорд -->
-        <div class="bento-item span-2" style="background: linear-gradient(135deg, #5865F2, #bc13fe); border: none; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <h3 style="font-family: 'Unbounded'; text-align: center;">COMMUNITY</h3>
-            <a href="https://discord.gg" style="margin-top: 20px; background: #fff; color: #000; padding: 12px 30px; border-radius: 12px; text-decoration: none; font-weight: 800;">JOIN DISCORD</a>
+        <!-- Описание -->
+        <div class="grid-box small">
+            <h4 style="font-family: 'Syncopate'; margin-bottom: 20px;">MISSION</h4>
+            <p style="font-weight: 200; line-height: 1.8;">Переосмысление жанра через призму минимализма и абсолютного контроля над атмосферой.</p>
         </div>
 
-        <!-- Системки -->
-        <div class="bento-item span-2">
-            <div class="dev-tag">Hardware</div>
-            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-                <div><small style="opacity: 0.5;">GPU</small><div style="font-weight: 800;">RTX 3060</div></div>
-                <div><small style="opacity: 0.5;">RAM</small><div style="font-weight: 800;">16 GB</div></div>
-                <div><small style="opacity: 0.5;">OS</small><div style="font-weight: 800;">Win 11</div></div>
+        <!-- Требования -->
+        <div class="grid-box big">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-family: 'Syncopate'; font-size: 20px;">SPECS.EXE</div>
+                <div style="display: flex; gap: 40px; text-align: right;">
+                    <div><small>GPU</small><br><b>RTX 3060</b></div>
+                    <div><small>RAM</small><br><b>16GB</b></div>
+                    <div><small>DISK</small><br><b>2GB</b></div>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <footer>
-        &copy; 2026 MY GAME STUDIO. POWERED BY CREATIVITY.
+    <footer style="padding: 100px; text-align: center; font-size: 10px; font-family: 'Syncopate'; opacity: 0.3;">
+        &copy; 2026 MY GAME STUDIO // ALL RIGHTS RESERVED
     </footer>
 
     <script>
-        // Логика онлайна
-        function updateOnline() {
-            const count = document.getElementById('online-count');
-            let base = 1400;
-            setInterval(() => {
-                let random = Math.floor(Math.random() * 50);
-                count.innerText = (base + random).toLocaleString();
-            }, 3000);
-        }
-        updateOnline();
+        // Курсор-фонарик
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
 
-        // Аудио
+        // Счетчик онлайна
+        let baseOnline = 2480;
+        setInterval(() => {
+            document.getElementById('count').innerText = (baseOnline + Math.floor(Math.random() * 20)).toLocaleString();
+        }, 2000);
+
+        // Плеер и Визуализатор
         const audio = document.getElementById('bg-audio');
-        const dot = document.getElementById('p-dot');
+        const bars = document.querySelectorAll('.bar');
+        let isPlaying = false;
+
         function toggleAudio() {
             if (audio.paused) {
                 audio.play();
-                dot.style.background = "#00ff9d";
+                isPlaying = true;
+                animateViz();
             } else {
                 audio.pause();
-                dot.style.background = "#ff4d4d";
+                isPlaying = false;
             }
         }
 
-        // Появление при скролле
-        const observer = new IntersectionObserver((e) => {
-            e.forEach(i => { if(i.isIntersecting) i.target.style.opacity = 1; });
-        });
-        document.querySelectorAll('.bento-item').forEach(b => {
-            b.style.opacity = 0; b.style.transition = "opacity 1s ease";
-            observer.observe(b);
-        });
+        function animateViz() {
+            if (!isPlaying) return;
+            bars.forEach(bar => {
+                const height = Math.random() * 20 + 5;
+                bar.style.height = height + 'px';
+            });
+            setTimeout(animateViz, 150);
+        }
     </script>
 </body>
 </html>
