@@ -3,196 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Game | Official Site</title>
+<title>My Game | Ultimate Edition</title>
 
-<!-- Подключение шрифта Inter -->
 <link href="https://fonts.googleapis.com" rel="stylesheet">
 
 <style>
-/* ===== Переменные и Обнуление ===== */
 :root {
   --primary: #00ff9d;
-  --primary-dark: #00cc7a;
   --bg-dark: #0a0e12;
   --glass: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 * { box-sizing: border-box; }
-
 body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
+  margin: 0; font-family: 'Inter', sans-serif;
   background: radial-gradient(circle at top right, #1a2a33, #0a0e12);
-  color: #e0e0e0;
-  overflow-x: hidden;
-  line-height: 1.6;
+  color: #e0e0e0; overflow-x: hidden; line-height: 1.6;
 }
+
+/* ===== Музыкальный плеер ===== */
+.music-player {
+  position: fixed; bottom: 20px; left: 20px; z-index: 2000;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px); padding: 10px 15px; border-radius: 50px;
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  transition: 0.3s;
+}
+.music-player:hover { background: rgba(255,255,255,0.1); }
+.music-icon { width: 12px; height: 12px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+.music-icon.paused { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
 
 /* ===== Навигация ===== */
 nav {
-  position: fixed;
-  top: 0; width: 100%;
-  backdrop-filter: blur(15px);
-  background: rgba(10, 14, 18, 0.8);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 20px 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
+  position: fixed; top: 0; width: 100%; backdrop-filter: blur(15px);
+  background: rgba(10, 14, 18, 0.8); border-bottom: 1px solid var(--glass-border);
+  padding: 20px 0; z-index: 1000; display: flex; justify-content: center;
 }
+nav a { color: white; margin: 0 20px; text-decoration: none; font-size: 14px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+nav a:hover { color: var(--primary); }
 
-nav a {
-  color: white;
-  margin: 0 20px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: 0.3s;
-}
-
-nav a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-
-/* ===== Hero Секция ===== */
+/* ===== Hero ===== */
 .hero {
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: url('https://images.unsplash.com') center/cover no-repeat;
-  background-attachment: fixed;
-  position: relative;
+  height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; background: url('https://images.unsplash.com') center/cover no-repeat;
+  background-attachment: fixed; position: relative;
 }
-
-.hero::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to bottom, rgba(10,14,18,0.5), var(--bg-dark));
-}
-
+.hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(10,14,18,0.5), var(--bg-dark)); }
 .hero-content { position: relative; z-index: 1; animation: slideUp 1s ease-out; }
+.hero h1 { font-size: clamp(40px, 8vw, 90px); font-weight: 900; margin: 0; background: linear-gradient(to bottom, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-.hero h1 {
-  font-size: clamp(40px, 8vw, 90px);
-  font-weight: 900; margin: 0;
-  background: linear-gradient(to bottom, #fff, #888);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
+/* ===== Счетчик ===== */
+.stats-container { display: flex; gap: 40px; margin-top: 30px; justify-content: center; }
+.stat-item { text-align: center; }
+.stat-number { font-size: 2.5rem; font-weight: 900; color: var(--primary); display: block; }
+.stat-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.6; }
 
-.hero p { color: var(--primary); font-weight: 500; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 30px; }
-
-.download-btn {
-  display: inline-block;
-  text-decoration: none;
-  color: #000;
-  background: var(--primary);
-  padding: 18px 45px;
-  border-radius: 50px;
-  font-weight: 700;
-  transition: 0.4s;
-  box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
-}
-
-.download-btn:hover { transform: translateY(-5px); background: #fff; }
-
-/* ===== Сетки и Карточки ===== */
+/* ===== Остальные блоки ===== */
 .section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.gallery-item img { width: 100%; border-radius: 15px; border: 1px solid var(--glass-border); transition: 0.4s; }
+.about-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); padding: 40px; border-radius: 25px; }
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
+.specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 25px; }
+.spec-item { background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 12px; border-left: 3px solid var(--primary); }
+.spec-item strong { display: block; color: var(--primary); font-size: 12px; }
 
-.gallery-item img {
-  width: 100%; border-radius: 15px; border: 1px solid var(--glass-border);
-  transition: 0.4s;
-}
-
-.gallery-item img:hover { transform: scale(1.03); border-color: var(--primary); }
-
-.about-card {
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  padding: 40px;
-  border-radius: 25px;
-}
-
-/* ===== Системные требования ===== */
-.specs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-top: 25px;
-}
-
-.spec-item {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 15px;
-  border-radius: 12px;
-  border-left: 3px solid var(--primary);
-}
-
-.spec-item strong { display: block; color: var(--primary); font-size: 12px; margin-bottom: 5px; }
-
-/* ===== Подписка ===== */
-.sub-box {
-  max-width: 500px; margin: 30px auto;
-  display: flex; gap: 10px;
-}
-
-.sub-box input {
-  flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
-  padding: 15px; border-radius: 50px; color: white; outline: none;
-}
-
-.sub-box input:focus { border-color: var(--primary); }
-
-.sub-btn {
-  background: white; border: none; padding: 0 25px;
-  border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
-}
-
+.sub-box { max-width: 500px; margin: 30px auto; display: flex; gap: 10px; }
+.sub-box input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 15px; border-radius: 50px; color: white; outline: none; }
+.sub-btn { background: white; border: none; padding: 0 25px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 .sub-btn:hover { background: var(--primary); transform: scale(1.05); }
 
-/* ===== Анимации появления ===== */
 .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(50px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-footer { padding: 60px; text-align: center; border-top: 1px solid var(--glass-border); margin-top: 50px; }
-
-.social-links a { color: var(--primary); margin: 0 10px; text-decoration: none; font-weight: bold; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+footer { padding: 40px; text-align: center; border-top: 1px solid var(--glass-border); }
 </style>
 </head>
 
 <body>
 
+<!-- Плеер -->
+<div class="music-player" onclick="toggleMusic()">
+  <div id="music-icon" class="music-icon paused"></div>
+  <span id="music-status" style="font-size: 12px; font-weight: bold;">MUSIC OFF</span>
+  <!-- Замени ссылку на свою прямую ссылку на mp3 -->
+  <audio id="bg-music" loop src="https://www.soundhelix.com"></audio>
+</div>
+
 <nav>
   <a href="#">Главная</a>
   <a href="#screens">Медиа</a>
   <a href="#about">Об игре</a>
-  <a href="#specs">Требования</a>
 </nav>
 
 <header class="hero">
   <div class="hero-content">
     <p>Indie Project</p>
     <h1>MY GAME</h1>
-    <a href="game.zip" class="download-btn">Скачать бесплатно</a>
+    
+    <div class="stats-container">
+      <div class="stat-item">
+        <span class="stat-number" data-target="1500">0</span>
+        <span class="stat-label">Игроков</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="4.9">0</span>
+        <span class="stat-label">Рейтинг</span>
+      </div>
+    </div>
+
+    <br><br>
+    <a href="game.zip" class="download-btn" style="text-decoration: none; color: black; background: var(--primary); padding: 18px 45px; border-radius: 50px; font-weight: 700; display: inline-block;">Скачать бесплатно</a>
   </div>
 </header>
 
 <section id="screens" class="section reveal">
-  <h2 style="text-align: center; font-size: 32px;">Скриншоты</h2>
+  <h2 style="text-align: center;">Скриншоты</h2>
   <div class="gallery-grid">
     <div class="gallery-item"><img src="screen1.png" alt="Screen 1"></div>
     <div class="gallery-item"><img src="screen2.png" alt="Screen 2"></div>
@@ -202,52 +130,72 @@ footer { padding: 60px; text-align: center; border-top: 1px solid var(--glass-bo
 
 <section id="about" class="section reveal">
   <div class="about-card">
-    <h2>О проекте</h2>
-    <p>Погрузитесь в атмосферный мир приключений. Исследуйте локации, находите секреты и выживайте в суровых условиях. Мы создаем игру, в которую хочется возвращаться.</p>
-    <div class="social-links">
-      Присоединяйтесь: <a href="#">Discord</a> | <a href="#">Telegram</a>
-    </div>
-  </div>
-</section>
-
-<section id="specs" class="section reveal">
-  <div class="about-card">
     <h2>Системные требования</h2>
     <div class="specs-grid">
-      <div class="spec-item"><strong>ОС</strong> Windows 10/11</div>
-      <div class="spec-item"><strong>Процессор</strong> i5-8400 / Ryzen 5</div>
-      <div class="spec-item"><strong>Память</strong> 8 GB RAM</div>
-      <div class="spec-item"><strong>Графика</strong> GTX 1060</div>
+      <div class="spec-item"><strong>ОС</strong> Win 10/11</div>
+      <div class="spec-item"><strong>Процессор</strong> i5-8400</div>
+      <div class="spec-item"><strong>RAM</strong> 8 GB</div>
+      <div class="spec-item"><strong>GPU</strong> GTX 1060</div>
     </div>
   </div>
 </section>
 
 <section class="section reveal" style="text-align: center;">
   <h2>Будь в курсе</h2>
-  <p>Получай уведомления о патчах и новых уровнях.</p>
   <div class="sub-box">
-    <input type="email" placeholder="Введите e-mail">
+    <input type="email" placeholder="E-mail">
     <button class="sub-btn">OK</button>
   </div>
 </section>
 
 <footer>
-  <p>&copy; 2024 My Game Studio. Разработано с любовью.</p>
+  <p>&copy; 2024 My Game Studio</p>
 </footer>
 
 <script>
-  function reveal() {
-    var reveals = document.querySelectorAll(".reveal");
-    for (var i = 0; i < reveals.length; i++) {
-      var windowHeight = window.innerHeight;
-      var elementTop = reveals[i].getBoundingClientRect().top;
-      if (elementTop < windowHeight - 100) {
-        reveals[i].classList.add("active");
-      }
+  // Логика музыки
+  const music = document.getElementById('bg-music');
+  const icon = document.getElementById('music-icon');
+  const status = document.getElementById('music-status');
+
+  function toggleMusic() {
+    if (music.paused) {
+      music.play();
+      icon.classList.remove('paused');
+      status.innerText = 'MUSIC ON';
+    } else {
+      music.pause();
+      icon.classList.add('paused');
+      status.innerText = 'MUSIC OFF';
     }
   }
+
+  // Анимация чисел
+  function animateStats() {
+    const stats = document.querySelectorAll('.stat-number');
+    stats.forEach(stat => {
+      const target = +stat.getAttribute('data-target');
+      const count = +stat.innerText;
+      const speed = target / 100;
+      if (count < target) {
+        stat.innerText = (count + speed).toFixed(target % 1 === 0 ? 0 : 1);
+        setTimeout(animateStats, 20);
+      } else {
+        stat.innerText = target;
+      }
+    });
+  }
+
+  // Скролл-анимация
+  function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    reveals.forEach(r => {
+      if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add("active");
+    });
+  }
+
   window.addEventListener("scroll", reveal);
-  reveal(); // Инициализация при загрузке
+  window.onload = () => { reveal(); animateStats(); };
 </script>
 
 </body>
