@@ -2,16 +2,79 @@
 <html>
 <head>
 <title>My Game</title>
+
+<style>
+
+body{
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+font-family:Arial;
+margin:0;
+}
+
+.container{
+margin-top:120px;
+}
+
+h1{
+font-size:60px;
+letter-spacing:3px;
+}
+
+p{
+font-size:20px;
+opacity:0.8;
+}
+
+button{
+font-size:25px;
+padding:15px 40px;
+border:none;
+border-radius:10px;
+background:#00c3ff;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#0099cc;
+transform:scale(1.1);
+}
+
+.card{
+margin:auto;
+margin-top:40px;
+width:400px;
+padding:20px;
+background:rgba(255,255,255,0.05);
+border-radius:15px;
+}
+
+</style>
 </head>
 
-<body style="background:black;color:white;text-align:center;font-family:sans-serif;">
+<body>
+
+<div class="container">
 
 <h1>MY GAME</h1>
-<p>My indie game</p>
+<p>An indie game made by me</p>
 
 <a href="game.zip">
-<button style="font-size:30px;">Download</button>
+<button>Download</button>
 </a>
+
+<div class="card">
+<h2>About the game</h2>
+<p>
+A cool indie game where you explore, survive and have fun.
+More updates coming soon.
+</p>
+</div>
+
+</div>
 
 </body>
 </html>
