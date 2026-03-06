@@ -3,226 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY GAME | HYPER-SPATIAL</title>
+    <title>MY GAME | HORIZON EDITION</title>
     
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #040406;
+            --bg: #030305;
             --primary: #bc13fe;
             --accent: #00ff9d;
-            --glass: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Manrope', sans-serif;
             background-color: var(--bg);
             color: #fff;
             overflow-x: hidden;
         }
 
-        /* Фоновый шум и свечение */
-        .noise {
+        /* Живой фон - Туманность */
+        .nebula {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app');
-            opacity: 0.05; pointer-events: none; z-index: 10;
+            z-index: -1; background: radial-gradient(circle at 50% 50%, #1a1033 0%, #030305 100%);
+            opacity: 0.6;
         }
 
-        .glow-sphere {
-            position: fixed; width: 60vw; height: 60vw;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            top: -20vw; right: -20vw; filter: blur(150px);
-            opacity: 0.15; z-index: -1; animation: drift 20s infinite alternate;
-        }
-
-        @keyframes drift { from { transform: translate(0,0); } to { transform: translate(-30%, 20%); } }
-
-        /* Навигация-Капсула */
-        nav {
-            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; background: rgba(0,0,0,0.6);
+        /* Навигационный Док */
+        .dock {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; background: rgba(10, 10, 15, 0.6);
             backdrop-filter: blur(30px); border: 1px solid var(--border);
-            padding: 8px 30px; border-radius: 100px;
-            display: flex; gap: 25px; align-items: center;
+            padding: 10px 40px; border-radius: 100px;
+            display: flex; gap: 40px; align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        nav a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px; font-weight: 700; transition: 0.3s; }
-        nav a:hover { color: var(--accent); }
+        .dock a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 11px; font-weight: 800; letter-spacing: 2px; transition: 0.3s; }
+        .dock a:hover { color: var(--accent); transform: translateY(-3px); }
 
         /* Hero */
-        .hero { height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         
-        .status-capsule {
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 6px 16px; border-radius: 100px; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 10px; font-size: 11px;
+        .radar {
+            display: flex; align-items: center; gap: 10px; font-size: 10px;
+            font-family: 'Unbounded'; color: var(--accent); margin-bottom: 20px;
+            background: var(--glass); padding: 8px 20px; border-radius: 50px;
         }
-        .pulse-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: p 1.5s infinite; }
-        @keyframes p { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .radar-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: ping 2s infinite; }
+        @keyframes ping { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 
         .hero h1 {
             font-family: 'Unbounded', sans-serif;
-            font-size: clamp(50px, 15vw, 160px); font-weight: 900;
-            letter-spacing: -6px; line-height: 0.8; margin-bottom: 40px;
-            background: linear-gradient(180deg, #fff, #444);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: clamp(40px, 15vw, 180px); font-weight: 900;
+            letter-spacing: -10px; line-height: 0.8; margin-bottom: 50px;
+            filter: drop-shadow(0 0 30px rgba(188,19,254,0.3));
         }
 
-        .cta-group { display: flex; gap: 15px; }
-        .btn {
-            padding: 20px 45px; border-radius: 20px; text-decoration: none;
-            font-weight: 800; font-family: 'Unbounded'; font-size: 13px;
-            transition: 0.5s;
+        .dl-btn {
+            background: #fff; color: #000; padding: 25px 70px;
+            border-radius: 100px; font-weight: 900; text-decoration: none;
+            font-family: 'Unbounded'; font-size: 12px; transition: 0.5s;
         }
-        .btn-primary { background: #fff; color: #000; }
-        .btn-secondary { background: var(--glass); color: #fff; border: 1px solid var(--border); }
-        .btn:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(188,19,254,0.3); }
+        .dl-btn:hover { transform: scale(1.05); background: var(--primary); color: #fff; box-shadow: 0 0 50px var(--primary); }
 
-        /* Bento Grid 3.0 */
-        .bento {
-            max-width: 1300px; margin: 0 auto; padding: 100px 20px;
-            display: grid; grid-template-columns: repeat(6, 1fr);
-            grid-auto-rows: 200px; gap: 20px;
+        /* Контентные секции */
+        .section { max-width: 1400px; margin: 0 auto; padding: 120px 20px; }
+        h2 { font-family: 'Unbounded'; font-size: 32px; margin-bottom: 60px; text-align: center; letter-spacing: -2px; }
+
+        /* Галерея Скриншотов (Широкая) */
+        .gallery-wide {
+            display: flex; gap: 20px; overflow-x: auto; padding-bottom: 40px;
+            scrollbar-width: none;
         }
-        .bento-card {
+        .gallery-wide::-webkit-scrollbar { display: none; }
+        
+        .shot-card {
+            min-width: 700px; height: 400px; border-radius: 40px;
+            overflow: hidden; border: 1px solid var(--border);
+            transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); cursor: pointer;
+        }
+        .shot-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 0.6s; }
+        .shot-card:hover { min-width: 800px; border-color: var(--accent); }
+        .shot-card:hover img { filter: brightness(1); transform: scale(1.05); }
+
+        /* Видео Трейлер */
+        .video-box {
+            width: 100%; height: 70vh; border-radius: 50px; overflow: hidden;
+            border: 1px solid var(--border); background: #000; margin-bottom: 100px;
+        }
+        video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Команда Bento */
+        .team-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+        }
+        .dev-panel {
             background: var(--glass); border: 1px solid var(--border);
-            border-radius: 40px; padding: 35px; backdrop-filter: blur(20px);
-            position: relative; overflow: hidden; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 50px; border-radius: 40px; backdrop-filter: blur(20px);
+            transition: 0.4s;
         }
-        .bento-card:hover { border-color: var(--primary); transform: translateY(-8px); }
+        .dev-panel:hover { background: rgba(188,19,254,0.05); border-color: var(--primary); }
+        .dev-id { font-family: 'Unbounded'; font-size: 10px; color: var(--primary); margin-bottom: 10px; opacity: 0.6; }
+        .dev-name { font-family: 'Unbounded'; font-size: 30px; margin-bottom: 10px; }
 
-        .v-span-2 { grid-row: span 2; }
-        .h-span-3 { grid-column: span 3; }
-        .h-span-4 { grid-column: span 4; }
-        .big-block { grid-column: span 4; grid-row: span 3; }
-
-        /* Трейлер */
-        video { width: 100%; height: 100%; object-fit: cover; border-radius: 30px; }
-
-        /* Команда */
-        .dev-box { display: flex; flex-direction: column; justify-content: flex-end; }
-        .dev-box .id { font-size: 10px; color: var(--accent); margin-bottom: 5px; }
-        .dev-box h3 { font-family: 'Unbounded'; font-size: 24px; }
-
-        /* Музыкальный Бар */
-        .audio-bar {
-            position: fixed; bottom: 30px; left: 30px;
-            background: #fff; color: #000; padding: 15px 25px;
-            border-radius: 20px; cursor: pointer; display: flex; gap: 15px;
-            font-weight: 800; font-size: 12px; z-index: 100;
+        /* Аудио Виджет */
+        .music-ctrl {
+            display: flex; align-items: center; gap: 15px; cursor: pointer;
         }
+        .visualizer { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
+        .bar { width: 2px; background: var(--accent); height: 100%; animation: pulse 0.5s infinite alternate; }
 
-        footer { text-align: center; padding: 100px; opacity: 0.3; font-size: 11px; }
+        footer { text-align: center; padding: 150px 0; opacity: 0.2; font-family: 'Unbounded'; font-size: 10px; }
 
-        @media (max-width: 1000px) {
-            .bento { grid-template-columns: 1fr; grid-auto-rows: auto; }
-            .h-span-3, .h-span-4, .big-block, .v-span-2 { grid-column: span 1; grid-row: span 1; }
+        @media (max-width: 800px) {
+            .shot-card { min-width: 320px; height: 250px; }
+            .team-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 80px; letter-spacing: -4px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="noise"></div>
-    <div class="glow-sphere"></div>
+    <div class="nebula"></div>
 
-    <nav>
-        <a href="#">SYSTEM</a>
-        <a href="#about">INFO</a>
-        <a href="#media">MEDIA</a>
-        <a href="https://discord.gg" style="color: var(--primary);">DISCORD</a>
-    </nav>
-
-    <div class="audio-bar" onclick="toggleM()">
-        <span id="m-state">SOUND ENGINE: OFF</span>
-        <audio id="audio" loop src="https://www.soundhelix.com"></audio>
+    <!-- Футуристичный Док -->
+    <div class="dock">
+        <a href="#">HOME</a>
+        <a href="#media">GALLERY</a>
+        <a href="#about">ABOUT</a>
+        <div class="music-ctrl" onclick="toggleA()">
+            <div class="visualizer" id="viz" style="display: none;">
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 100%;"></div>
+                <div class="bar" style="height: 40%;"></div>
+            </div>
+            <span id="m-txt" style="font-size: 9px; font-weight: 900; font-family: 'Unbounded';">AUDIO OFF</span>
+            <audio id="bgm" loop src="https://www.soundhelix.com"></audio>
+        </div>
+        <a href="https://discord.gg" style="color: #5865F2;">DISCORD</a>
     </div>
 
     <header class="hero">
-        <div class="status-capsule">
-            <div class="pulse-dot"></div>
-            LIVE FEED: <span id="online">1,240</span> ACTIVE USERS
+        <div class="radar">
+            <div class="radar-dot"></div>
+            SYSTEM ACTIVE // ONLINE: <span id="count">1,844</span>
         </div>
         <h1>MY GAME</h1>
-        <div class="cta-group">
-            <a href="game.zip" class="btn btn-primary">LAUNCH ALPHA</a>
-            <a href="#about" class="btn btn-secondary">SYSTEM SPECS</a>
-        </div>
+        <a href="game.zip" class="dl-btn">INITIALIZE ACCESS</a>
     </header>
 
-    <div class="bento" id="about">
-        
+    <div class="section" id="media">
+        <h2>СКРИНШОТЫ</h2>
+        <div class="gallery-wide">
+            <div class="shot-card"><img src="screen1.png" alt="Shot 1"></div>
+            <div class="shot-card"><img src="screen2.png" alt="Shot 2"></div>
+            <div class="shot-card"><img src="screen3.png" alt="Shot 3"></div>
+            <div class="shot-card"><img src="screen1.png" alt="Shot 4"></div>
+        </div>
+    </div>
+
+    <div class="section" id="about">
         <!-- Трейлер -->
-        <div class="bento-card big-block" style="padding: 0;">
+        <div class="video-box">
             <video controls poster="screen1.png">
                 <source src="trailer.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- Описание -->
-        <div class="bento-card h-span-2 v-span-2">
-            <h3 style="font-family: 'Unbounded'; margin-bottom: 20px;">VISION</h3>
-            <p style="opacity: 0.6; font-size: 15px;">Мы не создаем контент. Мы проектируем цифровую среду, которая дышит вместе с игроком.</p>
-            <div style="margin-top: 40px; color: var(--primary); font-family: 'Unbounded'; font-size: 12px;">// PROTOCOL_01</div>
-        </div>
-
-        <!-- SHKAF1K -->
-        <div class="bento-card h-span-2 dev-box" style="background: linear-gradient(135deg, rgba(188,19,254,0.1), transparent);">
-            <div class="id">01_CORE</div>
-            <h3>SHKAF1K</h3>
-        </div>
-
-        <!-- DEFLIDER -->
-        <div class="bento-card h-span-2 dev-box" style="background: linear-gradient(135deg, rgba(0,255,157,0.1), transparent);">
-            <div class="id">02_EXEC</div>
-            <h3>DEFLIDER</h3>
-        </div>
-
-        <!-- Спеки -->
-        <div class="bento-card h-span-3">
-            <div style="display: flex; justify-content: space-between; align-items: center; height: 100%;">
-                <div><small style="opacity: 0.4;">GPU</small><br><b style="font-family: 'Unbounded';">RTX 3070</b></div>
-                <div><small style="opacity: 0.4;">VRAM</small><br><b style="font-family: 'Unbounded';">8GB</b></div>
-                <div><small style="opacity: 0.4;">STORAGE</small><br><b style="font-family: 'Unbounded';">4GB</b></div>
+        <h2>КОМАНДА</h2>
+        <div class="team-grid">
+            <div class="dev-panel">
+                <div class="dev-id">UID: 001-CORE</div>
+                <div class="dev-name">SHKAF1K</div>
+                <p style="opacity: 0.5;">Lead Software Architect & Creative Visionary.</p>
+            </div>
+            <div class="dev-panel" style="border-color: var(--accent);">
+                <div class="dev-id" style="color: var(--accent);">UID: 002-EXEC</div>
+                <div class="dev-name" style="color: var(--accent);">DEFLIDER</div>
+                <p style="opacity: 0.5;">System Integration & Gameplay Dynamics.</p>
             </div>
         </div>
+    </div>
 
-        <!-- Дополнительный блок -->
-        <div class="bento-card h-span-3">
-            <h3 style="font-family: 'Unbounded'; font-size: 14px; margin-bottom: 10px;">DEV STATUS</h3>
-            <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden;">
-                <div style="width: 85%; height: 100%; background: var(--accent);"></div>
+    <div class="section">
+        <div class="dev-panel" style="text-align: center;">
+            <h3 style="font-family: 'Unbounded'; margin-bottom: 20px;">SYSTEM REQUIREMENTS</h3>
+            <div style="display: flex; justify-content: space-around; opacity: 0.8;">
+                <div><small>OS</small><br><b>WIN 11</b></div>
+                <div><small>GPU</small><br><b>RTX 3060</b></div>
+                <div><small>RAM</small><br><b>16 GB</b></div>
             </div>
-            <p style="font-size: 10px; margin-top: 10px; opacity: 0.5;">OPTIMIZATION IN PROGRESS: 85%</p>
         </div>
-
     </div>
 
     <footer>
-        &copy; 2026 MY GAME PROJECT. DESIGNED FOR THE NEXT GENERATION.
+        &copy; 2026 // PROJECT HORIZON // MY GAME STUDIO
     </footer>
 
     <script>
         // Живой онлайн
-        let count = 1240;
+        let count = 1844;
         setInterval(() => {
-            document.getElementById('online').innerText = (count + Math.floor(Math.random()*20)).toLocaleString();
-        }, 2000);
+            document.getElementById('count').innerText = (count + Math.floor(Math.random()*15)).toLocaleString();
+        }, 3000);
 
         // Музыка
-        const a = document.getElementById('audio');
-        function toggleM() {
-            if(a.paused) { a.play(); document.getElementById('m-state').innerText = "SOUND ENGINE: RUNNING"; }
-            else { a.pause(); document.getElementById('m-state').innerText = "SOUND ENGINE: OFF"; }
+        const audio = document.getElementById('bgm');
+        const viz = document.getElementById('viz');
+        const txt = document.getElementById('m-txt');
+
+        function toggleA() {
+            if(audio.paused) {
+                audio.play();
+                viz.style.display = 'flex';
+                txt.innerText = 'AUDIO ON';
+            } else {
+                audio.pause();
+                viz.style.display = 'none';
+                txt.innerText = 'AUDIO OFF';
+            }
         }
 
-        // Параллакс эффект для карточек
+        // Параллакс для туманности
         document.addEventListener('mousemove', (e) => {
-            const sphere = document.querySelector('.glow-sphere');
-            sphere.style.left = (e.pageX / 20) + 'px';
-            sphere.style.top = (e.pageY / 20) + 'px';
+            const nebula = document.querySelector('.nebula');
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            nebula.style.transform = `translate(${x}px, ${y}px) scale(1.1)`;
         });
     </script>
 </body>
