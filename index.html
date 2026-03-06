@@ -1,160 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Game</title>
+<title>My Game | Official Site</title>
 
-<!-- Подключение современного шрифта -->
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="stylesheet">
 
 <style>
-/* ===== Базовые стили ===== */
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(120deg,#0f2027,#203a43,#2c5364);
-  color: white;
-  scroll-behavior: smooth;
+/* ===== Переменные и Обнуление ===== */
+:root {
+  --primary: #00ff9d;
+  --primary-dark: #00cc7a;
+  --bg-dark: #0a0e12;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* ===== Навигация ===== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top right, #1a2a33, #0a0e12);
+  color: #e0e0e0;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ===== Навигация (Glassmorphism) ===== */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(0,0,0,0.8);
-  padding: 15px 0;
-  z-index: 100;
+  backdrop-filter: blur(15px);
+  background: rgba(10, 14, 18, 0.7);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 20px 0;
+  z-index: 1000;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 nav a {
   color: white;
-  margin: 10px 25px;
+  margin: 0 20px;
   text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   transition: 0.3s;
+  opacity: 0.8;
 }
 
 nav a:hover {
-  color: #00ff9d;
-  transform: scale(1.1);
+  color: var(--primary);
+  opacity: 1;
+  text-shadow: 0 0 10px var(--primary);
 }
 
-/* ===== Главный экран ===== */
+/* ===== Главный экран (Hero) ===== */
 .hero {
-  margin-top: 120px;
-  padding: 0 20px;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: fadeIn 1s ease-out;
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+  background: url('https://images.unsplash.com') center/cover no-repeat;
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Темная накладка для читаемости */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(10,14,18,0.4), var(--bg-dark));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  animation: slideUp 1s ease-out;
 }
 
 .hero h1 {
-  font-size: 70px;
-  margin-bottom: 15px;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.7);
+  font-size: clamp(40px, 8vw, 90px);
+  font-weight: 900;
+  margin: 0;
+  background: linear-gradient(to bottom, #fff, #888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -2px;
 }
 
 .hero p {
-  font-size: 22px;
-  margin-bottom: 25px;
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 30px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
-.download {
-  font-size: 24px;
-  padding: 15px 45px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(45deg,#00ff9d,#00cc7a);
-  cursor: pointer;
+.download-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+  background: var(--primary);
+  padding: 18px 45px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
   transition: 0.4s;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
 }
 
-.download:hover {
-  transform: scale(1.1);
-  background: linear-gradient(45deg,#00cc7a,#00995f);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+.download-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 255, 157, 0.5);
+  background: #fff;
 }
 
-/* ===== Скриншоты ===== */
-.gallery {
-  margin-top: 80px;
-  padding: 0 20px;
+/* ===== Скриншоты (Сетка) ===== */
+.section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+
+h2 {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 50px;
 }
 
-.gallery h2 {
-  margin-bottom: 25px;
-  font-size: 36px;
-  text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
 }
 
-.gallery-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+.gallery-item {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  transition: 0.5s;
 }
 
-.gallery img {
-  width: 300px;
-  max-width: 100%;
-  border-radius: 15px;
-  transition: 0.4s;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: 0.5s;
 }
 
-.gallery img:hover {
-  transform: scale(1.05) rotate(1deg);
+.gallery-item:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--primary);
 }
 
 /* ===== Карточка About ===== */
-.card {
-  width: 90%;
-  max-width: 650px;
-  margin: 60px auto;
-  background: rgba(255,255,255,0.08);
-  padding: 35px;
-  border-radius: 20px;
-  text-align: left;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  transition: 0.3s;
-}
-
-.card:hover {
-  background: rgba(255,255,255,0.12);
-  transform: translateY(-5px);
+.about-card {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  padding: 50px;
+  border-radius: 30px;
+  margin-top: 50px;
 }
 
 /* ===== Анимации ===== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: translateY(0);}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== Адаптивность ===== */
 @media (max-width: 768px) {
   .hero h1 { font-size: 50px; }
-  .hero p { font-size: 18px; }
-  .download { font-size: 20px; padding: 12px 35px; }
-  nav a { font-size: 16px; margin: 8px 15px; }
-  .gallery img { width: 90%; }
-  .card { padding: 25px; }
-}
-
-@media (max-width: 480px) {
-  .hero h1 { font-size: 36px; }
-  .hero p { font-size: 16px; }
-  .download { font-size: 18px; padding: 10px 25px; }
-  .gallery h2 { font-size: 28px; }
-  .card { padding: 20px; }
+  .about-card { padding: 30px; }
 }
 </style>
 </head>
@@ -162,34 +189,39 @@ nav a:hover {
 <body>
 
 <nav>
-  <a href="#">Home</a>
-  <a href="#screens">Screenshots</a>
-  <a href="#about">About</a>
+  <a href="#">Главная</a>
+  <a href="#screens">Медиа</a>
+  <a href="#about">Об игре</a>
 </nav>
 
-<div class="hero">
-  <h1>MY GAME</h1>
-  <p>An indie game made by me</p>
-  <a href="game.zip"><button class="download">Download</button></a>
-</div>
-
-<div id="screens" class="gallery">
-  <h2>Screenshots</h2>
-  <div class="gallery-container">
-    <img src="screen1.png" alt="Screenshot 1">
-    <img src="screen2.png" alt="Screenshot 2">
-    <img src="screen3.png" alt="Screenshot 3">
+<header class="hero">
+  <div class="hero-content">
+    <p>Indie Project</p>
+    <h1>MY GAME</h1>
+    <a href="game.zip" class="download-btn">Скачать сейчас</a>
   </div>
-</div>
+</header>
 
-<div id="about" class="card">
-  <h2>About the game</h2>
-  <p>
-    This is my indie game.  
-    Explore the world, survive and have fun.  
-    More updates coming soon.
-  </p>
-</div>
+<section id="screens" class="section">
+  <h2>Внутри игры</h2>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="screen1.png" alt="Screen 1"></div>
+    <div class="gallery-item"><img src="screen2.png" alt="Screen 2"></div>
+    <div class="gallery-item"><img src="screen3.png" alt="Screen 3"></div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="about-card">
+    <h2>О проекте</h2>
+    <p>Добро пожаловать в мир, созданный с нуля. Это не просто инди-игра — это попытка создать уникальный опыт выживания и исследования. Каждое обновление приносит новые механики, расширяя границы возможного.</p>
+    <p style="color: var(--primary); font-weight: bold;">Готов ли ты бросить себе вызов?</p>
+  </div>
+</section>
+
+<footer style="text-align: center; padding: 50px; opacity: 0.5; font-size: 14px;">
+  &copy; 2024 My Game Studio. All rights reserved.
+</footer>
 
 </body>
 </html>
