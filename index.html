@@ -29,10 +29,8 @@
             overflow-x: hidden;
         }
 
-        /* --- Звездный фон --- */
         #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
-        /* Кнопка Поддержки */
         .support-btn {
             position: fixed; bottom: 30px; right: 30px; z-index: 2000;
             background: var(--support-glow); color: white; text-decoration: none;
@@ -53,11 +51,9 @@
         .nav-links a { color: var(--text-dim); text-decoration: none; margin-left: 30px; font-size: 13px; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover { color: #fff; }
 
-        /* Главный экран */
         .hero {
             height: 100vh; position: relative; overflow: hidden;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-            padding: 0 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px;
         }
         .hero-content { position: relative; z-index: 1; }
         .hero h1 { font-family: 'Montserrat'; font-size: clamp(40px, 8vw, 100px); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 20px; }
@@ -67,39 +63,37 @@
         .btn-outline { padding: 18px 45px; border: 2px solid #fff; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
         .btn-outline:hover { background: #fff; color: #000; }
 
-        /* --- Видеоплеер --- */
-        .video-section { padding: 80px 10%; text-align: center; }
-        .video-container {
-            max-width: 1000px; margin: 0 auto;
-            border-radius: 20px; overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            background: #000;
-        }
+        /* --- СИСТЕМНЫЕ ТРЕБОВАНИЯ --- */
+        .specs-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
+        .specs-card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; border-radius: 20px; transition: 0.3s; }
+        .specs-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .specs-card h3 { font-family: 'Montserrat'; font-size: 20px; margin-bottom: 25px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        .specs-list { list-style: none; }
+        .specs-list li { margin-bottom: 15px; font-size: 14px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 8px; }
+        .specs-list li span { color: var(--text-dim); }
+
+        /* Видеоплеер */
+        .video-container { max-width: 1000px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); background: #000; }
         video { width: 100%; display: block; }
 
-        /* --- Список изменений (Changelog) --- */
+        /* Списки изменений */
         .changelog-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-        .change-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 30px; border-radius: 12px; position: relative;
-        }
-        .version-tag {
-            background: var(--primary); color: white; padding: 4px 12px;
-            border-radius: 4px; font-size: 12px; font-weight: 900;
-            font-family: 'Montserrat'; margin-bottom: 15px; display: inline-block;
-        }
-        .change-list { list-style: none; margin-top: 10px; }
-        .change-list li { margin-bottom: 8px; color: var(--text-dim); font-size: 14px; padding-left: 20px; position: relative; }
-        .change-list li::before { content: "•"; color: var(--primary); position: absolute; left: 0; font-weight: bold; }
+        .change-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; }
+        .version-tag { background: var(--primary); color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 900; font-family: 'Montserrat'; margin-bottom: 15px; display: inline-block; }
 
         /* Галерея */
         .slider-container { position: relative; width: 100%; max-width: 1000px; margin: 0 auto; overflow: hidden; border-radius: 15px; }
         .slides { display: flex; transition: 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
         .slide { min-width: 100%; aspect-ratio: 16/9; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
-        .slide-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px); z-index: 10; }
+        .slide-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px); z-index: 10; }
         .prev { left: 20px; } .next { right: 20px; }
+
+        /* Секции */
+        .section { padding: 100px 10%; }
+        .section-title { font-family: 'Montserrat'; font-size: 32px; margin-bottom: 50px; text-align: center; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Команда */
         .team-group h3 { font-family: 'Montserrat'; font-size: 20px; margin-bottom: 30px; border-left: 4px solid var(--primary); padding-left: 15px; }
@@ -108,11 +102,6 @@
         .role { font-size: 12px; font-weight: 700; text-transform: uppercase; }
         .role.dev { color: var(--primary); }
         .role.tester { color: var(--tester-accent); }
-
-        .section { padding: 100px 10%; }
-        .section-title { font-family: 'Montserrat'; font-size: 32px; margin-bottom: 50px; text-align: center; }
-        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
 
         footer { text-align: center; padding: 60px; opacity: 0.3; border-top: 1px solid var(--border); }
     </style>
@@ -128,6 +117,7 @@
         <div class="nav-links">
             <a href="#trailer">ТРЕЙЛЕР</a>
             <a href="#gallery">ГАЛЕРЕЯ</a>
+            <a href="#specs">ТРЕБОВАНИЯ</a>
             <a href="#updates">ОБНОВЛЕНИЯ</a>
             <a href="#team">КОМАНДА</a>
         </div>
@@ -141,23 +131,49 @@
             </p>
             <div class="btn-group">
                 <a href="game.zip" class="btn-main">СКАЧАТЬ v1.0</a>
-                <a href="#trailer" class="btn-outline">СМОТРЕТЬ ТРЕЙЛЕР</a>
+                <a href="#specs" class="btn-outline">ХАРАКТЕРИСТИКИ</a>
             </div>
         </div>
     </header>
 
-    <!-- Трейлер -->
-    <section id="trailer" class="video-section reveal">
-        <h2 class="section-title">ОФИЦИАЛЬНЫЙ ТРЕЙЛЕР</h2>
+    <section id="trailer" class="section reveal">
+        <h2 class="section-title">ТРЕЙЛЕР</h2>
         <div class="video-container">
-            <!-- Замени trailer.mp4 на свой файл или YouTube Embed -->
             <video controls poster="screen1.png">
                 <source src="trailer.mp4" type="video/mp4">
             </video>
         </div>
     </section>
 
-    <!-- Галерея -->
+    <!-- СИСТЕМНЫЕ ТРЕБОВАНИЯ -->
+    <section id="specs" class="section reveal" style="background: #0d0d0f;">
+        <h2 class="section-title">СИСТЕМНЫЕ ТРЕБОВАНИЯ</h2>
+        <div class="specs-container">
+            <!-- Минимальные -->
+            <div class="specs-card">
+                <h3>Минимальные</h3>
+                <ul class="specs-list">
+                    <li><span>ОС</span> Windows 10 (64-bit)</li>
+                    <li><span>Процессор</span> Intel i3 / Ryzen 3</li>
+                    <li><span>Память</span> 8 GB RAM</li>
+                    <li><span>Графика</span> GTX 1050 Ti</li>
+                    <li><span>Диск</span> 2 GB HDD/SSD</li>
+                </ul>
+            </div>
+            <!-- Рекомендуемые -->
+            <div class="specs-card">
+                <h3>Рекомендуемые</h3>
+                <ul class="specs-list">
+                    <li><span>ОС</span> Windows 10/11</li>
+                    <li><span>Процессор</span> Intel i5 / Ryzen 5</li>
+                    <li><span>Память</span> 16 GB RAM</li>
+                    <li><span>Графика</span> RTX 2060 / RX 6600</li>
+                    <li><span>Диск</span> 2 GB SSD</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <section id="gallery" class="section reveal">
         <h2 class="section-title">МЕДИА-АРХИВ</h2>
         <div class="slider-container">
@@ -171,32 +187,18 @@
         </div>
     </section>
 
-    <!-- Список изменений -->
     <section id="updates" class="section reveal" style="background: #0d0d0f;">
         <h2 class="section-title">СПИСОК ИЗМЕНЕНИЙ</h2>
         <div class="changelog-container">
             <div class="change-card">
                 <div class="version-tag">v1.0.0 (РЕЛИЗ)</div>
-                <ul class="change-list">
-                    <li>Добавлен финальный босс и секретная концовка</li>
-                    <li>Полная оптимизация графического движка</li>
-                    <li>Исправлены критические ошибки в системе сохранений</li>
-                    <li>Добавлен музыкальный плеер и фоновые звуки</li>
-                </ul>
-            </div>
-            <div class="change-card">
-                <div class="version-tag">v0.9.5 (БЕТА)</div>
-                <ul class="change-list">
-                    <li>Первая публичная версия для тестеров</li>
-                    <li>Базовая механика выживания и крафта</li>
-                </ul>
+                <p style="font-size: 14px; opacity: 0.8;">Добавлены боссы, оптимизация графики и исправление ошибок системы сохранений.</p>
             </div>
         </div>
     </section>
 
-    <!-- Команда -->
     <section id="team" class="section reveal">
-        <h2 class="section-title">КОМАНДА ПРОЕКТА</h2>
+        <h2 class="section-title">КОМАНДА</h2>
         <div class="team-group">
             <h3>РАЗРАБОТКА</h3>
             <div class="team-grid"><div class="team-card"><h4>SHKAF1K</h4><div class="role dev">Lead Developer</div></div></div>
@@ -207,7 +209,7 @@
         </div>
     </section>
 
-    <footer>&copy; 2026 MY GAME STUDIO. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</footer>
+    <footer>&copy; 2026 MY GAME STUDIO.</footer>
 
     <script>
         // Слайдер
