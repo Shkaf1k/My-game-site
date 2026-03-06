@@ -5,201 +5,165 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Game | Ultimate Edition</title>
 
-<!-- Шрифты -->
 <link href="https://fonts.googleapis.com" rel="stylesheet">
 
 <style>
 :root {
-  --primary: #bf00ff; /* Фиолетовый */
-  --accent: #00ff9d;  /* Бирюзовый для акцентов */
-  --bg-dark: #0a0e12;
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --primary: #bf00ff; 
+  --accent: #00ff9d;  
+  --glass: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.15);
 }
 
 * { box-sizing: border-box; }
 body {
   margin: 0; font-family: 'Inter', sans-serif;
-  background: #0a0e12;
-  color: #e0e0e0; overflow-x: hidden; line-height: 1.6;
+  background: #0a0e12; color: #e0e0e0;
+  overflow-x: hidden; line-height: 1.6;
 }
 
-/* ===== Живой фон ===== */
+/* Фиолетовый фон с частицами */
 #particles-js {
   position: fixed; width: 100%; height: 100%;
   top: 0; left: 0; z-index: -1;
   background: radial-gradient(circle at center, #1b0a2e, #0a0e12);
 }
 
-/* ===== Музыкальный плеер ===== */
+/* Навигация */
+nav {
+  position: fixed; top: 0; width: 100%; backdrop-filter: blur(15px);
+  background: rgba(10, 14, 18, 0.8); border-bottom: 1px solid var(--glass-border);
+  padding: 15px 0; z-index: 1000; display: flex; justify-content: center;
+}
+nav a { color: white; margin: 0 20px; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
+nav a:hover { color: var(--primary); }
+
+/* Плеер */
 .music-player {
   position: fixed; bottom: 20px; left: 20px; z-index: 2000;
   background: var(--glass); border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px); padding: 10px 15px; border-radius: 50px;
   display: flex; align-items: center; gap: 10px; cursor: pointer;
-  transition: 0.3s;
 }
-.music-player:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-.music-icon { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
-.music-icon.paused { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
+.music-icon { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+.music-icon.paused { background: #ff4d4d; }
 
-/* ===== Навигация ===== */
-nav {
-  position: fixed; top: 0; width: 100%; backdrop-filter: blur(15px);
-  background: rgba(10, 14, 18, 0.8); border-bottom: 1px solid var(--glass-border);
-  padding: 20px 0; z-index: 1000; display: flex; justify-content: center;
-}
-nav a { color: white; margin: 0 20px; text-decoration: none; font-size: 14px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
-nav a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-
-/* ===== Hero ===== */
-.hero {
-  height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; position: relative;
-}
-.hero-content { position: relative; z-index: 1; animation: slideUp 1s ease-out; }
+/* Hero */
+.hero { height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .hero h1 { 
-    font-size: clamp(40px, 8vw, 90px); font-weight: 900; margin: 0; 
-    background: linear-gradient(to bottom, #fff, var(--primary)); 
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+  font-size: clamp(50px, 10vw, 100px); font-weight: 900; margin: 0;
+  background: linear-gradient(to bottom, #fff, var(--primary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-/* ===== Счетчик ===== */
-.stats-container { display: flex; gap: 40px; margin-top: 30px; justify-content: center; }
-.stat-number { font-size: 2.5rem; font-weight: 900; color: var(--accent); display: block; }
-.stat-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.6; }
+/* Секции */
+.section { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
+h2 { text-align: center; color: var(--primary); font-size: 32px; margin-bottom: 30px; }
 
-/* ===== Карточки и Секции ===== */
-.section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; position: relative; }
 .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-.gallery-item img { width: 100%; border-radius: 15px; border: 1px solid var(--glass-border); transition: 0.4s; }
-.gallery-item img:hover { border-color: var(--primary); transform: translateY(-5px); }
-.about-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); padding: 40px; border-radius: 25px; }
+.gallery-item img { 
+  width: 100%; border-radius: 15px; border: 1px solid var(--glass-border); 
+  background: rgba(255,255,255,0.05); min-height: 180px; /* Чтобы пустые блоки было видно */
+}
 
-.specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 25px; }
-.spec-item { background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 12px; border-left: 3px solid var(--primary); }
-.spec-item strong { display: block; color: var(--primary); font-size: 12px; }
+.card { 
+  background: var(--glass); backdrop-filter: blur(10px); 
+  border: 1px solid var(--glass-border); padding: 35px; border-radius: 25px; margin-bottom: 30px;
+}
 
 .download-btn {
   text-decoration: none; color: black !important; background: var(--accent); 
-  padding: 18px 45px; border-radius: 50px; font-weight: 700; 
-  display: inline-block; transition: 0.3s; box-shadow: 0 5px 20px rgba(0, 255, 157, 0.3);
+  padding: 18px 45px; border-radius: 50px; font-weight: 800; 
+  display: inline-block; transition: 0.3s;
 }
-.download-btn:hover { transform: scale(1.05); background: white; }
+.download-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
 
-.sub-box { max-width: 500px; margin: 30px auto; display: flex; gap: 10px; }
-.sub-box input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 15px; border-radius: 50px; color: white; outline: none; }
-.sub-btn { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-
-.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+/* Анимация проявления */
+.reveal { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-footer { padding: 40px; text-align: center; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); }
+footer { text-align: center; padding: 40px; opacity: 0.5; font-size: 12px; }
 </style>
 </head>
 
 <body>
 
-<!-- Фоновые частицы -->
 <div id="particles-js"></div>
 
-<!-- Плеер -->
 <div class="music-player" onclick="toggleMusic()">
   <div id="music-icon" class="music-icon paused"></div>
-  <span id="music-status" style="font-size: 11px; font-weight: 800; letter-spacing: 1px;">MUSIC OFF</span>
-  <audio id="bg-music" loop>
-    <source src="https://www.soundhelix.com" type="audio/mpeg">
-  </audio>
+  <span id="music-status" style="font-size: 10px; font-weight: bold;">MUSIC OFF</span>
+  <audio id="bg-music" loop src="https://www.soundhelix.com"></audio>
 </div>
 
 <nav>
   <a href="#">Главная</a>
   <a href="#screens">Медиа</a>
   <a href="#about">Об игре</a>
+  <a href="#specs">Требования</a>
 </nav>
 
 <header class="hero">
-  <div class="hero-content">
-    <p style="color: var(--accent); letter-spacing: 5px;">SPACE ADVENTURE</p>
-    <h1>MY GAME</h1>
-    
-    <div class="stats-container">
-      <div class="stat-item">
-        <span class="stat-number" data-target="1500">0</span>
-        <span class="stat-label">Игроков</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" data-target="4.9">0</span>
-        <span class="stat-label">Рейтинг</span>
-      </div>
-    </div>
-
-    <br><br>
-    <a href="game.zip" class="download-btn">Скачать бесплатно</a>
-  </div>
+  <p style="color: var(--accent); letter-spacing: 5px; font-weight: bold;">PROJECT 2026</p>
+  <h1>MY GAME</h1>
+  <br>
+  <a href="game.zip" class="download-btn">СКАЧАТЬ ИГРУ</a>
 </header>
 
 <section id="screens" class="section reveal">
-  <h2 style="text-align: center; color: var(--primary);">Скриншоты</h2>
+  <h2>Скриншоты</h2>
   <div class="gallery-grid">
-    <div class="gallery-item"><img src="screen1.png" alt="Screen 1"></div>
-    <div class="gallery-item"><img src="screen2.png" alt="Screen 2"></div>
-    <div class="gallery-item"><img src="screen3.png" alt="Screen 3"></div>
+    <div class="gallery-item"><img src="screen1.png" alt="Скриншот 1"></div>
+    <div class="gallery-item"><img src="screen2.png" alt="Скриншот 2"></div>
+    <div class="gallery-item"><img src="screen3.png" alt="Скриншот 3"></div>
   </div>
 </section>
 
 <section id="about" class="section reveal">
-  <div class="about-card">
-    <h2 style="color: var(--primary);">Системные требования</h2>
-    <div class="specs-grid">
-      <div class="spec-item"><strong>ОС</strong> Win 10/11</div>
-      <div class="spec-item"><strong>Процессор</strong> i5-8400</div>
-      <div class="spec-item"><strong>RAM</strong> 8 GB</div>
-      <div class="spec-item"><strong>GPU</strong> GTX 1060</div>
+  <div class="card">
+    <h2>Об игре</h2>
+    <p>Добро пожаловать в уникальное приключение! Это инди-проект, в котором я воплотил свои лучшие идеи. Исследуй локации, сражайся и находи секреты в этом атмосферном мире.</p>
+    <p style="color: var(--accent); font-weight: bold;">Версия: 1.0.4 Alpha</p>
+  </div>
+</section>
+
+<section id="specs" class="section reveal">
+  <div class="card">
+    <h2>Системные требования</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+      <div><strong>ОС:</strong> Windows 10</div>
+      <div><strong>RAM:</strong> 8 GB</div>
+      <div><strong>GPU:</strong> GTX 1050+</div>
+      <div><strong>Место:</strong> 500 MB</div>
     </div>
   </div>
 </section>
 
-<section class="section reveal" style="text-align: center;">
-  <h2>Подпишись на новости</h2>
-  <div class="sub-box">
-    <input type="email" placeholder="E-mail">
-    <button class="sub-btn">OK</button>
-  </div>
-</section>
+<footer>&copy; 2026 My Game Studio. Все права защищены.</footer>
 
-<footer>
-  <p>&copy; 2026 My Game Studio | Powered by Creativity</p>
-</footer>
-
-<!-- Скрипты -->
 <script src="https://cdn.jsdelivr.net"></script>
 <script>
-  // Настройка частиц (фиолетовые)
+  // Настройка фиолетовых частиц
   particlesJS("particles-js", {
     "particles": {
-      "number": { "value": 60 },
+      "number": { "value": 50 },
       "color": { "value": "#bf00ff" },
       "shape": { "type": "circle" },
       "opacity": { "value": 0.4 },
       "size": { "value": 3 },
       "line_linked": { "enable": true, "distance": 150, "color": "#bf00ff", "opacity": 0.2, "width": 1 },
-      "move": { "enable": true, "speed": 1.5 }
-    },
-    "interactivity": {
-      "events": { "onhover": { "enable": true, "mode": "grab" } }
+      "move": { "enable": true, "speed": 1.2 }
     }
   });
 
-  // Исправленная логика музыки
+  // Исправленная музыка
   const music = document.getElementById('bg-music');
   const icon = document.getElementById('music-icon');
   const status = document.getElementById('music-status');
 
   function toggleMusic() {
     if (music.paused) {
-      music.play().catch(e => console.log("Нужен клик для старта"));
+      music.play();
       icon.classList.remove('paused');
       status.innerText = 'MUSIC ON';
     } else {
@@ -209,35 +173,14 @@ footer { padding: 40px; text-align: center; border-top: 1px solid var(--glass-bo
     }
   }
 
-  // Анимация чисел
-  function animateStats() {
-    const stats = document.querySelectorAll('.stat-number');
-    stats.forEach(stat => {
-      const target = +stat.getAttribute('data-target');
-      let count = 0;
-      const update = () => {
-        const speed = target / 50;
-        if (count < target) {
-          count += speed;
-          stat.innerText = Math.floor(count);
-          setTimeout(update, 20);
-        } else {
-          stat.innerText = target;
-        }
-      };
-      update();
-    });
-  }
-
-  // Появление блоков
+  // Появление при скролле
   function reveal() {
     document.querySelectorAll(".reveal").forEach(r => {
-      if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add("active");
+      if (r.getBoundingClientRect().top < window.innerHeight - 50) r.classList.add("active");
     });
   }
-
   window.addEventListener("scroll", reveal);
-  window.onload = () => { reveal(); animateStats(); };
+  window.onload = reveal;
 </script>
 
 </body>
