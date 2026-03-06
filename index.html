@@ -1,130 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Game</title>
 
 <style>
-
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(120deg,#0f2027,#203a43,#2c5364);
-color:white;
-text-align:center;
+/* Базовые стили */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  text-align: center;
 }
 
-/* меню */
-
-nav{
-position:fixed;
-top:0;
-width:100%;
-background:rgba(0,0,0,0.6);
-padding:15px;
+/* Навигация */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.7);
+  padding: 15px 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-nav a{
-color:white;
-margin:20px;
-text-decoration:none;
-font-size:18px;
+nav a {
+  color: white;
+  margin: 10px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: 0.3s;
 }
 
-/* главный экран */
-
-.hero{
-margin-top:120px;
+nav a:hover {
+  color: #00ff9d;
 }
 
-.hero h1{
-font-size:70px;
+/* Главный экран */
+.hero {
+  margin-top: 120px;
+  padding: 0 20px;
 }
 
-.download{
-font-size:28px;
-padding:15px 40px;
-border:none;
-border-radius:12px;
-background:#00ff9d;
-cursor:pointer;
-transition:0.3s;
+.hero h1 {
+  font-size: 70px;
+  margin-bottom: 10px;
 }
 
-.download:hover{
-transform:scale(1.15);
-background:#00cc7a;
+.hero p {
+  font-size: 22px;
+  margin-bottom: 20px;
 }
 
-/* скриншоты */
-
-.gallery{
-margin-top:60px;
+.download {
+  font-size: 24px;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 12px;
+  background: #00ff9d;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.gallery img{
-width:300px;
-margin:10px;
-border-radius:10px;
-transition:0.3s;
+.download:hover {
+  transform: scale(1.1);
+  background: #00cc7a;
 }
 
-.gallery img:hover{
-transform:scale(1.1);
+/* Скриншоты */
+.gallery {
+  margin-top: 60px;
+  padding: 0 20px;
 }
 
-/* карточка */
-
-.card{
-width:600px;
-margin:auto;
-margin-top:50px;
-background:rgba(255,255,255,0.05);
-padding:30px;
-border-radius:15px;
+.gallery h2 {
+  margin-bottom: 20px;
 }
 
+.gallery img {
+  width: 300px;
+  max-width: 100%;
+  margin: 10px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+/* Карточка "About" */
+.card {
+  width: 90%;
+  max-width: 600px;
+  margin: 50px auto;
+  background: rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 15px;
+  text-align: left;
+}
+
+/* Адаптивность для телефонов */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 50px;
+  }
+  .hero p {
+    font-size: 18px;
+  }
+  .download {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
+  nav a {
+    margin: 8px 12px;
+    font-size: 16px;
+  }
+  .gallery img {
+    width: 90%;
+    margin: 10px auto;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 36px;
+  }
+  .hero p {
+    font-size: 16px;
+  }
+  .download {
+    font-size: 18px;
+    padding: 10px 25px;
+  }
+}
 </style>
-</head>
 
+</head>
 <body>
 
 <nav>
-<a href="#">Home</a>
-<a href="#screens">Screenshots</a>
-<a href="#about">About</a>
+  <a href="#">Home</a>
+  <a href="#screens">Screenshots</a>
+  <a href="#about">About</a>
 </nav>
 
 <div class="hero">
-
-<h1>MY GAME</h1>
-<p>An indie game made by me</p>
-
-<a href="game.zip">
-<button class="download">Download</button>
-</a>
-
+  <h1>MY GAME</h1>
+  <p>An indie game made by me</p>
+  <a href="game.zip">
+    <button class="download">Download</button>
+  </a>
 </div>
 
 <div id="screens" class="gallery">
-
-<h2>Screenshots</h2>
-
-<img src="screen1.png">
-<img src="screen2.png">
-<img src="screen3.png">
-
+  <h2>Screenshots</h2>
+  <img src="screen1.png" alt="Screenshot 1">
+  <img src="screen2.png" alt="Screenshot 2">
+  <img src="screen3.png" alt="Screenshot 3">
 </div>
 
 <div id="about" class="card">
-
-<h2>About the game</h2>
-
-<p>
-This is my indie game.  
-Explore the world, survive and have fun.
-More updates coming soon.
-</p>
-
+  <h2>About the game</h2>
+  <p>
+    This is my indie game.  
+    Explore the world, survive and have fun.  
+    More updates coming soon.
+  </p>
 </div>
 
 </body>
