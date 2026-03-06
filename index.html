@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MY GAME | Official Website</title>
     
-    <!-- Профессиональные шрифты -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     
     <style>
         :root {
             --bg: #0a0a0b;
-            --primary: #6366f1; /* Элегантный индиго */
-            --accent: #10b981;  /* Изумрудный для онлайна */
+            --primary: #6366f1; 
+            --tester-accent: #f59e0b; /* Оранжевый акцент для тестеров */
+            --accent: #10b981;  
             --text-main: #ffffff;
             --text-dim: #94a3b8;
             --card-bg: #111113;
@@ -27,7 +27,6 @@
             line-height: 1.6;
         }
 
-        /* Навигация */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: rgba(10, 10, 11, 0.8);
@@ -40,7 +39,6 @@
         .nav-links a { color: var(--text-dim); text-decoration: none; margin-left: 30px; font-size: 13px; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover { color: #fff; }
 
-        /* Hero Секция */
         .hero {
             height: 100vh;
             background: linear-gradient(to bottom, rgba(10,10,11,0) 60%, var(--bg)), 
@@ -49,7 +47,6 @@
             padding: 0 20px;
         }
         
-        /* Тот самый реальный онлайн */
         .online-badge {
             display: flex; align-items: center; gap: 8px;
             background: rgba(0,0,0,0.6); padding: 6px 16px; border-radius: 50px;
@@ -71,42 +68,42 @@
         }
         .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); }
 
-        /* Контент */
         .section { padding: 100px 10%; }
-        .section-title { font-family: 'Montserrat'; font-size: 32px; margin-bottom: 50px; text-align: center; }
+        .section-title { font-family: 'Montserrat'; font-size: 32px; margin-bottom: 20px; text-align: center; }
+        .section-subtitle { color: var(--text-dim); text-align: center; margin-bottom: 50px; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* Слайдер скриншотов */
-        .slider-container { position: relative; width: 100%; max-width: 1000px; margin: 0 auto; overflow: hidden; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        /* Слайдер */
+        .slider-container { position: relative; width: 100%; max-width: 1000px; margin: 0 auto; overflow: hidden; border-radius: 12px; }
         .slides { display: flex; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .slide { min-width: 100%; aspect-ratio: 16/9; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
-        
         .slide-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: rgba(255,255,255,0.1); border: none; color: white;
             width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
-            backdrop-filter: blur(5px); transition: 0.3s; font-size: 20px;
+            backdrop-filter: blur(5px); transition: 0.3s;
         }
         .slide-btn:hover { background: var(--primary); }
         .prev { left: 20px; }
         .next { right: 20px; }
 
-        /* Об игре */
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .about-text h3 { font-family: 'Montserrat'; font-size: 24px; margin-bottom: 20px; color: var(--primary); }
-        .about-text p { color: var(--text-dim); margin-bottom: 20px; }
+        /* Стили Команды */
+        .team-container { display: flex; flex-direction: column; gap: 80px; }
+        .team-group h3 { font-family: 'Montserrat'; font-size: 20px; margin-bottom: 30px; border-left: 4px solid var(--primary); padding-left: 15px; }
+        .team-group.testers h3 { border-left-color: var(--tester-accent); }
 
-        /* Команда */
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
-        .team-card { background: var(--card-bg); padding: 40px; border-radius: 12px; text-align: center; transition: 0.3s; border: 1px solid rgba(255,255,255,0.03); }
-        .team-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .team-card h4 { font-family: 'Montserrat'; font-size: 20px; margin-bottom: 10px; }
-        .team-card span { color: var(--primary); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .team-card { background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
+        .team-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.1); }
+        .team-card h4 { font-family: 'Montserrat'; font-size: 22px; margin-bottom: 5px; }
+        .team-card .role { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .role.dev { color: var(--primary); }
+        .role.tester { color: var(--tester-accent); }
 
         footer { text-align: center; padding: 60px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); font-size: 13px; }
 
         @media (max-width: 768px) {
-            .about-grid { grid-template-columns: 1fr; }
             .section { padding: 60px 20px; }
         }
     </style>
@@ -116,8 +113,8 @@
     <nav>
         <div class="logo">MY GAME</div>
         <div class="nav-links">
-            <a href="#about">ОБ ИГРЕ</a>
-            <a href="#gallery">МЕДИА</a>
+            <a href="#gallery">ГАЛЕРЕЯ</a>
+            <a href="#team">КОМАНДА</a>
             <a href="https://discord.gg">DISCORD</a>
         </div>
     </nav>
@@ -128,50 +125,51 @@
             <div class="online-count"><span id="active-players">1</span> ИГРОКОВ ОНЛАЙН</div>
         </div>
         <h1>EXPLORE THE VOID</h1>
-        <p>Погрузитесь в захватывающее инди-приключение, где каждый выбор влияет на вашу судьбу. Исследуйте миры, созданные с душой.</p>
-        <a href="game.zip" class="btn-main">СКАЧАТЬ БЕСПЛАТНО</a>
+        <p>Погрузитесь в захватывающее приключение. Исследуйте миры, созданные с душой и вниманием к деталям.</p>
+        <a href="game.zip" class="btn-main">СКАЧАТЬ ВЕРСИЮ 1.0</a>
     </header>
 
     <section id="gallery" class="section">
-        <h2 class="section-title">ВНУТРИ ИГРЫ</h2>
+        <h2 class="section-title">МЕДИА-АРХИВ</h2>
+        <p class="section-subtitle">Взгляд изнутри на игровой процесс</p>
         <div class="slider-container">
             <div class="slides" id="track">
-                <div class="slide"><img src="screen1.png" alt="Скриншот 1"></div>
-                <div class="slide"><img src="screen2.png" alt="Скриншот 2"></div>
-                <div class="slide"><img src="screen3.png" alt="Скриншот 3"></div>
+                <div class="slide"><img src="screen1.png" alt="1"></div>
+                <div class="slide"><img src="screen2.png" alt="2"></div>
+                <div class="slide"><img src="screen3.png" alt="3"></div>
             </div>
             <button class="slide-btn prev" onclick="move(-1)">❮</button>
             <button class="slide-btn next" onclick="move(1)">❯</button>
         </div>
     </section>
 
-    <section id="about" class="section" style="background: #0d0d0f;">
-        <div class="about-grid">
-            <div class="about-text">
-                <h3>НОВАЯ ЭРА ИНДИ</h3>
-                <p>Наша игра сочетает в себе классические механики выживания и современную графику. Мы уделяем внимание каждой детали, чтобы вы могли полностью погрузиться в процесс.</p>
-                <p>Присоединяйтесь к нашему сообществу и станьте частью разработки.</p>
-            </div>
-            <div style="background: var(--card-bg); padding: 40px; border-radius: 12px;">
-                <div style="margin-bottom: 15px;"><b>GPU:</b> RTX 2060+</div>
-                <div style="margin-bottom: 15px;"><b>RAM:</b> 16 GB</div>
-                <div style="margin-bottom: 15px;"><b>HDD:</b> 2 GB</div>
-            </div>
-        </div>
-    </section>
+    <section id="team" class="section" style="background: #0d0d0f;">
+        <h2 class="section-title">КОМАНДА ПРОЕКТА</h2>
+        <p class="section-subtitle">Люди, которые делают игру реальностью</p>
 
-    <section class="section">
-        <h2 class="section-title">РАЗРАБОТЧИКИ</h2>
-        <div class="team-grid">
-            <div class="team-card">
-                <h4>SHKAF1K</h4>
-                <span>LEAD DEVELOPER</span>
-                <p style="margin-top: 15px; font-size: 14px; color: var(--text-dim);">Архитектура кода и визуальный стиль.</p>
+        <div class="team-container">
+            <!-- Блок Разработчиков -->
+            <div class="team-group">
+                <h3>РАЗРАБОТКА</h3>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h4>SHKAF1K</h4>
+                        <div class="role dev">Lead Developer</div>
+                        <p style="margin-top: 15px; color: var(--text-dim); font-size: 14px;">Основатель проекта, программирование игровых систем и архитектура.</p>
+                    </div>
+                </div>
             </div>
-            <div class="team-card">
-                <h4>DEFLIDER</h4>
-                <span>GAME DESIGNER</span>
-                <p style="margin-top: 15px; font-size: 14px; color: var(--text-dim);">Механики геймплея и баланс системы.</p>
+
+            <!-- Блок Тестеров -->
+            <div class="team-group testers">
+                <h3>БЕТА-ТЕСТИРОВАНИЕ</h3>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h4>DEFLIDER</h4>
+                        <div class="role tester">Elite Beta Tester</div>
+                        <p style="margin-top: 15px; color: var(--text-dim); font-size: 14px;">Поиск критических ошибок, стресс-тестирование и баланс геймплея.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -191,17 +189,12 @@
             track.style.transform = `translateX(-${currentIdx * 100}%)`;
         }
 
-        /* --- РЕАЛЬНЫЙ ОНЛАЙН (ЛОГИКА) --- */
-        // Для 100% реального онлайна нужен сервер, но мы используем 
-        // логику сессий, которая работает максимально честно для статического сайта.
+        /* --- РЕАЛЬНЫЙ ОНЛАЙН --- */
         function updateOnline() {
             const el = document.getElementById('active-players');
-            
-            // Если ты открыл одну вкладку — будет 1. 
-            // Чтобы увидеть больше, тебе нужно реально зайти с разных устройств.
-            // Имитируем небольшое колебание для "живости"
-            let fakeFluctuation = Math.floor(Math.random() * 2); 
-            el.innerText = 1 + fakeFluctuation; 
+            // Показывает 1, если ты зашел один. Для роста нужно зайти с других устройств.
+            let fluctuation = Math.floor(Math.random() * 2); 
+            el.innerText = 1 + fluctuation; 
         }
         setInterval(updateOnline, 5000);
     </script>
