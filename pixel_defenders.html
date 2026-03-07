@@ -5,7 +5,6 @@
 <title>Pixel Defenders</title>
 
 <style>
-
 body{
 background:#111;
 color:white;
@@ -30,7 +29,6 @@ padding:10px 15px;
 font-weight:bold;
 cursor:pointer;
 }
-
 </style>
 </head>
 
@@ -64,6 +62,9 @@ let enemies = [];
 let money = 100;
 let lives = 10;
 let wave = 1;
+
+let enemiesToSpawn = 5;
+let spawned = 0;
 
 let selectedTower = 1;
 
@@ -122,9 +123,9 @@ towers.push({
 x,y,range,damage,type:selectedTower
 });
 
-}
-
 moneyUI.textContent = money;
+
+}
 
 });
 
@@ -132,11 +133,15 @@ function spawnEnemy(){
 
 let type = "normal";
 
-if(wave % 5 === 0) type = "boss";
-else if(Math.random() < 0.35) type = "mid";
+if(wave % 5 === 0 && spawned === 0){
+type = "boss";
+}
+else if(Math.random() < 0.4){
+type = "mid";
+}
 
 let hp = 100 + wave*30;
-let speed = 1 + wave*0.2;
+let speed = 0.6 + wave*0.05;
 let reward = 20;
 
 if(type==="mid"){
@@ -162,12 +167,13 @@ type,
 reward
 });
 
+spawned++;
+
 }
 
 function moveEnemy(enemy){
 
 let target = path[enemy.pathIndex+1];
-
 if(!target) return;
 
 let dx = target.x - enemy.x;
@@ -194,7 +200,6 @@ ctx.strokeStyle="#777";
 ctx.lineWidth=40;
 
 ctx.beginPath();
-
 ctx.moveTo(path[0].x,path[0].y);
 
 for(let p of path){
@@ -202,8 +207,17 @@ ctx.lineTo(p.x,p.y);
 }
 
 ctx.stroke();
-
 ctx.lineWidth=1;
+
+}
+
+function nextWave(){
+
+wave++;
+waveUI.textContent = wave;
+
+enemiesToSpawn = 5 + wave*2;
+spawned = 0;
 
 }
 
@@ -215,16 +229,17 @@ drawPath();
 
 spawnTimer++;
 
-if(spawnTimer > 100){
+if(spawnTimer > 120 && spawned < enemiesToSpawn){
 
 spawnEnemy();
 spawnTimer = 0;
 
 }
 
-if(enemies.length===0){
-wave++;
-waveUI.textContent = wave;
+if(spawned >= enemiesToSpawn && enemies.length === 0){
+
+nextWave();
+
 }
 
 for(let tower of towers){
@@ -279,7 +294,6 @@ enemy.health -= tower.damage;
 if(enemy.health <= 0){
 
 money += enemy.reward;
-
 moneyUI.textContent = money;
 
 enemies.splice(i,1);
@@ -291,13 +305,11 @@ else if(enemy.pathIndex >= path.length-1){
 enemies.splice(i,1);
 
 lives--;
-
 livesUI.textContent = lives;
 
 if(lives <= 0){
 
 alert("Game Over");
-
 location.reload();
 
 }
