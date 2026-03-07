@@ -2,62 +2,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Pixel Defenders V2</title>
-
+<title>Pixel Defenders V3</title>
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
-text-align:center;
-}
-h1{ font-size:48px; margin-top:40px; }
-button{
-padding:12px 25px;
-margin:8px;
-font-size:18px;
-border:none;
-border-radius:8px;
-background:#6366f1;
-color:white;
-cursor:pointer;
-}
-button:hover{ background:#4f46e5; }
-#menu,#game,#scores{ display:none; }
-canvas{
-background:#1e293b;
-border:3px solid #334155;
-display:block;
-margin:auto;
-}
-#topUI{ width:900px; margin:auto; display:flex; justify-content:space-between; font-size:18px; padding:10px; }
-#shop{ width:900px; margin:auto; }
-#shop button{ font-size:14px; padding:8px 12px; }
-#tooltip{
-position:absolute;
-background:#111827;
-padding:8px;
-border-radius:6px;
-font-size:14px;
-display:none;
-pointer-events:none;
-}
+body{margin:0;font-family:Arial;background:#0f172a;color:white;text-align:center;}
+h1{font-size:48px;margin-top:40px;}
+button{padding:12px 25px;margin:8px;font-size:18px;border:none;border-radius:8px;background:#6366f1;color:white;cursor:pointer;}
+button:hover{background:#4f46e5;}
+#menu,#game,#scores{display:none;}
+canvas{background:#1e293b;border:3px solid #334155;display:block;margin:auto;}
+#topUI{width:900px;margin:auto;display:flex;justify-content:space-between;font-size:18px;padding:10px;}
+#shop{width:900px;margin:auto;}
+#shop button{font-size:14px;padding:8px 12px;}
+#tooltip{position:absolute;background:#111827;padding:8px;border-radius:6px;font-size:14px;display:none;pointer-events:none;}
 </style>
 </head>
-
 <body>
 
 <div id="menu">
 <h1>🛡 Pixel Defenders</h1>
-<button onclick="startGame()">▶ Start Game</button>
-<br>
+<button onclick="startGame()">▶ Start Game</button><br>
 <button onclick="showScores()">🏆 Leaderboard</button>
 </div>
 
 <div id="scores">
 <h1>🏆 Leaderboard</h1>
-<div id="scoreList"></div>
+<div id="scoreList" style="text-align:left; max-width:400px; margin:auto; font-size:18px;"></div>
 <button onclick="backMenu()">⬅ Back</button>
 </div>
 
@@ -86,17 +55,14 @@ pointer-events:none;
 const canvas=document.getElementById("canvas")
 const ctx=canvas.getContext("2d")
 let hp,gold,wave
-let enemies=[]
-let towers=[]
-let bullets=[]
-let draggingTower=null
-let mouseX=0
-let mouseY=0
+let enemies=[],towers=[],bullets=[]
+let draggingTower=null, mouseX=0, mouseY=0
 
 let maps=[
 [{x:0,y:250},{x:300,y:250},{x:300,y:120},{x:700,y:120},{x:700,y:400},{x:900,y:400}],
 [{x:0,y:100},{x:400,y:100},{x:400,y:350},{x:800,y:350},{x:800,y:200},{x:900,y:200}]
 ]
+
 let path
 const hpEl=document.getElementById("hp")
 const goldEl=document.getElementById("gold")
@@ -133,7 +99,14 @@ function updateEnemies(){
 for(let e of enemies){
 let t=path[e.i+1]
 if(!t){
-hp--; enemies.splice(enemies.indexOf(e),1); updateUI(); if(hp<=0){ saveScore(); alert("Game Over"); location.reload(); } continue }
+hp--; enemies.splice(enemies.indexOf(e),1); updateUI();
+if(hp<=0){
+let playerName = prompt("Game Over! Введите своё имя для Leaderboard:","Player")
+if(!playerName) playerName="Player"
+saveScore(playerName)
+showScores()
+}
+continue }
 let dx=t.x-e.x, dy=t.y-e.y, d=Math.hypot(dx,dy)
 if(d<2){ e.i++ }else{ e.x+=dx/d*e.speed; e.y+=dy/d*e.speed }
 }
@@ -171,10 +144,7 @@ if(e.boss){ ctx.fillStyle="purple"; ctx.beginPath(); ctx.arc(e.x,e.y,20,0,Math.P
 }
 }
 
-function drawTowers(){
-let colors=["green","yellow","white","cyan","orange"]
-for(let t of towers){ ctx.fillStyle=colors[t.type]; ctx.beginPath(); ctx.arc(t.x,t.y,14,0,Math.PI*2); ctx.fill() }
-}
+function drawTowers(){ let colors=["green","yellow","white","cyan","orange"]; for(let t of towers){ ctx.fillStyle=colors[t.type]; ctx.beginPath(); ctx.arc(t.x,t.y,14,0,Math.PI*2); ctx.fill() } }
 
 function drawBullets(){ ctx.fillStyle="gold"; for(let b of bullets){ ctx.beginPath(); ctx.arc(b.x,b.y,5,0,Math.PI*2); ctx.fill() } }
 
@@ -186,7 +156,6 @@ requestAnimationFrame(gameLoop)
 }
 
 canvas.addEventListener("mousemove",e=>{ let rect=canvas.getBoundingClientRect(); mouseX=e.clientX-rect.left; mouseY=e.clientY-rect.top })
-
 canvas.onclick=()=>{ if(!draggingTower) return; let cost=[50,70,90,80,120]; if(gold<cost[draggingTower.type]) return; towers.push({x:mouseX,y:mouseY,type:draggingTower.type,cool:0}); gold-=cost[draggingTower.type]; draggingTower=null; updateUI() }
 
 const buttons=document.querySelectorAll(".towerBtn")
@@ -202,11 +171,30 @@ b.onmouseleave=()=>{ tooltip.style.display="none" }
 
 function saveGame(){ let data={hp,gold,wave,towers}; localStorage.setItem("pixel_save",JSON.stringify(data)) }
 function loadGame(){ let data=JSON.parse(localStorage.getItem("pixel_save")); if(!data) return; hp=data.hp; gold=data.gold; wave=data.wave; towers=data.towers }
-function saveScore(){ let scores=JSON.parse(localStorage.getItem("scores")||"[]"); scores.push(wave); scores.sort((a,b)=>b-a); scores=scores.slice(0,10); localStorage.setItem("scores",JSON.stringify(scores)) }
 
-function showScores(){ document.getElementById("menu").style.display="none"; document.getElementById("scores").style.display="block"; let scores=JSON.parse(localStorage.getItem("scores")||[]); document.getElementById("scoreList").innerHTML=scores.join("<br>") }
+function saveScore(name){
+let scores=JSON.parse(localStorage.getItem("scores")||[])
+scores.push({name:name,wave:wave})
+scores.sort((a,b)=>b.wave-a.wave)
+scores=scores.slice(0,10)
+localStorage.setItem("scores",JSON.stringify(scores))
+}
+
+function showScores(){
+document.getElementById("menu").style.display="none"
+document.getElementById("scores").style.display="block"
+let scores=JSON.parse(localStorage.getItem("scores")||[])
+let html="<ol>"
+for(let s of scores){ html+=`<li>${s.name}: 🌊${s.wave}</li>` }
+html+="</ol>"
+document.getElementById("scoreList").innerHTML=html
+if(scores[0].wave===wave){
+const first=document.querySelector("#scoreList li:first-child")
+if(first){ first.style.color="#f59e0b"; first.style.transition="all 0.5s"; first.style.transform="scale(1.2)"; setTimeout(()=>{first.style.transform="scale(1)"; first.style.color="white"},1000) }
+}
+}
+
 function backMenu(){ document.getElementById("scores").style.display="none"; document.getElementById("menu").style.display="block" }
-
 document.getElementById("menu").style.display="block"
 </script>
 </body>
