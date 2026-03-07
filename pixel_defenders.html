@@ -3,41 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <title>Pixel Defenders</title>
-<style>
-body{
-  text-align:center;
-  font-family:Arial, sans-serif;
-  background:#111;
-  color:white;
-}
 
-h1{
-  margin-top:20px;
+<style>
+
+body{
+background:#111;
+color:white;
+text-align:center;
+font-family:Arial;
 }
 
 canvas{
-  background:#333;
-  border:2px solid white;
-  margin-top:20px;
+background:#2b2b2b;
+border:3px solid white;
+margin-top:10px;
 }
 
 #ui{
-  margin-top:10px;
-  font-size:18px;
+margin:10px;
+font-size:18px;
 }
+
+#shop button{
+margin:5px;
+padding:10px 15px;
+font-weight:bold;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
 <h1>Pixel Defenders</h1>
-<p>Кликни по полю чтобы поставить башню</p>
 
 <div id="ui">
-Очки: <span id="score">0</span> | Волна: <span id="wave">1</span>
+💰 Деньги: <span id="money">100</span>
+❤️ Жизни: <span id="lives">10</span>
+🌊 Волна: <span id="wave">1</span>
 </div>
 
-<canvas id="gameCanvas" width="800" height="450"></canvas>
+<div id="shop">
+<button onclick="selectTower(1)">🔵 Башня (50)</button>
+<button onclick="selectTower(2)">🟢 Снайпер (70)</button>
+<button onclick="selectTower(3)">🟠 Пушка (100)</button>
+</div>
+
+<canvas id="gameCanvas" width="900" height="500"></canvas>
 
 <script>
 
@@ -47,52 +60,73 @@ const ctx = canvas.getContext("2d");
 let towers = [];
 let enemies = [];
 
-let score = 0;
+let money = 100;
+let lives = 10;
 let wave = 1;
-let spawnTimer = 0;
 
-const scoreUI = document.getElementById("score");
+let selectedTower = 1;
+
+const moneyUI = document.getElementById("money");
+const livesUI = document.getElementById("lives");
 const waveUI = document.getElementById("wave");
 
-const pathY = 200;
+let spawnTimer = 0;
 
-canvas.addEventListener("click", e => {
+const path = [
+{x:0,y:250},
+{x:250,y:250},
+{x:250,y:120},
+{x:600,y:120},
+{x:600,y:350},
+{x:900,y:350}
+];
+
+function selectTower(type){
+selectedTower = type;
+}
+
+canvas.addEventListener("click", e=>{
 
 const rect = canvas.getBoundingClientRect();
-
 const x = e.clientX - rect.left;
 const y = e.clientY - rect.top;
 
-let type = Math.floor(Math.random()*3)+1;
-
+let cost = 50;
 let range = 120;
 let damage = 0.5;
 
-if(type === 2){
-range = 180;
+if(selectedTower===2){
+cost = 70;
+range = 200;
 damage = 0.3;
 }
 
-if(type === 3){
-range = 80;
-damage = 1;
+if(selectedTower===3){
+cost = 100;
+range = 90;
+damage = 1.2;
 }
 
+if(money >= cost){
+
+money -= cost;
+
 towers.push({
-x,
-y,
-range,
-damage,
-type
+x,y,range,damage,type:selectedTower
 });
+
+}
+
+moneyUI.textContent = money;
 
 });
 
 function spawnEnemy(){
 
 enemies.push({
-x:0,
-y:pathY,
+x:path[0].x,
+y:path[0].y,
+pathIndex:0,
 speed:1 + wave*0.2,
 health:100 + wave*30,
 maxHealth:100 + wave*30
@@ -100,24 +134,68 @@ maxHealth:100 + wave*30
 
 }
 
+function moveEnemy(enemy){
+
+let target = path[enemy.pathIndex+1];
+
+if(!target) return;
+
+let dx = target.x - enemy.x;
+let dy = target.y - enemy.y;
+
+let dist = Math.sqrt(dx*dx + dy*dy);
+
+if(dist < enemy.speed){
+
+enemy.pathIndex++;
+
+}else{
+
+enemy.x += dx/dist * enemy.speed;
+enemy.y += dy/dist * enemy.speed;
+
+}
+
+}
+
+function drawPath(){
+
+ctx.strokeStyle="#777";
+ctx.lineWidth=40;
+
+ctx.beginPath();
+
+ctx.moveTo(path[0].x,path[0].y);
+
+for(let p of path){
+ctx.lineTo(p.x,p.y);
+}
+
+ctx.stroke();
+
+ctx.lineWidth=1;
+
+}
+
 function gameLoop(){
 
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
+drawPath();
+
 spawnTimer++;
 
-if(spawnTimer > 90){
+if(spawnTimer > 100){
+
 spawnEnemy();
 spawnTimer = 0;
+
 }
 
-if(score > wave*200){
+if(wave < 50 && enemies.length===0){
 wave++;
 waveUI.textContent = wave;
 }
-
-ctx.fillStyle="#666";
-ctx.fillRect(0,pathY+20,canvas.width,40);
 
 for(let tower of towers){
 
@@ -135,18 +213,18 @@ for(let i=enemies.length-1;i>=0;i--){
 
 let enemy = enemies[i];
 
+moveEnemy(enemy);
+
 ctx.fillStyle="red";
-ctx.fillRect(enemy.x,enemy.y,22,22);
+ctx.fillRect(enemy.x-10,enemy.y-10,20,20);
 
 ctx.fillStyle="lime";
-ctx.fillRect(enemy.x,enemy.y-6,22*(enemy.health/enemy.maxHealth),4);
-
-enemy.x += enemy.speed;
+ctx.fillRect(enemy.x-10,enemy.y-18,20*(enemy.health/enemy.maxHealth),4);
 
 for(let tower of towers){
 
-let dx = tower.x - (enemy.x+11);
-let dy = tower.y - (enemy.y+11);
+let dx = tower.x - enemy.x;
+let dy = tower.y - enemy.y;
 
 let dist = Math.sqrt(dx*dx + dy*dy);
 
@@ -155,7 +233,7 @@ if(dist < tower.range){
 ctx.strokeStyle="yellow";
 ctx.beginPath();
 ctx.moveTo(tower.x,tower.y);
-ctx.lineTo(enemy.x+11,enemy.y+11);
+ctx.lineTo(enemy.x,enemy.y);
 ctx.stroke();
 
 enemy.health -= tower.damage;
@@ -167,13 +245,28 @@ enemy.health -= tower.damage;
 if(enemy.health <= 0){
 
 enemies.splice(i,1);
-score += 10;
-scoreUI.textContent = score;
+
+money += 20;
+
+moneyUI.textContent = money;
 
 }
-else if(enemy.x > canvas.width){
+
+else if(enemy.pathIndex >= path.length-1){
 
 enemies.splice(i,1);
+
+lives--;
+
+livesUI.textContent = lives;
+
+if(lives <= 0){
+
+alert("Игра окончена");
+
+location.reload();
+
+}
 
 }
 
