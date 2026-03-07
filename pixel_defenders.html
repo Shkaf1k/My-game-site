@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Pixel Defenders</title>
@@ -8,135 +8,205 @@
 
 body{
 margin:0;
-background:#0f172a;
 font-family:Arial;
+background:#0f172a;
 color:white;
 text-align:center;
 }
 
 h1{
-margin-top:10px;
-}
-
-#gameUI{
-margin:auto;
-width:900px;
-background:#020617;
-padding:10px;
-border-radius:10px;
-}
-
-canvas{
-background:#1e293b;
-border:3px solid #334155;
-display:block;
-margin:auto;
-}
-
-#topUI{
-display:flex;
-justify-content:space-between;
-margin-bottom:10px;
-font-size:18px;
-}
-
-#shop{
-margin-top:10px;
+margin-top:40px;
+font-size:48px;
 }
 
 button{
-background:#6366f1;
+padding:12px 25px;
+margin:10px;
+font-size:18px;
 border:none;
-color:white;
-padding:10px 20px;
 border-radius:8px;
+background:#6366f1;
+color:white;
 cursor:pointer;
-font-size:16px;
 }
 
 button:hover{
 background:#4f46e5;
 }
 
+#menu,#game,#scores{
+display:none;
+}
+
+canvas{
+background:#1e293b;
+border:3px solid #334155;
+margin:auto;
+display:block;
+}
+
+#topUI{
+width:900px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+font-size:18px;
+padding:10px;
+}
+
+#shop button{
+font-size:14px;
+padding:8px 12px;
+}
+
 </style>
+
 </head>
 
 <body>
 
+<div id="menu">
 <h1>🛡 Pixel Defenders</h1>
 
-<div id="gameUI">
+<button onclick="startGame()">▶ Start Game</button>
+<br>
+<button onclick="showScores()">🏆 Leaderboard</button>
+</div>
+
+<div id="scores">
+
+<h1>🏆 Leaderboard</h1>
+
+<div id="scoreList"></div>
+
+<button onclick="backMenu()">⬅ Back</button>
+
+</div>
+
+<div id="game">
 
 <div id="topUI">
-<div>❤️ HP: <span id="hp">20</span></div>
-<div>💰 Gold: <span id="gold">100</span></div>
-<div>🌊 Wave: <span id="wave">1</span></div>
+<div>❤️ HP: <span id="hp"></span></div>
+<div>💰 Gold: <span id="gold"></span></div>
+<div>🌊 Wave: <span id="wave"></span></div>
 </div>
 
-<canvas id="game" width="900" height="500"></canvas>
+<canvas id="canvas" width="900" height="500"></canvas>
 
 <div id="shop">
-<button onclick="buyTower()">🏹 Buy Tower (50)</button>
+
+<button onclick="selectTower(0)">🏹 Basic (50)</button>
+<button onclick="selectTower(1)">🔥 Fast (70)</button>
+<button onclick="selectTower(2)">💥 Sniper (90)</button>
+<button onclick="selectTower(3)">❄ Slow (80)</button>
+<button onclick="selectTower(4)">💣 Cannon (120)</button>
+
 </div>
 
 </div>
+
+<audio id="music" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9c1e8b.mp3" loop></audio>
 
 <script>
 
-const canvas = document.getElementById("game")
-const ctx = canvas.getContext("2d")
+const canvas=document.getElementById("canvas")
+const ctx=canvas.getContext("2d")
 
-let hp = 20
-let gold = 100
-let wave = 1
+let hp,gold,wave
+let enemies=[]
+let towers=[]
+let bullets=[]
 
-let enemies = []
-let towers = []
-let bullets = []
+let towerType=null
 
-let placingTower = false
+let maps=[
 
-const path = [
+[
 {x:0,y:250},
 {x:300,y:250},
 {x:300,y:120},
-{x:650,y:120},
-{x:650,y:380},
-{x:900,y:380}
+{x:700,y:120},
+{x:700,y:400},
+{x:900,y:400}
+],
+
+[
+{x:0,y:100},
+{x:400,y:100},
+{x:400,y:350},
+{x:800,y:350},
+{x:800,y:200},
+{x:900,y:200}
 ]
 
+]
+
+let path
+
+function startGame(){
+
+document.getElementById("menu").style.display="none"
+document.getElementById("game").style.display="block"
+
+document.getElementById("music").play()
+
+hp=20
+gold=120
+wave=1
+
+path=maps[Math.floor(Math.random()*maps.length)]
+
+updateUI()
+
+setInterval(spawnEnemy,2000)
+setInterval(()=>wave++,20000)
+
+gameLoop()
+
+}
+
 function updateUI(){
-document.getElementById("hp").textContent = hp
-document.getElementById("gold").textContent = gold
-document.getElementById("wave").textContent = wave
-}
 
-function buyTower(){
-
-if(gold < 50) return
-
-placingTower = true
+hpEl.textContent=hp
+goldEl.textContent=gold
+waveEl.textContent=wave
 
 }
 
-canvas.onclick = e => {
+const hpEl=document.getElementById("hp")
+const goldEl=document.getElementById("gold")
+const waveEl=document.getElementById("wave")
 
-if(!placingTower) return
+function selectTower(type){
 
-let rect = canvas.getBoundingClientRect()
+towerType=type
 
-let x = e.clientX - rect.left
-let y = e.clientY - rect.top
+}
+
+canvas.onclick=e=>{
+
+if(towerType===null) return
+
+let rect=canvas.getBoundingClientRect()
+
+let x=e.clientX-rect.left
+let y=e.clientY-rect.top
+
+let cost=[50,70,90,80,120]
+
+if(gold<cost[towerType]) return
 
 towers.push({
-x:x,
-y:y,
-cooldown:0
+
+x,y,
+type:towerType,
+cool:0
+
 })
 
-gold -= 50
+gold-=cost[towerType]
 
-placingTower = false
+towerType=null
 
 updateUI()
 
@@ -144,54 +214,71 @@ updateUI()
 
 function spawnEnemy(){
 
+let type=Math.floor(Math.random()*5)
+
+let stats=[
+{hp:40,speed:1},
+{hp:80,speed:0.6},
+{hp:25,speed:1.8},
+{hp:120,speed:0.4},
+{hp:60,speed:1.2}
+]
+
+let s=stats[type]
+
 enemies.push({
+
 x:path[0].x,
 y:path[0].y,
-hp:40 + wave*10,
-speed:0.7,
-pathIndex:0
+hp:s.hp+wave*5,
+speed:s.speed,
+i:0
+
 })
 
 }
-
-setInterval(spawnEnemy,2000)
 
 function updateEnemies(){
 
 for(let e of enemies){
 
-let target = path[e.pathIndex+1]
+let t=path[e.i+1]
 
-if(!target){
+if(!t){
 
 hp--
 
-updateUI()
-
 enemies.splice(enemies.indexOf(e),1)
 
+updateUI()
+
 if(hp<=0){
+
+saveScore()
+
 alert("Game Over")
+
 location.reload()
+
 }
 
 continue
 
 }
 
-let dx = target.x - e.x
-let dy = target.y - e.y
+let dx=t.x-e.x
+let dy=t.y-e.y
 
-let dist = Math.hypot(dx,dy)
+let d=Math.hypot(dx,dy)
 
-if(dist < 2){
+if(d<2){
 
-e.pathIndex++
+e.i++
 
 }else{
 
-e.x += dx/dist * e.speed
-e.y += dy/dist * e.speed
+e.x+=dx/d*e.speed
+e.y+=dy/d*e.speed
 
 }
 
@@ -203,21 +290,20 @@ function updateTowers(){
 
 for(let t of towers){
 
-t.cooldown--
+t.cool--
 
-if(t.cooldown <= 0){
+if(t.cool<=0){
 
-let target = enemies.find(e=>Math.hypot(e.x-t.x,e.y-t.y)<150)
+let range=[120,100,200,120,140]
+let rate=[40,10,70,50,80]
+
+let target=enemies.find(e=>Math.hypot(e.x-t.x,e.y-t.y)<range[t.type])
 
 if(target){
 
-bullets.push({
-x:t.x,
-y:t.y,
-target:target
-})
+bullets.push({x:t.x,y:t.y,target:target,type:t.type})
 
-t.cooldown = 40
+t.cool=rate[t.type]
 
 }
 
@@ -236,21 +322,23 @@ bullets.splice(bullets.indexOf(b),1)
 continue
 }
 
-let dx = b.target.x - b.x
-let dy = b.target.y - b.y
+let dx=b.target.x-b.x
+let dy=b.target.y-b.y
 
-let dist = Math.hypot(dx,dy)
+let d=Math.hypot(dx,dy)
 
-b.x += dx/dist * 5
-b.y += dy/dist * 5
+b.x+=dx/d*5
+b.y+=dy/d*5
 
-if(dist < 10){
+if(d<10){
 
-b.target.hp -= 20
+let dmg=[20,10,60,15,40]
 
-if(b.target.hp <= 0){
+b.target.hp-=dmg[b.type]
 
-gold += 15
+if(b.target.hp<=0){
+
+gold+=20
 
 enemies.splice(enemies.indexOf(b.target),1)
 
@@ -275,9 +363,7 @@ ctx.beginPath()
 
 ctx.moveTo(path[0].x,path[0].y)
 
-for(let p of path){
-ctx.lineTo(p.x,p.y)
-}
+for(let p of path) ctx.lineTo(p.x,p.y)
 
 ctx.stroke()
 
@@ -287,7 +373,7 @@ function drawEnemies(){
 
 for(let e of enemies){
 
-ctx.fillStyle="#ef4444"
+ctx.fillStyle="red"
 
 ctx.beginPath()
 
@@ -301,9 +387,11 @@ ctx.fill()
 
 function drawTowers(){
 
+let colors=["green","yellow","white","cyan","orange"]
+
 for(let t of towers){
 
-ctx.fillStyle="#22c55e"
+ctx.fillStyle=colors[t.type]
 
 ctx.beginPath()
 
@@ -317,14 +405,12 @@ ctx.fill()
 
 function drawBullets(){
 
-ctx.fillStyle="#facc15"
+ctx.fillStyle="gold"
 
 for(let b of bullets){
 
 ctx.beginPath()
-
 ctx.arc(b.x,b.y,5,0,Math.PI*2)
-
 ctx.fill()
 
 }
@@ -333,7 +419,7 @@ ctx.fill()
 
 function gameLoop(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.clearRect(0,0,900,500)
 
 drawPath()
 
@@ -349,14 +435,39 @@ requestAnimationFrame(gameLoop)
 
 }
 
-setInterval(()=>{
-wave++
-updateUI()
-},20000)
+function saveScore(){
 
-updateUI()
+let scores=JSON.parse(localStorage.getItem("scores")||"[]")
 
-gameLoop()
+scores.push(wave)
+
+scores.sort((a,b)=>b-a)
+
+scores=scores.slice(0,10)
+
+localStorage.setItem("scores",JSON.stringify(scores))
+
+}
+
+function showScores(){
+
+document.getElementById("menu").style.display="none"
+document.getElementById("scores").style.display="block"
+
+let scores=JSON.parse(localStorage.getItem("scores")||[])
+
+document.getElementById("scoreList").innerHTML=scores.join("<br>")
+
+}
+
+function backMenu(){
+
+document.getElementById("scores").style.display="none"
+document.getElementById("menu").style.display="block"
+
+}
+
+document.getElementById("menu").style.display="block"
 
 </script>
 
