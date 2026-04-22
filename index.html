@@ -83,28 +83,14 @@
             margin-top: 50px;
         }
 
-        /* Добавили фиксированную ширину для h2, чтобы текст не "прыгал" при смене цифр */
         .stat-item h2 { 
             font-family: 'Syncopate'; 
             color: var(--primary); 
             font-size: clamp(1.2rem, 3vw, 2rem); 
             margin: 0;
-            min-width: 150px;
+            min-width: 120px;
         }
         .stat-item p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; margin: 0; }
-
-        .video-container {
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 0, 85, 0.3);
-            box-shadow: 0 0 50px rgba(255, 0, 85, 0.1);
-        }
-
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         .btn-glow {
             margin-top: 40px;
@@ -133,19 +119,18 @@
 
         .section-header::after { content: ""; height: 1px; flex-grow: 1; background: linear-gradient(to right, var(--primary), transparent); }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+        .video-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 0, 85, 0.3);
+            box-shadow: 0 0 50px rgba(255, 0, 85, 0.1);
         }
 
-        .feature-card {
-            background: var(--glass);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 40px;
-            border-radius: 15px;
-            transition: 0.3s;
-        }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         .specs-container {
             display: grid;
@@ -170,27 +155,10 @@
 
         .spec-line span:first-child { opacity: 0.5; text-transform: uppercase; font-size: 0.7rem; }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .img-box {
-            aspect-ratio: 16/9;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .img-box img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); transition: 0.5s; }
-        .img-box:hover img { filter: brightness(1); transform: scale(1.05); }
-
         footer { padding: 60px 20px; text-align: center; font-size: 0.75rem; opacity: 0.5; border-top: 1px solid rgba(255,255,255,0.05); }
 
         @media (max-width: 480px) {
             .stats-bar { grid-template-columns: 1fr; }
-            .section-header { flex-direction: column; align-items: flex-start; }
             .btn-glow { width: 100%; text-align: center; clip-path: none; }
         }
     </style>
@@ -237,20 +205,6 @@
         </div>
     </section>
 
-    <section id="about">
-        <div class="section-header" data-aos="fade-right">CORE_TECHNOLOGY</div>
-        <div class="features-grid">
-            <div class="feature-card" data-aos="fade-up">
-                <h3 style="color:var(--primary); font-family: 'Syncopate'; font-size: 1rem; margin-bottom: 15px;">01. Real Physics</h3>
-                <p style="margin:0; opacity: 0.7;">Полная симуляция окружения и разрушаемость на уровне молекул.</p>
-            </div>
-            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                <h3 style="color:var(--primary); font-family: 'Syncopate'; font-size: 1rem; margin-bottom: 15px;">02. Adaptive AI</h3>
-                <p style="margin:0; opacity: 0.7;">Нейросетевой интеллект врагов. Они учатся на ваших ошибках.</p>
-            </div>
-        </div>
-    </section>
-
     <section id="specs">
         <div class="section-header" data-aos="fade-right">SYSTEM_SPECS</div>
         <div class="specs-container">
@@ -271,21 +225,6 @@
         </div>
     </section>
 
-    <section id="media">
-        <div class="section-header" data-aos="fade-right">VISUAL_DATA</div>
-        <div class="gallery">
-            <div class="img-box" data-aos="zoom-in"><img src="Screenshot 1.png" alt="Screen 1"></div>
-            <div class="img-box" data-aos="zoom-in" data-aos-delay="200"><img src="Screenshot 2.png" alt="Screen 2"></div>
-        </div>
-    </section>
-
-    <section id="download" style="text-align: center;">
-        <div class="feature-card" style="border: 1px solid var(--primary); max-width: 700px; margin: auto;" data-aos="flip-up">
-            <h2 style="font-family: 'Syncopate'; margin-bottom: 20px;">Join the void</h2>
-            <a href="#" class="btn-glow">Access Terminal</a>
-        </div>
-    </section>
-
     <footer>
         &copy; 2026 VOID_STUDIO. ALL RIGHTS RESERVED.
     </footer>
@@ -294,10 +233,8 @@
     <script>
         AOS.init({ duration: 1000, once: true, offset: 100 });
 
-        // ЛОГИКА ЖИВОГО СЧЕТЧИКА
-        function animateCounter(id, target, duration, isDecimal = false) {
+        function animateCounter(id, target, duration) {
             let obj = document.getElementById(id);
-            let start = 0;
             let startTime = null;
 
             function step(timestamp) {
@@ -305,7 +242,6 @@
                 let progress = Math.min((timestamp - startTime) / duration, 1);
                 let current = Math.floor(progress * target);
                 
-                // Форматируем число (например 12840 -> 12.8K если нужно, или просто с пробелом)
                 if (target > 1000) {
                     obj.innerHTML = (current / 1000).toFixed(1) + "K";
                 } else {
@@ -314,9 +250,8 @@
 
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
-                } else {
-                    // После окончания основной анимации запускаем колебания
-                    if (id === 'player-count') startFluctuation(obj, target);
+                } else if (id === 'player-count') {
+                    startFluctuation(obj, target);
                 }
             }
             window.requestAnimationFrame(step);
@@ -324,14 +259,12 @@
 
         function startFluctuation(obj, baseValue) {
             setInterval(() => {
-                // Случайное изменение +/- 5 игроков
                 let fluctuation = Math.floor(Math.random() * 11) - 5;
                 let newValue = baseValue + fluctuation;
                 obj.innerHTML = (newValue / 1000).toFixed(1) + "K";
-            }, 3000); // Обновлять каждые 3 секунды
+            }, 3000);
         }
 
-        // Запуск анимаций при загрузке
         window.onload = () => {
             animateCounter('player-count', 12840, 2000);
             animateCounter('region-count', 4, 1500);
