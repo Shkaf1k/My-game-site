@@ -20,8 +20,7 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg);
             color: #fff;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             overflow-x: hidden;
             width: 100%;
             line-height: 1.6;
@@ -75,7 +74,6 @@
             line-height: 1;
         }
 
-        /* Статистика цифрами */
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -85,7 +83,14 @@
             margin-top: 50px;
         }
 
-        .stat-item h2 { font-family: 'Syncopate'; color: var(--primary); font-size: clamp(1.2rem, 3vw, 2rem); margin: 0; }
+        /* Добавили фиксированную ширину для h2, чтобы текст не "прыгал" при смене цифр */
+        .stat-item h2 { 
+            font-family: 'Syncopate'; 
+            color: var(--primary); 
+            font-size: clamp(1.2rem, 3vw, 2rem); 
+            margin: 0;
+            min-width: 150px;
+        }
         .stat-item p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; margin: 0; }
 
         .video-container {
@@ -142,7 +147,6 @@
             transition: 0.3s;
         }
 
-        /* Таблица системных требований */
         .specs-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -206,15 +210,15 @@
         
         <div class="stats-bar" data-aos="fade-up" data-aos-delay="600">
             <div class="stat-item">
-                <h2>12.8K</h2>
+                <h2 id="player-count">0</h2>
                 <p>ACTIVE_PLAYERS</p>
             </div>
             <div class="stat-item">
-                <h2>04</h2>
+                <h2 id="region-count">0</h2>
                 <p>GLOBAL_REGIONS</p>
             </div>
             <div class="stat-item" style="color: var(--secondary);">
-                <h2>ONLINE</h2>
+                <h2 style="letter-spacing: 2px;">ONLINE</h2>
                 <p>SERVER_STATUS</p>
             </div>
         </div>
@@ -238,11 +242,11 @@
         <div class="features-grid">
             <div class="feature-card" data-aos="fade-up">
                 <h3 style="color:var(--primary); font-family: 'Syncopate'; font-size: 1rem; margin-bottom: 15px;">01. Real Physics</h3>
-                <p style="margin:0; opacity: 0.7;">Полная симуляция окружения и разрушаемость на уровне молекул. Каждый обломок имеет вес.</p>
+                <p style="margin:0; opacity: 0.7;">Полная симуляция окружения и разрушаемость на уровне молекул.</p>
             </div>
             <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
                 <h3 style="color:var(--primary); font-family: 'Syncopate'; font-size: 1rem; margin-bottom: 15px;">02. Adaptive AI</h3>
-                <p style="margin:0; opacity: 0.7;">Нейросетевой интеллект врагов. Они учатся на ваших ошибках и меняют тактику боя.</p>
+                <p style="margin:0; opacity: 0.7;">Нейросетевой интеллект врагов. Они учатся на ваших ошибках.</p>
             </div>
         </div>
     </section>
@@ -278,19 +282,60 @@
     <section id="download" style="text-align: center;">
         <div class="feature-card" style="border: 1px solid var(--primary); max-width: 700px; margin: auto;" data-aos="flip-up">
             <h2 style="font-family: 'Syncopate'; margin-bottom: 20px;">Join the void</h2>
-            <p style="opacity: 0.7; margin-bottom: 30px;">Получите доступ к раннему билду и эксклюзивному контенту.</p>
             <a href="#" class="btn-glow">Access Terminal</a>
         </div>
     </section>
 
     <footer>
-        &copy; 2026 VOID_STUDIO. ALL RIGHTS RESERVED. <br>
-        <span style="color: var(--primary); font-family: 'Syncopate'; font-size: 0.6rem;">DEPLOYED VIA VOID_ENGINE v2.4</span>
+        &copy; 2026 VOID_STUDIO. ALL RIGHTS RESERVED.
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true, offset: 100 });
+
+        // ЛОГИКА ЖИВОГО СЧЕТЧИКА
+        function animateCounter(id, target, duration, isDecimal = false) {
+            let obj = document.getElementById(id);
+            let start = 0;
+            let startTime = null;
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                let progress = Math.min((timestamp - startTime) / duration, 1);
+                let current = Math.floor(progress * target);
+                
+                // Форматируем число (например 12840 -> 12.8K если нужно, или просто с пробелом)
+                if (target > 1000) {
+                    obj.innerHTML = (current / 1000).toFixed(1) + "K";
+                } else {
+                    obj.innerHTML = current;
+                }
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    // После окончания основной анимации запускаем колебания
+                    if (id === 'player-count') startFluctuation(obj, target);
+                }
+            }
+            window.requestAnimationFrame(step);
+        }
+
+        function startFluctuation(obj, baseValue) {
+            setInterval(() => {
+                // Случайное изменение +/- 5 игроков
+                let fluctuation = Math.floor(Math.random() * 11) - 5;
+                let newValue = baseValue + fluctuation;
+                obj.innerHTML = (newValue / 1000).toFixed(1) + "K";
+            }, 3000); // Обновлять каждые 3 секунды
+        }
+
+        // Запуск анимаций при загрузке
+        window.onload = () => {
+            animateCounter('player-count', 12840, 2000);
+            animateCounter('region-count', 4, 1500);
+        };
     </script>
 </body>
 </html>
