@@ -3,79 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Название Твоей Игры</title>
+    <title>Название Твоей Игры | Official Site</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #00f2ff; /* Неоновый голубой */
+            --accent: #7000ff;  /* Фиолетовый */
+            --bg: #0a0a0b;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg);
+            color: #fff;
             margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            color: white;
-            text-align: center;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
+
+        h1, h2, h3 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Фоновое свечение */
+        .glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(112, 0, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Hero Section */
         header {
-            padding: 100px 20px;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('your-bg-image.jpg'); /* Замени на фон */
-            background-size: cover;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--bg)), url('your-cover.jpg') center/cover;
+            text-align: center;
             padding: 20px;
         }
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: #ff4757;
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px var(--primary);
+            animation: fadeIn 2s ease;
+        }
+
+        /* Кнопка с эффектом */
+        .btn-main {
+            padding: 18px 45px;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 50px;
             font-weight: bold;
-            margin-top: 20px;
+            font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+            transition: 0.3s transform, 0.3s box-shadow;
         }
-        .features {
-            display: flex;
-            justify-content: space-around;
-            padding: 50px 0;
-            background-color: #2f3542;
+
+        .btn-main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(112, 0, 255, 0.6);
         }
+
+        /* Секции */
+        section {
+            padding: 100px 10% 60px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+            left: 50%; transform: translateX(-50%);
+            position: relative;
+        }
+
+        /* Сетка карточек */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            transition: 0.4s;
+            text-align: left;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .card h3 { color: var(--primary); margin-top: 0; }
+
+        /* Галерея/Скриншоты */
+        .screenshot {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            filter: grayscale(40%);
+            transition: 0.5s;
+        }
+
+        .screenshot:hover { filter: grayscale(0%); }
+
         footer {
-            padding: 20px;
-            font-size: 0.8em;
-            color: #747d8c;
+            padding: 50px;
+            text-align: center;
+            background: #050505;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Моб. адаптация */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            section { padding: 60px 5%; }
         }
     </style>
 </head>
 <body>
 
+    <div class="glow"></div>
+
     <header>
-        <h1>Название Твоей Игры</h1>
-        <p>Краткое, цепляющее описание твоей игры в одно предложение.</p>
-        <a href="#" class="btn">Скачать сейчас</a>
+        <h1 class="hero-title">НАЗВАНИЕ ИГРЫ</h1>
+        <p style="font-size: 1.2rem; max-width: 600px; color: #ccc; margin-bottom: 40px;">
+            Погрузись в мир, где технологии будущего встречаются с магией прошлого. Твой выбор меняет всё.
+        </p>
+        <a href="#download" class="btn-main">ИГРАТЬ БЕСПЛАТНО</a>
     </header>
 
-    <div class="features">
-        <div>
-            <h3>Геймплей</h3>
-            <p>Опиши главную фишку.</p>
+    <section id="features">
+        <h2 class="section-title">Особенности</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Уникальный Мир</h3>
+                <p>Исследуйте процедурно генерируемые локации, полные секретов и опасностей.</p>
+            </div>
+            <div class="card">
+                <h3>Твоя История</h3>
+                <p>Диалоговая система, влияющая на финал игры. Стань героем или злодеем.</p>
+            </div>
+            <div class="card">
+                <h3>Экшен</h3>
+                <p>Динамичная боевая система с использованием способностей и окружения.</p>
+            </div>
         </div>
-        <div>
-            <h3>Графика</h3>
-            <p>Упомяни стиль игры.</p>
-        </div>
-        <div>
-            <h3>Атмосфера</h3>
-            <p>Почему в это стоит играть?</p>
-        </div>
-    </div>
+    </section>
 
-    <div class="container">
-        <h2>О проекте</h2>
-        <p>Здесь можно написать более подробную историю создания или особенности механик.</p>
-    </div>
+    <section id="media">
+        <h2 class="section-title">Медиа</h2>
+        <div class="grid">
+            <img src="https://via.placeholder.com/600x350/222/00f2ff?text=Screenshot+1" alt="Game 1" class="screenshot">
+            <img src="https://via.placeholder.com/600x350/222/7000ff?text=Screenshot+2" alt="Game 2" class="screenshot">
+        </div>
+    </section>
+
+    <section id="download" style="text-align: center;">
+        <h2 class="section-title">Присоединяйся</h2>
+        <div class="card" style="max-width: 500px; margin: auto; text-align: center;">
+            <p>Игра доступна на PC и Mobile. Версия: 1.0.4-beta</p>
+            <a href="#" class="btn-main">СКАЧАТЬ (.EXE)</a>
+            <div style="margin-top: 20px;">
+                <small>Размер файла: 450 MB</small>
+            </div>
+        </div>
+    </section>
 
     <footer>
-        &copy; 2026 Твое Имя/Студия. Все права защищены.
+        <p>&copy; 2026 YourGameStudio. Сделано с любовью на GitHub Pages.</p>
     </footer>
 
 </body>
