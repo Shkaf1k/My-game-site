@@ -74,24 +74,6 @@
             line-height: 1;
         }
 
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            width: 100%;
-            max-width: 800px;
-            margin-top: 50px;
-        }
-
-        .stat-item h2 { 
-            font-family: 'Syncopate'; 
-            color: var(--primary); 
-            font-size: clamp(1.2rem, 3vw, 2rem); 
-            margin: 0;
-            min-width: 120px;
-        }
-        .stat-item p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; margin: 0; }
-
         .btn-glow {
             margin-top: 40px;
             padding: 18px 50px;
@@ -158,7 +140,6 @@
         footer { padding: 60px 20px; text-align: center; font-size: 0.75rem; opacity: 0.5; border-top: 1px solid rgba(255,255,255,0.05); }
 
         @media (max-width: 480px) {
-            .stats-bar { grid-template-columns: 1fr; }
             .btn-glow { width: 100%; text-align: center; clip-path: none; }
         }
     </style>
@@ -176,22 +157,7 @@
         <h1 data-aos="zoom-out" data-aos-duration="1200">PROJECT_ONE</h1>
         <p data-aos="fade-up" data-aos-delay="400">Next-generation survival experience</p>
         
-        <div class="stats-bar" data-aos="fade-up" data-aos-delay="600">
-            <div class="stat-item">
-                <h2 id="player-count">0</h2>
-                <p>ACTIVE_PLAYERS</p>
-            </div>
-            <div class="stat-item">
-                <h2 id="region-count">0</h2>
-                <p>GLOBAL_REGIONS</p>
-            </div>
-            <div class="stat-item" style="color: var(--secondary);">
-                <h2 style="letter-spacing: 2px;">ONLINE</h2>
-                <p>SERVER_STATUS</p>
-            </div>
-        </div>
-
-        <div data-aos="fade-up" data-aos-delay="800">
+        <div data-aos="fade-up" data-aos-delay="600">
             <a href="#download" class="btn-glow">Download Client</a>
         </div>
     </div>
@@ -232,43 +198,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true, offset: 100 });
-
-        function animateCounter(id, target, duration) {
-            let obj = document.getElementById(id);
-            let startTime = null;
-
-            function step(timestamp) {
-                if (!startTime) startTime = timestamp;
-                let progress = Math.min((timestamp - startTime) / duration, 1);
-                let current = Math.floor(progress * target);
-                
-                if (target > 1000) {
-                    obj.innerHTML = (current / 1000).toFixed(1) + "K";
-                } else {
-                    obj.innerHTML = current;
-                }
-
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                } else if (id === 'player-count') {
-                    startFluctuation(obj, target);
-                }
-            }
-            window.requestAnimationFrame(step);
-        }
-
-        function startFluctuation(obj, baseValue) {
-            setInterval(() => {
-                let fluctuation = Math.floor(Math.random() * 11) - 5;
-                let newValue = baseValue + fluctuation;
-                obj.innerHTML = (newValue / 1000).toFixed(1) + "K";
-            }, 3000);
-        }
-
-        window.onload = () => {
-            animateCounter('player-count', 12840, 2000);
-            animateCounter('region-count', 4, 1500);
-        };
     </script>
 </body>
 </html>
