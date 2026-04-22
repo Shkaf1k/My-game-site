@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Анимированный фон с частицами (упрощенно на CSS) */
+        /* Анимированный фон */
         .bg-animate {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -39,11 +39,12 @@
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             z-index: 100;
             background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
 
-        .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--primary); }
+        .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
 
         /* Hero блок */
         .hero {
@@ -58,15 +59,15 @@
 
         .hero h1 {
             font-family: 'Syncopate', sans-serif;
-            font-size: clamp(3rem, 10vw, 6rem);
+            font-size: clamp(3.5rem, 10vw, 7rem);
             margin: 0;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 30px rgba(255,0,85,0.3));
+            filter: drop-shadow(0 0 30px rgba(255,0,85,0.4));
         }
 
-        /* Кнопка с двойным свечением */
+        /* Кнопка */
         .btn-glow {
             position: relative;
             margin-top: 40px;
@@ -107,7 +108,7 @@
             background: linear-gradient(to right, var(--primary), transparent);
         }
 
-        /* Карточки с эффектом наклона */
+        /* Особенности */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -124,51 +125,57 @@
             overflow: hidden;
         }
 
-        .feature-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 5px; height: 100%;
-            background: var(--primary);
-            transform: scaleY(0);
-            transition: 0.3s;
-        }
+        .feature-card:hover { background: rgba(255,255,255,0.07); border-color: var(--primary); }
 
-        .feature-card:hover { background: rgba(255,255,255,0.07); }
-        .feature-card:hover::before { transform: scaleY(1); }
-
-        /* Галерея */
+        /* ГАЛЕРЕЯ (То, что тебе нужно) */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
         }
 
         .img-box {
             width: 100%;
             aspect-ratio: 16/9;
-            background: #222;
+            background: #111;
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.5s;
         }
 
         .img-box img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: 1s; filter: brightness(0.7);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 1s;
+            filter: brightness(0.6);
         }
 
-        .img-box:hover img { transform: scale(1.1); filter: brightness(1); }
+        .img-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 0, 85, 0.2);
+        }
+
+        .img-box:hover img {
+            filter: brightness(1);
+            transform: scale(1.05);
+        }
 
         footer {
             text-align: center;
             padding: 100px 0 40px;
             opacity: 0.5;
             font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         @media (max-width: 768px) {
             .gallery { grid-template-columns: 1fr; }
             nav { padding: 20px; }
+            .hero h1 { font-size: 3rem; }
         }
     </style>
 </head>
@@ -178,29 +185,29 @@
 
     <nav>
         <div class="logo">VOID_ENGINE</div>
-        <div class="menu">2026 // BETA</div>
+        <div class="menu">STATUS: BETA_v1.0</div>
     </nav>
 
     <div class="hero">
         <h1 data-aos="zoom-out" data-aos-duration="1500">PROJECT_ONE</h1>
-        <p data-aos="fade-up" data-aos-delay="500">SURVIVE THE UNKNOWN EXODUS</p>
-        <a href="#download" class="btn-glow" data-aos="fade-up" data-aos-delay="800">DOWNLOAD</a>
+        <p data-aos="fade-up" data-aos-delay="500" style="letter-spacing: 5px;">SURVIVE THE UNKNOWN EXODUS</p>
+        <a href="#download" class="btn-glow" data-aos="fade-up" data-aos-delay="800">DOWNLOAD NOW</a>
     </div>
 
     <section id="about">
         <div class="section-header" data-aos="fade-right">CORE_SYSTEMS</div>
         <div class="features-grid">
             <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                <h3>01. PHYSICS</h3>
-                <p>Полная разрушаемость объектов и реалистичное взаимодействие с окружением.</p>
+                <h3 style="color:var(--primary)">01. PHYSICS</h3>
+                <p>Реалистичная модель повреждений и взаимодействие с каждым объектом в мире.</p>
             </div>
             <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                <h3>02. AI_BRAIN</h3>
-                <p>Враги адаптируются к твоему стилю боя. Каждая схватка уникальна.</p>
+                <h3 style="color:var(--primary)">02. NEURAL_AI</h3>
+                <p>Враги учатся на твоих ошибках. Каждая битва становится сложнее предыдущей.</p>
             </div>
             <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                <h3>03. RT_LIGHT</h3>
-                <p>Технология трассировки лучей для максимального погружения в атмосферу.</p>
+                <h3 style="color:var(--primary)">03. NEXT_GEN</h3>
+                <p>Поддержка Ray Tracing и DLSS 3.0 для невероятной картинки.</p>
             </div>
         </div>
     </section>
@@ -208,29 +215,44 @@
     <section id="media">
         <div class="section-header" data-aos="fade-right">VISUAL_DATA</div>
         <div class="gallery">
-            <div class="img-box" data-aos="flip-left"><img src="https://via.placeholder.com/800x450/111/ff0055?text=SCREEN_01" alt=""></div>
-            <div class="img-box" data-aos="flip-right"><img src="https://via.placeholder.com/800x450/111/00dbde?text=SCREEN_02" alt=""></div>
+            <div class="img-box" data-aos="flip-left">
+                <img src="screen1.jpg" alt="Screenshot 1">
+            </div>
+            
+            <div class="img-box" data-aos="flip-right">
+                <img src="screen2.jpg" alt="Screenshot 2">
+            </div>
         </div>
     </section>
 
     <section id="download" style="text-align: center;">
-        <div class="feature-card" style="border: 1px solid var(--primary);" data-aos="zoom-in">
-            <h2>READY TO DEPLOY?</h2>
-            <p>Присоединяйся к закрытому альфа-тесту уже сегодня.</p>
+        <div class="feature-card" style="border: 1px solid var(--primary); max-width: 600px; margin: auto;" data-aos="zoom-in">
+            <h2>ACCESS GRANTED?</h2>
+            <p>Стань частью сообщества и начни играть прямо сейчас.</p>
             <br>
-            <a href="#" class="btn-glow">GET ACCESS</a>
+            <a href="#" class="btn-glow">GET CLIENT</a>
         </div>
     </section>
 
     <footer>
-        &copy; 2026 VOID_STUDIO. ALL SYSTEMS OPERATIONAL.
+        &copy; 2026 VOID_STUDIO. ALL SYSTEMS OPERATIONAL. <br>
+        DESIGNED FOR GITHUB PAGES
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Инициализация анимации при скролле
         AOS.init({
             duration: 1000,
             once: true
+        });
+
+        // Маленький скрипт: при клике на скриншот он немного увеличивается
+        document.querySelectorAll('.img-box').forEach(box => {
+            box.addEventListener('click', () => {
+                box.style.transform = box.style.transform === 'scale(1.2)' ? 'scale(1)' : 'scale(1.2)';
+                box.style.zIndex = box.style.zIndex === '1000' ? '1' : '1000';
+            });
         });
     </script>
 </body>
