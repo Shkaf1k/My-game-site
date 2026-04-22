@@ -2,14 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GAME PROJECT | NEXT GEN</title>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #ff0055; /* Агрессивный розовый/красный */
-            --secondary: #00dbde; /* Бирюзовый для контраста */
+            --primary: #ff0055;
+            --secondary: #00dbde;
             --bg: #050505;
             --glass: rgba(255, 255, 255, 0.03);
         }
@@ -21,10 +21,11 @@
             background-color: var(--bg);
             color: #fff;
             margin: 0;
-            overflow-x: hidden;
+            padding: 0;
+            overflow-x: hidden; /* Запрещаем горизонтальный скролл */
+            width: 100%;
         }
 
-        /* Анимированный фон */
         .bg-animate {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -32,21 +33,20 @@
             z-index: -2;
         }
 
-        /* Навигация */
         nav {
             position: fixed;
             width: 100%;
-            padding: 20px 50px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
         }
 
-        .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--primary); }
 
-        /* Hero блок */
         .hero {
             height: 100vh;
             display: flex;
@@ -54,128 +54,104 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
+            padding: 0 20px;
         }
 
         .hero h1 {
             font-family: 'Syncopate', sans-serif;
-            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-size: clamp(2rem, 8vw, 6rem); /* Резиновый шрифт */
             margin: 0;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 30px rgba(255,0,85,0.4));
+            word-wrap: break-word;
+            line-height: 1.1;
         }
 
-        /* Кнопка */
+        .hero p {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            letter-spacing: 2px;
+            margin-top: 20px;
+            max-width: 90%;
+        }
+
         .btn-glow {
-            position: relative;
-            margin-top: 40px;
-            padding: 20px 60px;
+            margin-top: 30px;
+            padding: 15px 40px;
             background: #fff;
             color: #000;
             text-decoration: none;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.5s;
+            font-size: 0.9rem;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: 0.3s;
         }
 
-        .btn-glow:hover {
-            background: var(--primary);
-            color: #fff;
-            box-shadow: 0 0 50px var(--primary);
-            transform: scale(1.1);
-        }
-
-        /* Секции */
-        section { padding: 100px 5%; max-width: 1400px; margin: auto; }
+        section { padding: 60px 20px; max-width: 1200px; margin: auto; }
 
         .section-header {
             font-family: 'Syncopate', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 50px;
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            margin-bottom: 40px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
         .section-header::after {
             content: "";
-            height: 2px;
+            height: 1px;
             flex-grow: 1;
             background: linear-gradient(to right, var(--primary), transparent);
         }
 
-        /* Особенности */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .feature-card {
             background: var(--glass);
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 50px;
-            border-radius: 5px;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
+            padding: 30px;
+            border-radius: 10px;
         }
 
-        .feature-card:hover { background: rgba(255,255,255,0.07); border-color: var(--primary); }
-
-        /* ГАЛЕРЕЯ (То, что тебе нужно) */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .img-box {
             width: 100%;
             aspect-ratio: 16/9;
-            background: #111;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            cursor: pointer;
             border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.5s;
         }
 
         .img-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: 1s;
-            filter: brightness(0.6);
-        }
-
-        .img-box:hover {
-            border-color: var(--primary);
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(255, 0, 85, 0.2);
-        }
-
-        .img-box:hover img {
-            filter: brightness(1);
-            transform: scale(1.05);
         }
 
         footer {
+            padding: 40px 20px;
             text-align: center;
-            padding: 100px 0 40px;
-            opacity: 0.5;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
+        /* Планшеты и телефоны */
         @media (max-width: 768px) {
-            .gallery { grid-template-columns: 1fr; }
-            nav { padding: 20px; }
-            .hero h1 { font-size: 3rem; }
+            nav { padding: 15px; }
+            section { padding: 40px 15px; }
+            .hero { height: auto; padding-top: 120px; padding-bottom: 60px; }
+            .btn-glow { padding: 12px 30px; width: 80%; text-align: center; }
         }
     </style>
 </head>
@@ -185,75 +161,55 @@
 
     <nav>
         <div class="logo">VOID_ENGINE</div>
-        <div class="menu">STATUS: BETA_v1.0</div>
+        <div class="menu" style="font-size: 0.7rem;">BETA v1.0</div>
     </nav>
 
     <div class="hero">
-        <h1 data-aos="zoom-out" data-aos-duration="1500">PROJECT_ONE</h1>
-        <p data-aos="fade-up" data-aos-delay="500" style="letter-spacing: 5px;">SURVIVE THE UNKNOWN EXODUS</p>
-        <a href="#download" class="btn-glow" data-aos="fade-up" data-aos-delay="800">DOWNLOAD NOW</a>
+        <h1 data-aos="zoom-out">PROJECT_ONE</h1>
+        <p data-aos="fade-up" data-aos-delay="300">SURVIVE THE UNKNOWN EXODUS</p>
+        <a href="#download" class="btn-glow">DOWNLOAD</a>
     </div>
 
     <section id="about">
         <div class="section-header" data-aos="fade-right">CORE_SYSTEMS</div>
         <div class="features-grid">
+            <div class="feature-card" data-aos="fade-up">
+                <h3 style="color:var(--primary); font-size: 1.1rem;">01. PHYSICS</h3>
+                <p style="font-size: 0.9rem;">Реалистичная модель повреждений объектов.</p>
+            </div>
             <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                <h3 style="color:var(--primary)">01. PHYSICS</h3>
-                <p>Реалистичная модель повреждений и взаимодействие с каждым объектом в мире.</p>
-            </div>
-            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                <h3 style="color:var(--primary)">02. NEURAL_AI</h3>
-                <p>Враги учатся на твоих ошибках. Каждая битва становится сложнее предыдущей.</p>
-            </div>
-            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                <h3 style="color:var(--primary)">03. NEXT_GEN</h3>
-                <p>Поддержка Ray Tracing и DLSS 3.0 для невероятной картинки.</p>
+                <h3 style="color:var(--primary); font-size: 1.1rem;">02. NEURAL_AI</h3>
+                <p style="font-size: 0.9rem;">Враги, которые учатся на твоих действиях.</p>
             </div>
         </div>
     </section>
 
-<section id="media">
+    <section id="media">
         <div class="section-header" data-aos="fade-right">VISUAL_DATA</div>
         <div class="gallery">
-            <div class="img-box" data-aos="flip-left">
-                <img src="Screenshot 1.png" alt="Screenshot 1">
+            <div class="img-box" data-aos="zoom-in">
+                <img src="Screenshot 1.png" alt="Screen 1">
             </div>
-            
-            <div class="img-box" data-aos="flip-right">
-                <img src="Screenshot 2.png" alt="Screenshot 2">
+            <div class="img-box" data-aos="zoom-in" data-aos-delay="100">
+                <img src="Screenshot 2.png" alt="Screen 2">
             </div>
         </div>
     </section>
 
     <section id="download" style="text-align: center;">
-        <div class="feature-card" style="border: 1px solid var(--primary); max-width: 600px; margin: auto;" data-aos="zoom-in">
-            <h2>ACCESS GRANTED?</h2>
-            <p>Стань частью сообщества и начни играть прямо сейчас.</p>
-            <br>
-            <a href="#" class="btn-glow">GET CLIENT</a>
+        <div class="feature-card" style="border: 1px solid var(--primary);">
+            <h2 style="font-size: 1.2rem;">READY?</h2>
+            <a href="#" class="btn-glow" style="display: block; margin: 20px auto;">GET CLIENT</a>
         </div>
     </section>
 
     <footer>
-        &copy; 2026 VOID_STUDIO. ALL SYSTEMS OPERATIONAL. <br>
-        DESIGNED FOR GITHUB PAGES
+        &copy; 2026 VOID_STUDIO. MOBILE OPTIMIZED.
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Инициализация анимации при скролле
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-
-        // Маленький скрипт: при клике на скриншот он немного увеличивается
-        document.querySelectorAll('.img-box').forEach(box => {
-            box.addEventListener('click', () => {
-                box.style.transform = box.style.transform === 'scale(1.2)' ? 'scale(1)' : 'scale(1.2)';
-                box.style.zIndex = box.style.zIndex === '1000' ? '1' : '1000';
-            });
-        });
+        AOS.init({ duration: 800, once: true });
     </script>
 </body>
 </html>
