@@ -1,296 +1,308 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOID ENGINE | NEXT GEN</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #ff0055;
-            --secondary: #00dbde;
-            --bg: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --cursor-color: rgba(255, 0, 85, 0.5);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOID ENGINE | NEXT GEN</title>
 
-        * { box-sizing: border-box; scroll-behavior: smooth; cursor: none; }
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg);
-            color: #fff;
-            margin: 0; padding: 0;
-            overflow-x: hidden;
-            width: 100%;
-            line-height: 1.6;
-        }
+<style>
+:root {
+    --primary:#ff0055;
+    --secondary:#00dbde;
+    --bg:#050505;
+}
 
-        /* Custom Cursor */
-        #cursor {
-            width: 20px; height: 20px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s, background 0.3s;
-            box-shadow: 0 0 20px var(--primary);
-        }
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+body{
+    font-family:'Montserrat',sans-serif;
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+}
 
-        /* Animated Background scanlines */
-        .bg-animate {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 50% 50%, #111 0%, #000 100%),
-                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 100%, 100% 4px, 3px 100%;
-            z-index: -2;
-        }
+/* PRELOADER */
+#loader{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+.loader-text{
+    font-family:'Syncopate';
+    color:var(--primary);
+    animation:blink 1s infinite;
+}
+@keyframes blink{50%{opacity:0.2;}}
 
-        nav {
-            position: fixed;
-            width: 100%;
-            padding: clamp(10px, 2vw, 25px) clamp(15px, 5vw, 50px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
+/* SCROLL BAR */
+#scrollBar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:3px;
+    background:var(--primary);
+    width:0%;
+    z-index:9999;
+}
 
-        .logo { 
-            font-family: 'Syncopate', sans-serif; 
-            font-weight: 700; 
-            font-size: clamp(0.9rem, 2vw, 1.3rem); 
-            color: var(--primary); 
-            text-transform: uppercase;
-            letter-spacing: 5px;
-        }
+/* CURSOR */
+#cursor{
+    width:20px;height:20px;
+    background:var(--primary);
+    position:fixed;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:9999;
+    box-shadow:0 0 20px var(--primary);
+}
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 100px 20px;
-        }
+/* STARS */
+#stars{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
 
-        /* Glitch Effect */
-        .glitch {
-            position: relative;
-            font-family: 'Syncopate', sans-serif;
-            font-size: clamp(2.2rem, 10vw, 7rem);
-            font-weight: 700;
-            text-transform: uppercase;
-            animation: glitch 3s infinite;
-        }
+/* NAV */
+nav{
+    position:fixed;
+    width:100%;
+    padding:20px 40px;
+    display:flex;
+    justify-content:space-between;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(10px);
+    z-index:100;
+}
+.logo{
+    font-family:'Syncopate';
+    color:var(--primary);
+    letter-spacing:5px;
+}
 
-        @keyframes glitch {
-            0% { text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary); }
-            2% { text-shadow: 5px 0 var(--secondary), -5px 0 var(--primary); }
-            4% { text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary); }
-            100% { text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary); }
-        }
+/* HERO */
+.hero{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
 
-        .hero p {
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
+.glitch{
+    font-family:'Syncopate';
+    font-size:5rem;
+    animation:glitch 3s infinite;
+}
+@keyframes glitch{
+    0%{text-shadow:2px 0 cyan,-2px 0 red;}
+    2%{text-shadow:6px 0 cyan,-6px 0 red;}
+    100%{text-shadow:2px 0 cyan,-2px 0 red;}
+}
 
-        .btn-glow {
-            margin-top: 40px;
-            padding: 18px 50px;
-            background: transparent;
-            color: #fff;
-            border: 1px solid #fff;
-            text-decoration: none;
-            font-weight: 900;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            position: relative;
-            transition: 0.4s;
-            overflow: hidden;
-        }
+.btn-glow{
+    margin-top:40px;
+    padding:15px 40px;
+    border:1px solid #fff;
+    text-decoration:none;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+}
+.btn-glow:hover{
+    background:#fff;
+    color:#000;
+}
 
-        .btn-glow:hover {
-            background: #fff;
-            color: #000;
-            box-shadow: 0 0 30px #fff;
-            transform: translateY(-5px);
-        }
+/* SECTION */
+section{
+    padding:100px 5%;
+    max-width:1200px;
+    margin:auto;
+}
+.section-header{
+    font-family:'Syncopate';
+    margin-bottom:40px;
+    color:var(--secondary);
+}
 
-        section { padding: clamp(60px, 10vw, 120px) 5%; max-width: 1400px; margin: auto; }
+/* NEWS */
+.news-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+.news-card{
+    padding:20px;
+    border:1px solid rgba(255,255,255,0.1);
+    transition:.3s;
+}
+.news-card:hover{
+    border-color:var(--primary);
+}
 
-        .section-header {
-            font-family: 'Syncopate', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            margin-bottom: 40px;
-            letter-spacing: 10px;
-            color: var(--secondary);
-            border-left: 5px solid var(--primary);
-            padding-left: 20px;
-        }
+/* VIDEO */
+.video-wrapper{
+    position:relative;
+    padding-bottom:56.25%;
+}
+.video-wrapper iframe{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
 
-        /* News Section */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .news-card {
-            background: var(--glass);
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
-        }
-
-        .news-card:hover {
-            border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .news-card span {
-            font-size: 0.6rem;
-            color: var(--primary);
-            font-family: 'Syncopate';
-        }
-
-        /* Video & Specs Styles */
-        .video-container {
-            width: 100%; max-width: 1000px; margin: 0 auto;
-            border-radius: 5px; overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; filter: grayscale(0.5) contrast(1.2); }
-
-        .specs-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .spec-box { background: rgba(255,255,255,0.02); padding: 30px; border: 1px solid rgba(255,255,255,0.05); }
-        .spec-line { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 0.8rem; }
-
-        /* Gallery */
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .img-box { aspect-ratio: 16/9; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 1s; filter: sepia(100%) hue-rotate(280deg) brightness(0.6); }
-        .img-box:hover img { filter: sepia(0%) brightness(1); transform: scale(1.1); }
-
-        footer { padding: 40px; text-align: center; font-size: 0.6rem; letter-spacing: 3px; opacity: 0.4; }
-
-        @media (max-width: 480px) { * { cursor: auto; } #cursor { display: none; } }
-    </style>
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:40px;
+    opacity:0.4;
+}
+</style>
 </head>
+
 <body>
 
-    <div id="cursor"></div>
-    <div class="bg-animate"></div>
+<!-- LOADER -->
+<div id="loader"><div class="loader-text">INITIALIZING...</div></div>
 
-    <nav>
-        <div class="logo">VOID_ENGINE</div>
-        <div style="font-size: 0.6rem; letter-spacing: 2px;">EST. 2026 // ALPHA_BUILD</div>
-    </nav>
+<!-- SCROLL -->
+<div id="scrollBar"></div>
 
-    <div class="hero">
-        <h1 class="glitch" data-aos="zoom-in">Project_One</h1>
-        <p data-aos="fade-up" data-aos-delay="400">Deep Space Survival Simulation</p>
-        <a href="#download" class="btn-glow" data-aos="fade-up" data-aos-delay="600">Initialize Access</a>
-    </div>
+<!-- CURSOR -->
+<div id="cursor"></div>
 
-    <section id="news">
-        <div class="section-header" data-aos="fade-right">SYSTEM_UPDATES</div>
-        <div class="news-grid">
-            <div class="news-card" data-aos="fade-up">
-                <span>01.04.2026</span>
-                <h4>Atmospheric Scattering Update</h4>
-                <p style="font-size: 0.8rem; opacity: 0.6;">Новая система освещения планет внедрена в ядро.</p>
-            </div>
-            <div class="news-card" data-aos="fade-up" data-aos-delay="200">
-                <span>28.03.2026</span>
-                <h4>Neural AI v2.4</h4>
-                <p style="font-size: 0.8rem; opacity: 0.6;">Враждебные формы жизни теперь чувствуют страх игрока.</p>
-            </div>
-            <div class="news-card" data-aos="fade-up" data-aos-delay="400">
-                <span>15.03.2026</span>
-                <h4>Void patches</h4>
-                <p style="font-size: 0.8rem; opacity: 0.6;">Исправлены ошибки в сингулярности черных дыр.</p>
-            </div>
-        </div>
-    </section>
+<!-- STARS -->
+<canvas id="stars"></canvas>
 
-    <section id="trailer">
-        <div class="section-header" data-aos="fade-right">DECRYPTED_FEED</div>
-        <div class="video-container" data-aos="zoom-in">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1" allowfullscreen></iframe>
-            </div>
-        </div>
-    </section>
+<!-- SOUND -->
+<audio id="clickSound" src="https://www.fesliyanstudios.com/play-mp3/387"></audio>
 
-    <section id="specs">
-        <div class="section-header" data-aos="fade-right">HARDWARE_SYNC</div>
-        <div class="specs-container">
-            <div class="spec-box" data-aos="fade-right">
-                <h4 style="font-family: 'Syncopate'; font-size: 0.7rem; color: var(--primary);">LOW_END_SYNC</h4>
-                <div class="spec-line"><span>CPU</span><span>i5-8400</span></div>
-                <div class="spec-line"><span>GPU</span><span>RTX 2060</span></div>
-                <div class="spec-line"><span>MEM</span><span>16GB RAM</span></div>
-            </div>
-            <div class="spec-box" data-aos="fade-left">
-                <h4 style="font-family: 'Syncopate'; font-size: 0.7rem; color: var(--secondary);">ULTRA_SYNC</h4>
-                <div class="spec-line"><span>CPU</span><span>i7-12700</span></div>
-                <div class="spec-line"><span>GPU</span><span>RTX 4070</span></div>
-                <div class="spec-line"><span>MEM</span><span>32GB RAM</span></div>
-            </div>
-        </div>
-    </section>
+<nav>
+<div class="logo">VOID_ENGINE</div>
+<div>ALPHA_BUILD</div>
+</nav>
 
-    <section id="media">
-        <div class="section-header" data-aos="fade-right">VISUAL_ARCHIVE</div>
-        <div class="gallery">
-            <div class="img-box" data-aos="flip-left"><img src="Screenshot 1.png" alt="Void 1"></div>
-            <div class="img-box" data-aos="flip-right" data-aos-delay="200"><img src="Screenshot 2.png" alt="Void 2"></div>
-        </div>
-    </section>
+<div class="hero">
+<h1 class="glitch">Project_One</h1>
+<p>Deep Space Survival Simulation</p>
+<a href="#" class="btn-glow">Initialize Access</a>
+</div>
 
-    <footer>
-        TERMINAL ACCESS GRANTED // &copy; 2026 VOID_STUDIO
-    </footer>
+<section>
+<div class="section-header">SYSTEM_UPDATES</div>
+<div class="news-grid">
+<div class="news-card">Atmospheric Update</div>
+<div class="news-card">Neural AI v2.4</div>
+<div class="news-card">Void Fixes</div>
+</div>
+</section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 1200, once: false });
+<section>
+<div class="section-header">DECRYPTED_FEED</div>
+<div class="video-wrapper">
+<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+</div>
+</section>
 
-        // Cursor Logic
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+<footer>VOID STUDIO © 2026</footer>
 
-        // Cursor Hover Effect
-        const links = document.querySelectorAll('a, .news-card, .img-box');
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(3)';
-                cursor.style.background = 'transparent';
-                cursor.style.border = '1px solid white';
-            });
-            link.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursor.style.background = 'var(--primary)';
-                cursor.style.border = 'none';
-            });
-        });
-    </script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+AOS.init();
+
+/* LOADER */
+window.onload=()=>document.getElementById("loader").style.display="none";
+
+/* SCROLL BAR */
+window.addEventListener("scroll",()=>{
+let s=window.scrollY;
+let h=document.body.scrollHeight-window.innerHeight;
+document.getElementById("scrollBar").style.width=(s/h)*100+"%";
+});
+
+/* CURSOR SMOOTH */
+let mouseX=0,mouseY=0,cX=0,cY=0;
+const cursor=document.getElementById("cursor");
+
+document.addEventListener("mousemove",e=>{
+mouseX=e.clientX;
+mouseY=e.clientY;
+});
+
+function animate(){
+cX+=(mouseX-cX)*0.15;
+cY+=(mouseY-cY)*0.15;
+cursor.style.left=cX+"px";
+cursor.style.top=cY+"px";
+requestAnimationFrame(animate);
+}
+animate();
+
+/* CURSOR HOVER */
+document.querySelectorAll("a,.news-card").forEach(el=>{
+el.addEventListener("mouseenter",()=>{
+cursor.style.transform="scale(3)";
+cursor.style.background="transparent";
+cursor.style.border="1px solid white";
+});
+el.addEventListener("mouseleave",()=>{
+cursor.style.transform="scale(1)";
+cursor.style.background="var(--primary)";
+cursor.style.border="none";
+});
+});
+
+/* SOUND */
+document.querySelectorAll("a").forEach(el=>{
+el.addEventListener("click",()=>{
+document.getElementById("clickSound").play();
+});
+});
+
+/* STARS */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let stars=Array(120).fill().map(()=>({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+s:Math.random()*2
+}));
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="white";
+stars.forEach(st=>{
+ctx.beginPath();
+ctx.arc(st.x,st.y,st.s,0,Math.PI*2);
+ctx.fill();
+st.y+=0.3;
+if(st.y>canvas.height)st.y=0;
+});
+requestAnimationFrame(draw);
+}
+draw();
+
+/* PARALLAX */
+window.addEventListener("scroll",()=>{
+document.querySelector(".hero").style.transform=
+`translateY(${window.scrollY*0.3}px)`;
+});
+</script>
+
 </body>
 </html>
